@@ -1,0 +1,358 @@
+@import "tailwindcss";
+
+/* ============================================
+   DARK LAB (TECH LUXURY) — DESIGN TOKENS
+   ============================================ */
+:root {
+  /* Required tokens (strict) */
+  --bg-base: #00090C;
+  --bg-surface: #192124;
+  --border-subtle: #4C5254;
+  --text-primary: #FFFFFF;
+  --accent-primary: #00AEEF;
+  --accent-secondary: #09E9D4;
+
+  /* RGB helpers for alpha colors (CSS Color 4) */
+  --bg-base-rgb: 0 9 12;
+  --bg-surface-rgb: 25 33 36;
+  --border-subtle-rgb: 76 82 84;
+  --text-primary-rgb: 255 255 255;
+  --accent-primary-rgb: 0 174 239;
+  --accent-secondary-rgb: 9 233 212;
+
+  /* Motion tokens */
+  --ease-standard: cubic-bezier(0.4, 0.0, 0.2, 1);
+  --duration-quick: 180ms;
+  --duration-fast: 240ms;
+
+  /* Radii */
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+
+  /* Compatibility aliases (old components) */
+  --current-scheme-background: var(--bg-base);
+  --current-scheme-foreground: var(--bg-surface);
+  --current-scheme-border: var(--border-subtle);
+  --current-scheme-text: var(--text-primary);
+  --current-scheme-accent: var(--accent-primary);
+}
+
+/* Dark-mode native */
+html {
+  color-scheme: dark;
+  background: var(--bg-base);
+}
+
+body,
+html {
+  font-family: var(--font-body), system-ui, -apple-system, "Segoe UI", Roboto, Arial,
+    "Noto Sans", "Liberation Sans", sans-serif;
+  background: var(--bg-base);
+  color: var(--text-primary);
+  overflow-x: hidden;
+}
+
+::selection {
+  background: rgb(var(--accent-primary-rgb) / 0.28);
+}
+
+/* ============================================
+   TAILWIND 4 THEME CONFIGURATION (@theme)
+   Source: https://tailwindcss.com/docs/theme
+   ============================================ */
+@theme inline {
+  /* Colors */
+  --color-bg-base: var(--bg-base);
+  --color-bg-surface: var(--bg-surface);
+  --color-border-subtle: var(--border-subtle);
+  --color-text-primary: var(--text-primary);
+  --color-accent-primary: var(--accent-primary);
+  --color-accent-secondary: var(--accent-secondary);
+
+  /* Typography */
+  --font-heading: var(--font-heading);
+  --font-body: var(--font-body);
+  --font-mono: var(--font-mono);
+
+  /* Motion */
+  --ease-standard: var(--ease-standard);
+  --duration-quick: var(--duration-quick);
+  --duration-fast: var(--duration-fast);
+}
+
+/* ============================================
+   CONTAINER UTILITIES
+   ============================================ */
+@layer utilities {
+  .container-full {
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .container-wide {
+    max-width: 1600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .container {
+    max-width: 1312px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .container-narrow {
+    max-width: 1024px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .container-padding {
+    padding-left: 1rem; /* 16px */
+    padding-right: 1rem; /* 16px */
+  }
+  
+  @media (min-width: 640px) {
+    .container-padding {
+      padding-left: 1.5rem; /* 24px */
+      padding-right: 1.5rem; /* 24px */
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .container-padding {
+      padding-left: 2rem; /* 32px */
+      padding-right: 2rem; /* 32px */
+    }
+  }
+}
+
+/* ============================================
+   UI PRIMITIVES
+   ============================================ */
+@layer utilities {
+  .glass-panel {
+    background: rgb(var(--bg-surface-rgb) / 0.72);
+    border: 1px solid rgb(var(--border-subtle-rgb) / 0.55);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: var(--radius-md);
+  }
+
+  /* Premium glass (hero / command panels) */
+  .glass-premium {
+    background:
+      radial-gradient(1200px 600px at 30% 20%, rgb(var(--accent-primary-rgb) / 0.10), transparent 55%),
+      radial-gradient(900px 520px at 80% 70%, rgb(var(--accent-secondary-rgb) / 0.10), transparent 55%),
+      rgb(var(--bg-surface-rgb) / 0.58);
+    border: 1px solid rgb(var(--border-subtle-rgb) / 0.55);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-radius: 18px;
+    box-shadow:
+      0 0 0 1px rgb(var(--bg-base-rgb) / 0.55) inset,
+      0 18px 60px rgb(0 0 0 / 0.32);
+  }
+
+  /* Subtle grid lines (only.digital vibe, adapted to dark) */
+  .gridlines {
+    background-image:
+      linear-gradient(to right, rgb(var(--border-subtle-rgb) / 0.14) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(var(--border-subtle-rgb) / 0.14) 1px, transparent 1px);
+    background-size: 96px 96px;
+    mask-image: radial-gradient(900px 520px at 30% 20%, black 42%, transparent 72%);
+    -webkit-mask-image: radial-gradient(900px 520px at 30% 20%, black 42%, transparent 72%);
+  }
+
+  .hairline {
+    border-color: rgb(var(--border-subtle-rgb) / 0.55);
+  }
+
+  .focus-ring {
+    outline: none;
+  }
+
+  .focus-ring:focus-visible {
+    box-shadow:
+      0 0 0 2px rgb(var(--bg-base-rgb) / 1),
+      0 0 0 4px rgb(var(--accent-primary-rgb) / 0.6);
+    transition: box-shadow var(--duration-fast) var(--ease-standard);
+  }
+}
+
+/* ============================================
+   TYPOGRAPHY SYSTEM
+   ============================================ */
+@layer utilities {
+  /* Heading Styles */
+  .heading-display {
+    font-family: var(--font-heading), var(--font-body), system-ui, sans-serif;
+    font-size: 4.5rem; /* 72px */
+    line-height: 100%;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+  
+  .heading-1 {
+    font-family: var(--font-heading), var(--font-body), system-ui, sans-serif;
+    font-size: 3.25rem; /* 52px */
+    line-height: 100%;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+  
+  .heading-2 {
+    font-family: var(--font-heading), var(--font-body), system-ui, sans-serif;
+    font-size: 2.75rem; /* 44px */
+    line-height: 100%;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  
+  .heading-3 {
+    font-family: var(--font-heading), var(--font-body), system-ui, sans-serif;
+    font-size: 2.25rem; /* 36px */
+    line-height: 100%;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  
+  .heading-4 {
+    font-family: var(--font-heading), var(--font-body), system-ui, sans-serif;
+    font-size: 1.75rem; /* 28px */
+    line-height: 110%;
+    font-weight: 600;
+  }
+  
+  .heading-5 {
+    font-family: var(--font-heading), var(--font-body), system-ui, sans-serif;
+    font-size: 1.375rem; /* 22px */
+    line-height: 110%;
+    font-weight: 600;
+  }
+  
+  .heading-6 {
+    font-family: var(--font-heading), var(--font-body), system-ui, sans-serif;
+    font-size: 1rem; /* 16px */
+    line-height: 150%;
+    font-weight: 600;
+  }
+  
+  /* Tagline */
+  .tagline {
+    font-family: var(--font-body);
+    font-size: 1.375rem; /* 22px */
+    line-height: 150%;
+  }
+  
+  /* Text Sizes */
+  .text-large {
+    font-size: 1.375rem; /* 22px */
+    line-height: 150%;
+  }
+  
+  .text-medium {
+    font-size: 1rem; /* 16px */
+    line-height: 150%;
+  }
+  
+  .text-regular {
+    font-size: 0.875rem; /* 14px */
+    line-height: 150%;
+  }
+  
+  .text-small {
+    font-size: 0.75rem; /* 12px */
+    line-height: 150%;
+  }
+  
+  .text-tiny {
+    font-size: 0.75rem; /* 12px */
+    line-height: 150%;
+  }
+
+  /* Metrics / Numbers */
+  .metric {
+    font-family: var(--font-mono), ui-monospace, SFMono-Regular, Menlo, Monaco,
+      Consolas, "Liberation Mono", "Courier New", monospace;
+    letter-spacing: -0.02em;
+  }
+  
+  /* Font Weights */
+  .font-extrabold {
+    font-weight: 800;
+  }
+  
+  .font-bold {
+    font-weight: 700;
+  }
+  
+  .font-semibold {
+    font-weight: 600;
+  }
+  
+  .font-medium {
+    font-weight: 500;
+  }
+  
+  .font-normal {
+    font-weight: 400;
+  }
+  
+  .font-light {
+    font-weight: 300;
+  }
+}
+
+/* Mobile Typography */
+@media (max-width: 768px) {
+  .heading-display {
+    font-size: 2.75rem; /* 44px */
+  }
+  
+  .heading-1 {
+    font-size: 2.5rem; /* 40px */
+  }
+  
+  .heading-2 {
+    font-size: 2rem; /* 32px */
+  }
+  
+  .heading-3 {
+    font-size: 1.5rem; /* 24px */
+  }
+  
+  .heading-4 {
+    font-size: 1.25rem; /* 20px */
+  }
+  
+  .heading-5 {
+    font-size: 1.125rem; /* 18px */
+  }
+  
+  .tagline {
+    font-size: 1.125rem; /* 18px */
+  }
+  
+  .text-large {
+    font-size: 1rem; /* 16px */
+  }
+  
+  .text-medium {
+    font-size: 0.875rem; /* 14px */
+  }
+  
+  .text-regular {
+    font-size: 0.75rem; /* 12px */
+  }
+  
+  .text-small {
+    font-size: 0.75rem; /* 12px */
+  }
+  
+  .text-tiny {
+    font-size: 0.75rem; /* 12px */
+  }
+}

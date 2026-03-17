@@ -1,0 +1,7 @@
+# Features-based architecture
+# Each feature should be self-contained with its own:
+# - components/
+# - hooks/
+# - lib/
+# - types/
+# - api/ (route handlers)

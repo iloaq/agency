@@ -1,6 +1,5 @@
 import Link from "next/link";
 import type { ServiceData } from "@/lib/services/services-data";
-import { serviceList } from "@/lib/services/services-data";
 import {
   ButtonLink,
   ContactCTA,
@@ -242,7 +241,13 @@ export function ServiceFAQ({ service }: { service: ServiceData }) {
   );
 }
 
-export function InternalServiceLinks({ currentSlug }: { currentSlug: ServiceData["slug"] }) {
+export function InternalServiceLinks({
+  currentSlug,
+  relatedServices,
+}: {
+  currentSlug: ServiceData["slug"];
+  relatedServices: ServiceData[];
+}) {
   return (
     <section className="px-5 py-12 sm:px-8 lg:px-10">
       <div className="border-t border-[#E6E0D8] pt-10">
@@ -250,7 +255,7 @@ export function InternalServiceLinks({ currentSlug }: { currentSlug: ServiceData
           Другие услуги
         </p>
         <div className="flex flex-wrap gap-3">
-          {serviceList
+          {relatedServices
             .filter((service) => service.slug !== currentSlug)
             .map((service) => (
               <Link

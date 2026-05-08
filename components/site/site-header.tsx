@@ -7,6 +7,8 @@ import { Suspense, useCallback, useEffect, useId, useRef, useState } from "react
 import { Button } from "@/components/ui/button";
 import { mainNav } from "@/components/site/site-header-nav-data";
 import { SiteLogoLink } from "@/components/site/site-logo-link";
+import type { SiteContacts } from "@/lib/site/site-contacts";
+import { SITE_CONTACTS_FALLBACK } from "@/lib/site/site-contacts";
 import { siteGutterX } from "@/lib/site-gutters";
 
 /* Тяжёлое меню (MUI + GSAP) — только после открытия. https://nextjs.org/docs/app/building-your-application/optimizing/lazy-loading */
@@ -21,7 +23,7 @@ const linkBarClass =
 
 const navLinkUnderline = `${linkBarClass} relative inline-flex pb-1 after:pointer-events-none after:absolute after:inset-x-0 after:bottom-0 after:h-px after:origin-center after:scale-x-0 after:bg-current after:opacity-90 after:transition-transform after:duration-200 motion-reduce:after:transition-none hover:after:scale-x-100`;
 
-export function SiteHeader() {
+export function SiteHeader({ contacts = SITE_CONTACTS_FALLBACK }: { contacts?: SiteContacts }) {
   const [open, setOpen] = useState(false);
   const closeRef = useRef<HTMLButtonElement>(null);
   const panelId = useId();
@@ -90,6 +92,7 @@ export function SiteHeader() {
             panelId={panelId}
             closeRef={closeRef}
             onClose={close}
+            contacts={contacts}
           />
         </Suspense>
       ) : null}

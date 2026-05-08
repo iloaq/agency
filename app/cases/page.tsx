@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { rowToCaseCard } from "@/lib/cases/case-study-helpers";
+import { fetchPublishedCaseStudies } from "@/lib/cases/fetch-case-studies";
 
 export const metadata: Metadata = {
   title: {
@@ -12,7 +14,8 @@ export const metadata: Metadata = {
   },
 };
 
-const examples = [
+/** Примеры карточек, если в Supabase ещё нет опубликованных кейсов (см. seed `case_studies` / Dashboard). */
+const staticExamples = [
   {
     task: "Заявки приходят из сайта, Telegram и звонков",
     loss:
@@ -75,7 +78,32 @@ const examples = [
   },
 ] as const;
 
-export default function CasesPage() {
+type CaseCard = {
+  key: string;
+  href?: string;
+  task: string;
+  loss: string;
+  build: string;
+  systems: string;
+  easier: string;
+};
+
+function staticFallbackCards(): CaseCard[] {
+  return staticExamples.map((item) => ({
+    key: `static-${item.task.slice(0, 48)}`,
+    task: item.task,
+    loss: item.loss,
+    build: item.build,
+    systems: item.systems,
+    easier: item.easier,
+  }));
+}
+
+export default async function CasesPage() {
+  const rows = await fetchPublishedCaseStudies();
+  const cards: CaseCard[] =
+    rows.length > 0 ? rows.map(rowToCaseCard) : staticFallbackCards();
+
   return (
     <main className="min-h-screen bg-[#F6F3EE] px-5 pb-24 pt-12 text-[#121212] sm:px-8 lg:px-10 lg:pb-32 lg:pt-20">
       <section className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
@@ -89,42 +117,49 @@ export default function CasesPage() {
       </section>
 
       <section className="mt-14 grid gap-5 md:grid-cols-2">
-        {examples.map((item) => (
-          <article
-            key={item.task}
-            className="rounded-[32px] border border-[#E6E0D8] bg-white p-6 shadow-[0_18px_55px_rgba(72,57,41,0.08)] sm:p-8"
-          >
-            <h2 className="text-3xl font-semibold leading-10">{item.task}</h2>
-            <div className="mt-8 grid gap-5">
-              <div className="border-t border-[#E6E0D8] pt-4">
-                <p className="text-sm font-semibold uppercase tracking-[0.08em] text-[#6B6B6B]">
-                  Где терялось время / контроль / заявка
-                </p>
-                <p className="mt-2 text-base leading-7 text-[#4B4B4B]">{item.loss}</p>
-              </div>
-              <div className="rounded-[22px] bg-[#F6F3EE] p-5">
-                <p className="text-sm font-semibold uppercase tracking-[0.08em] text-[#6D4AFF]">
-                  Что можно собрать
-                </p>
-                <p className="mt-2 text-base font-semibold leading-7">{item.build}</p>
-              </div>
-              <div className="grid gap-4 sm:grid-cols-2">
+        {cards.map((item) => {
+          const body = (
+            <article className="rounded-[32px] border border-[#E6E0D8] bg-white p-6 shadow-[0_18px_55px_rgba(72,57,41,0.08)] sm:p-8">
+              <h2 className="text-3xl font-semibold leading-10">{item.task}</h2>
+              <div className="mt-8 grid gap-5">
                 <div className="border-t border-[#E6E0D8] pt-4">
                   <p className="text-sm font-semibold uppercase tracking-[0.08em] text-[#6B6B6B]">
-                    Какие системы связать
+                    Где терялось время / контроль / заявка
                   </p>
-                  <p className="mt-2 text-base leading-7 text-[#4B4B4B]">{item.systems}</p>
+                  <p className="mt-2 text-base leading-7 text-[#4B4B4B]">{item.loss}</p>
                 </div>
-                <div className="border-t border-[#E6E0D8] pt-4">
-                  <p className="text-sm font-semibold uppercase tracking-[0.08em] text-[#6B6B6B]">
-                    Что станет проще
+                <div className="rounded-[22px] bg-[#F6F3EE] p-5">
+                  <p className="text-sm font-semibold uppercase tracking-[0.08em] text-[#6D4AFF]">
+                    Что можно собрать
                   </p>
-                  <p className="mt-2 text-base leading-7 text-[#4B4B4B]">{item.easier}</p>
+                  <p className="mt-2 text-base font-semibold leading-7">{item.build}</p>
+                </div>
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <div className="border-t border-[#E6E0D8] pt-4">
+                    <p className="text-sm font-semibold uppercase tracking-[0.08em] text-[#6B6B6B]">
+                      Какие системы связать
+                    </p>
+                    <p className="mt-2 text-base leading-7 text-[#4B4B4B]">{item.systems}</p>
+                  </div>
+                  <div className="border-t border-[#E6E0D8] pt-4">
+                    <p className="text-sm font-semibold uppercase tracking-[0.08em] text-[#6B6B6B]">
+                      Что станет проще
+                    </p>
+                    <p className="mt-2 text-base leading-7 text-[#4B4B4B]">{item.easier}</p>
+                  </div>
                 </div>
               </div>
-            </div>
-          </article>
-        ))}
+            </article>
+          );
+
+          return item.href ? (
+            <Link key={item.key} href={item.href} className="block text-inherit no-underline">
+              {body}
+            </Link>
+          ) : (
+            <div key={item.key}>{body}</div>
+          );
+        })}
       </section>
 
       <Link

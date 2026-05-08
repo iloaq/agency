@@ -39,32 +39,21 @@ const businessPains = [
   },
   {
     number: "04",
-    tag: "рутина",
-    title: "Сотрудники делают рутину вручную",
+    tag: "рутина · документы",
+    title: "Ручная рутина и долгая сборка документов",
     symptomLabel: "Как проявляется",
     symptom:
-      "Команда копирует данные между таблицами, CRM, мессенджерами, документами и внутренними системами.",
+      "Команда копирует данные между таблицами, CRM, мессенджерами, документами и внутренними системами. КП, счета, заявки, отчёты и другие документы собираются вручную из разных источников.",
     lossLabel: "Что теряет бизнес",
-    loss: "Время сотрудников уходит на повторяющиеся операции вместо продаж, сервиса и развития.",
+    loss:
+      "Время сотрудников уходит на повторяющиеся операции вместо продаж и сервиса; процессы тормозятся, растут ошибки, клиент дольше ждёт ответ.",
     checkLabel: "Что проверим",
     check:
-      "Какие действия повторяются каждый день, где можно убрать ручной ввод и связать системы.",
+      "Какие действия и документы повторяются каждый день, где убрать ручной ввод, связать системы и автоматически подтягивать данные.",
+    gridSpan: "xl:col-span-2",
   },
   {
     number: "05",
-    tag: "документы",
-    title: "Документы собираются долго",
-    symptomLabel: "Как проявляется",
-    symptom:
-      "КП, счета, заявки, отчёты или внутренние документы собираются вручную из разных источников.",
-    lossLabel: "Что теряет бизнес",
-    loss: "Процессы тормозятся, сотрудники ошибаются, клиент дольше ждёт ответ.",
-    checkLabel: "Что проверим",
-    check:
-      "Какие документы формируются часто, какие данные нужны и откуда их можно подтягивать автоматически.",
-  },
-  {
-    number: "06",
     tag: "контроль",
     title: "Руководитель не видит реальную картину",
     symptomLabel: "Как проявляется",
@@ -79,8 +68,13 @@ const businessPains = [
 ] as const;
 
 function PainCard({ pain }: { pain: (typeof businessPains)[number] }) {
+  const spanClass =
+    "gridSpan" in pain && typeof pain.gridSpan === "string" ? pain.gridSpan : "";
+
   return (
-    <article className="group flex h-full min-w-0 flex-col rounded-[28px] border border-[#E6E0D8] bg-white p-6 shadow-[0_18px_55px_rgba(72,57,41,0.07)] transition duration-200 hover:-translate-y-0.5 hover:border-[#6D4AFF]/35 hover:shadow-[0_22px_70px_rgba(72,57,41,0.11)] motion-reduce:transition-none motion-reduce:hover:translate-y-0">
+    <article
+      className={`group flex h-full min-w-0 flex-col rounded-[28px] border border-[#E6E0D8] bg-white p-6 shadow-[0_18px_55px_rgba(72,57,41,0.07)] transition duration-200 hover:-translate-y-0.5 hover:border-[#6D4AFF]/35 hover:shadow-[0_22px_70px_rgba(72,57,41,0.11)] motion-reduce:transition-none motion-reduce:hover:translate-y-0 ${spanClass}`}
+    >
       <div className="mb-7 flex items-start justify-between gap-4">
         <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#F1EAFF] text-sm font-bold text-[#6D4AFF] ring-1 ring-[#D8CCFF]">
           {pain.number}
@@ -110,15 +104,6 @@ function PainCard({ pain }: { pain: (typeof businessPains)[number] }) {
             {pain.loss}
           </p>
         </div>
-
-        <div className="rounded-[18px] border border-[#E6E0D8] bg-[#F6F3EE] p-4">
-          <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[#6D4AFF]">
-            {pain.checkLabel}
-          </p>
-          <p className="mt-2 text-[15px] font-medium leading-[1.55] text-[#121212]">
-            {pain.check}
-          </p>
-        </div>
       </div>
     </article>
   );
@@ -142,39 +127,7 @@ export function BusinessPainSection() {
             >
               Где бизнес чаще всего теряет время и деньги
             </h2>
-            <p className="mt-6 max-w-3xl text-base leading-7 text-[#4B4B4B] sm:text-lg sm:leading-8">
-              На аудите мы ищем не абстрактные проблемы, а конкретные процессы: где заявки
-              теряются, сотрудники делают одно и то же вручную, документы собираются долго,
-              а руководитель не видит реальную картину.
-            </p>
           </div>
-
-          <aside className="lg:col-span-5">
-            <div className="rounded-[30px] border border-[#E6E0D8] bg-white p-6 shadow-[0_24px_70px_rgba(72,57,41,0.1)]">
-              <div className="flex items-start justify-between gap-4">
-                <h3 className="text-2xl font-semibold leading-8 tracking-normal text-[#121212]">
-                  Что ищем на аудите
-                </h3>
-              </div>
-              <ul className="mt-6 grid gap-3">
-                {[
-                  "где теряются заявки",
-                  "где сотрудники делают рутину вручную",
-                  "где руководитель не видит данные",
-                ].map((item) => (
-                  <li
-                    key={item}
-                    className="rounded-[18px] border border-[#E6E0D8] bg-[#F6F3EE] px-4 py-3 text-[15px] font-semibold leading-6 text-[#121212]"
-                  >
-                    {item}
-                  </li>
-                ))}
-              </ul>
-              <p className="mt-5 rounded-[18px] bg-[#18181B] px-4 py-3 text-sm font-semibold leading-6 text-white">
-                Находим точки потерь и фиксируем, что проверить первым.
-              </p>
-            </div>
-          </aside>
         </div>
 
         <div className="grid min-w-0 items-stretch gap-5 md:grid-cols-2 xl:grid-cols-3 xl:gap-6">

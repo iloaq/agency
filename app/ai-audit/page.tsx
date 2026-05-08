@@ -31,22 +31,16 @@ const fitCards = [
 
 const auditSteps = [
   {
-    badge: "40 минут",
-    title: "Общаемся 40 минут",
-    text:
-      "Разбираем, как устроены заявки, документы, клиентские вопросы, CRM, база знаний, контент и повторяющиеся задачи.",
+    badge: "Знакомство",
+    title: "Знакомимся с вашим бизнесом (Телемост, Google meet, Zoom и тд.)",
   },
   {
-    badge: "структурируем",
-    title: "Собираем и структурируем данные",
-    text:
-      "Фиксируем сильные места, слабые места, потери времени, ручную работу и процессы, где ИИ может быть полезен как инструмент.",
+    badge: "Разбор процессов",
+    title: "Разбираем конкретно 2 процесса",
   },
   {
-    badge: "2 дня",
+    badge: "Фиксация, обмен контактами",
     title: "В течение 2 дней отправляем таблицу",
-    text:
-      "Вы получаете краткую таблицу с выводами: какие процессы работают нормально, где есть потери и что стоит проверить первым.",
   },
 ] as const;
 
@@ -151,13 +145,9 @@ export default function AiAuditPage() {
           <div className="grid min-w-0 gap-8 lg:grid-cols-[minmax(0,0.95fr)_minmax(360px,0.58fr)] lg:items-end">
             <div className="min-w-0">
               <p className="max-w-4xl text-base leading-7 text-[#3F3F3F] sm:text-lg sm:leading-8">
-                За 40 минут разберём, как у вас обрабатываются заявки, клиентские вопросы,
-                документы, CRM и повторяющиеся задачи. После аудита отправим краткую таблицу:
-                что работает, где слабые места, где теряется время и какие процессы можно
-                улучшить с помощью ИИ.
-              </p>
-              <p className="mt-5 inline-flex rounded-full border border-[#E6E0D8] bg-white px-4 py-2 text-sm font-semibold text-[#121212] shadow-[0_12px_34px_rgba(72,57,41,0.08)]">
-                На выходе — не презентация, а простая таблица по вашим процессам.
+                За 20 минут разберём, как у вас обрабатываются заявки, клиентские вопросы,
+                документы, CRM и повторяющиеся задачи. После аудита отправим таблицу с выводами:
+                где слабые места - их приоритетизация, что конкретно и как стоит улучшить, какая выгода от этого будет в цифрах.
               </p>
               <div className="mt-7 flex flex-col gap-4 sm:flex-row sm:items-center">
                 <a
@@ -165,11 +155,11 @@ export default function AiAuditPage() {
                   className="inline-flex min-h-14 w-full min-w-0 items-center justify-center rounded-[999px] bg-[#18181B] px-7 text-center text-base font-semibold leading-6 text-white shadow-[0_18px_45px_rgba(24,24,27,0.25)] transition hover:bg-[#2B2B31] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#6D4AFF] sm:w-auto"
                 >
                   <span className="min-w-0 max-w-full whitespace-normal break-words">
-                    Получить аудит процессов
+                    Записаться на бесплатный аудит
                   </span>
                 </a>
                 <p className="max-w-xl text-sm leading-6 text-[#6B6B6B] sm:text-base">
-                  40 минут общения. Таблица с выводами — в течение 2 дней.
+                  20 минут общения. Таблица с выводами — в течение 2 дней.
                 </p>
               </div>
             </div>
@@ -222,7 +212,7 @@ export default function AiAuditPage() {
                 id="fit-heading"
                 className="max-w-4xl text-[clamp(2.3rem,4.6vw,4.5rem)] font-semibold leading-[0.98] tracking-normal text-[#121212]"
               >
-                Кому подходит аудит процессов и автоматизации
+                Кому подходит аудит?
               </h2>
             </div>
             <p className="max-w-3xl text-base leading-7 text-[#4B4B4B] sm:text-lg sm:leading-8 lg:justify-self-end">
@@ -301,65 +291,23 @@ export default function AiAuditPage() {
 
       <section className="px-5 py-16 sm:px-8 lg:px-10 lg:py-24" aria-labelledby="table-heading">
         <div className="flex w-full min-w-0 flex-col">
-          <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-end">
+          <div className="grid gap-8 lg:items-end">
             <div>
               <p className="mb-5 text-sm font-semibold uppercase tracking-[0.12em] text-[#6D4AFF]">
                 Таблица результата
               </p>
               <h2
                 id="table-heading"
-                className="max-w-5xl text-[clamp(2.4rem,4.8vw,4.8rem)] font-semibold leading-[0.98] tracking-normal text-[#121212]"
+                className=" text-[clamp(2.4rem,4.8vw,4.8rem)] font-semibold leading-[0.98] tracking-normal text-[#121212]"
               >
-                Что вы получите после аудита процессов
+                Фрагмент таблицы после аудита
               </h2>
-              <p className="mt-6 max-w-3xl text-base leading-7 text-[#4B4B4B] sm:text-lg sm:leading-8">
-                Мы не просто проводим созвон. По итогам аудита вы получаете краткую таблицу
-                с разбором ваших процессов: что работает, где слабые места, где теряется
-                время и какие задачи можно улучшить с помощью ИИ.
-              </p>
-            </div>
-            <div className="rounded-[28px] border border-[#E6E0D8] bg-white p-5 shadow-[0_18px_55px_rgba(72,57,41,0.08)]">
-              <p className="text-sm font-semibold text-[#121212]">Колонки таблицы</p>
-              <div className="mt-4 flex flex-wrap gap-2">
-                {[
-                  "процесс",
-                  "что работает",
-                  "слабое место",
-                  "потери",
-                  "возможность для ИИ",
-                  "приоритет",
-                  "комментарий",
-                ].map((column) => (
-                  <span
-                    key={column}
-                    className="rounded-full bg-[#F6F3EE] px-3 py-2 text-sm font-semibold text-[#121212]"
-                  >
-                    {column}
-                  </span>
-                ))}
-              </div>
-              <p className="mt-5 rounded-[22px] bg-[#18181B] px-4 py-3 text-sm font-semibold leading-6 text-white">
-                Результат аудита — понятная таблица, а не общие рекомендации.
-              </p>
-              <a
-                href="/ai-audit-table-example.csv"
-                download
-                className="mt-4 inline-flex min-h-11 w-fit items-center justify-center rounded-full border border-[#E6E0D8] bg-[#F6F3EE] px-5 text-sm font-semibold text-[#121212] transition hover:border-[#6D4AFF]/45 hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#6D4AFF]"
-              >
-                Скачать пример таблицы
-              </a>
-              <p className="mt-3 text-sm leading-6 text-[#6B6B6B]">
-                CSV-файл можно открыть в Excel или Google Sheets.
-              </p>
             </div>
           </div>
 
           <div className="mt-10 overflow-hidden rounded-[32px] border border-[#E6E0D8] bg-white shadow-[0_24px_80px_rgba(72,57,41,0.12)]">
             <div className="flex flex-col gap-4 border-b border-[#E6E0D8] bg-[#18181B] p-5 text-white sm:flex-row sm:items-center sm:justify-between sm:p-6">
               <div>
-                <p className="text-sm font-semibold uppercase tracking-[0.12em] text-[#B8FF5C]">
-                  пример строки
-                </p>
                 <p className="mt-2 text-2xl font-semibold">Быстро видно, где болит процесс</p>
               </div>
               <span className="w-fit rounded-full bg-white px-4 py-2 text-sm font-semibold text-[#121212]">
@@ -438,55 +386,6 @@ export default function AiAuditPage() {
       </section>
 
       <section
-        className="bg-[#EFE9DF] px-5 py-16 sm:px-8 lg:px-10 lg:py-20"
-        aria-labelledby="example-heading"
-      >
-        <div className="grid w-full min-w-0 gap-8 rounded-[32px] border border-[#DCD3C8] bg-white p-5 shadow-[0_24px_75px_rgba(72,57,41,0.1)] sm:p-8 lg:grid-cols-[0.72fr_1.28fr] lg:p-10">
-          <div>
-            <p className="mb-5 text-sm font-semibold uppercase tracking-[0.12em] text-[#6D4AFF]">
-              Пример ситуации
-            </p>
-            <h2
-              id="example-heading"
-              className="text-[clamp(2.2rem,4vw,4.2rem)] font-semibold leading-[0.98] tracking-normal text-[#121212]"
-            >
-              Пример, что может показать аудит
-            </h2>
-          </div>
-          <div className="grid gap-3">
-            {[
-              [
-                "Ситуация",
-                "заявки приходят из Telegram, сайта и звонков.",
-              ],
-              [
-                "Слабое место",
-                "часть обращений не фиксируется в CRM, менеджеры отвечают вручную.",
-              ],
-              [
-                "Потери",
-                "клиент ждёт, follow-up забывается, руководитель не видит реальную конверсию.",
-              ],
-              [
-                "Возможность для ИИ",
-                "первичная квалификация заявки, черновик ответа, фиксация обращения и подсказка следующего шага менеджеру.",
-              ],
-            ].map(([label, text]) => (
-              <div
-                key={label}
-                className="grid gap-2 rounded-[22px] border border-[#E6E0D8] bg-[#F6F3EE] p-4 sm:grid-cols-[10rem_minmax(0,1fr)]"
-              >
-                <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[#6D4AFF]">
-                  {label}
-                </p>
-                <p className="text-base font-semibold leading-7 text-[#121212]">{text}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section
         className="bg-white px-5 py-16 sm:px-8 lg:px-10 lg:py-24"
         aria-labelledby="process-heading"
       >
@@ -551,19 +450,11 @@ export default function AiAuditPage() {
                 id="form-heading"
                 className="text-[clamp(2.35rem,5vw,5rem)] font-semibold leading-[0.98] tracking-normal text-white"
               >
-              Получите аудит процессов и автоматизации
+              Записаться на бесплатный аудит
               </h2>
               <p className="mt-6 max-w-xl text-lg leading-8 text-white/68">
-                Заполните форму — мы уточним, какой процесс стоит разобрать первым: заявки,
-                CRM, документы, клиентские вопросы или ручную рутину.
+                Заполните форму — мы свяжемся с вами в течение 2 часов, чтобы уточнить дату созвона.
               </p>
-            </div>
-            <div className="grid gap-3 text-base font-semibold text-white sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
-              {["40 минут", "таблица", "2 дня"].map((item) => (
-                <div key={item} className="rounded-[22px] border border-white/10 bg-white/[0.08] p-4">
-                  {item}
-                </div>
-              ))}
             </div>
           </div>
           <div className="min-w-0 flex-1 lg:basis-[56%]">

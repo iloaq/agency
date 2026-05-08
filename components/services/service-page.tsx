@@ -59,7 +59,13 @@ function ServiceJsonLd({ service }: { service: ServiceData }) {
   );
 }
 
-export function ServicePage({ service }: { service: ServiceData }) {
+export function ServicePage({
+  service,
+  relatedServices,
+}: {
+  service: ServiceData;
+  relatedServices: ServiceData[];
+}) {
   return (
     <main className="isolate min-h-screen overflow-hidden bg-[#F6F3EE] text-[#121212]">
       <ServiceJsonLd service={service} />
@@ -72,7 +78,7 @@ export function ServicePage({ service }: { service: ServiceData }) {
       <Deliverables service={service} />
       <WhyCustomSolution service={service} />
       <ServiceFAQ service={service} />
-      <InternalServiceLinks currentSlug={service.slug} />
+      <InternalServiceLinks currentSlug={service.slug} relatedServices={relatedServices} />
       <FinalCTA service={service} />
     </main>
   );

@@ -5,6 +5,7 @@ import { LenisGsapProvider } from "@/components/providers/lenis-gsap-provider";
 import { SiteHeader } from "@/components/site/site-header";
 import { ToastProvider } from "@/components/ui/toast";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { resolveSiteContacts } from "@/lib/site/site-contacts";
 import { siteUrl } from "@/lib/site-url";
 import "./globals.css";
 
@@ -48,11 +49,12 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const contacts = await resolveSiteContacts();
   return (
     <html lang="ru" className={`${manrope.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col bg-background-primary font-sans text-fonts-black">
@@ -60,7 +62,7 @@ export default function RootLayout({
           <TooltipProvider>
             <ToastProvider>
               <div className="flex min-h-0 flex-1 flex-col">
-                <SiteHeader />
+                <SiteHeader contacts={contacts} />
                 <div className="flex min-h-0 w-full min-w-0 flex-1 flex-col">
                   <LenisGsapProvider>{children}</LenisGsapProvider>
                 </div>

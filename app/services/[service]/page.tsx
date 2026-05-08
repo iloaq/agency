@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 import { ServicePage } from "@/components/services/service-page";
-import { getService, serviceList } from "@/lib/services/services-data";
+import { resolveServiceBySlug, resolveServiceList } from "@/lib/services/resolve-services";
+import { serviceList } from "@/lib/services/services-data";
 
 type PageProps = {
   params: Promise<{
@@ -25,7 +26,7 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { service: slug } = await params;
-  const service = getService(slug);
+  const service = await resolveServiceBySlug(slug);
 
   if (!service) {
     return {};
@@ -44,7 +45,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function ServiceRoutePage({ params }: PageProps) {
   const { service: slug } = await params;
-  const service = getService(slug);
+  const service = await resolveServiceBySlug(slug);
 
   if (!service) {
     const redirectTo = legacyServiceRedirects[slug];
@@ -55,5 +56,7 @@ export default async function ServiceRoutePage({ params }: PageProps) {
     notFound();
   }
 
-  return <ServicePage service={service} />;
+  const relatedServices = await resolveServiceList();
+
+  return <ServicePage service={service} relatedServices={relatedServices} />;
 }

@@ -9,19 +9,23 @@ import GoesOutComesInUnderline from "@/components/fancy/text/underline-goes-out-
 import { Button } from "@/components/ui/button";
 import { siteGutterX } from "@/lib/site-gutters";
 import { SiteLogoLink } from "@/components/site/site-logo-link";
-import { overlayColumns, overlayPrimary } from "@/components/site/site-header-nav-data";
+import { buildOverlayColumns, overlayPrimary } from "@/components/site/site-header-nav-data";
+import type { SiteContacts } from "@/lib/site/site-contacts";
 
 export type SiteHeaderMenuOverlayProps = {
   panelId: string;
   closeRef: RefObject<HTMLButtonElement | null>;
   onClose: () => void;
+  contacts: SiteContacts;
 };
 
 export default function SiteHeaderMenuOverlay({
   panelId,
   closeRef,
   onClose,
+  contacts,
 }: SiteHeaderMenuOverlayProps) {
+  const overlayColumns = buildOverlayColumns(contacts);
   return (
     <div
       id={panelId}
@@ -76,19 +80,19 @@ export default function SiteHeaderMenuOverlay({
             <div className="mt-space-lg flex flex-col gap-space-base border-t border-black/10 pt-space-lg">
               <div className="flex flex-wrap gap-x-space-lg gap-y-2 text-sm">
                 <a
-                  href="tel:+77772550000"
+                  href={contacts.phoneHref}
                   className="inline-flex text-fonts-black transition-colors hover:text-accent-violet"
                 >
                   <GoesOutComesInUnderline direction="left">
-                    +7 777 255-00-00
+                    {contacts.phoneDisplay}
                   </GoesOutComesInUnderline>
                 </a>
                 <a
-                  href="mailto:hello@skybric.kz"
+                  href={`mailto:${contacts.email}`}
                   className="inline-flex text-fonts-black transition-colors hover:text-accent-violet"
                 >
                   <GoesOutComesInUnderline direction="right">
-                    hello@skybric.kz
+                    {contacts.email}
                   </GoesOutComesInUnderline>
                 </a>
               </div>

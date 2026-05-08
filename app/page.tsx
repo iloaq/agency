@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ServiceLeadForm } from "@/components/services/service-lead-form";
-import { serviceList } from "@/lib/services/services-data";
+import { resolveServiceList } from "@/lib/services/resolve-services";
 import { siteUrl } from "@/lib/site-url";
 
 export const metadata: Metadata = {
@@ -142,7 +142,8 @@ function HeroSystemCard() {
   );
 }
 
-export default function Home() {
+export default async function Home() {
+  const serviceList = await resolveServiceList();
   return (
     <main className="isolate min-h-screen overflow-hidden bg-[#F6F3EE] text-[#121212]">
       <JsonLd />

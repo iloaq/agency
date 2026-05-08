@@ -84,12 +84,12 @@ export function AiAuditForm() {
         className="mt-2 inline-flex min-h-14 w-full min-w-0 items-center justify-center rounded-[999px] bg-[#18181B] px-6 text-center text-base font-semibold leading-6 text-white transition hover:bg-[#2B2B31] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#6D4AFF]"
       >
         <span className="min-w-0 max-w-full whitespace-normal break-words">
-          Получить аудит процессов
+          Записаться на бесплатный аудит
         </span>
       </button>
 
       <p className="text-sm leading-6 text-[#6B6B6B]">
-        40 минут общения. Таблица с выводами — в течение 2 дней после аудита.
+        20 минут общения. Таблица с выводами — в течение 2 дней после аудита.
       </p>
 
       {submitted ? (

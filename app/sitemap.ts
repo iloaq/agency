@@ -1,8 +1,9 @@
 import type { MetadataRoute } from "next";
-import { serviceList } from "@/lib/services/services-data";
+import { resolveServiceList } from "@/lib/services/resolve-services";
 import { absoluteUrl } from "@/lib/site-url";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const serviceList = await resolveServiceList();
   const routes = [
     "/",
     "/services",

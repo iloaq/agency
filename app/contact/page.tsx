@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { ServiceLeadForm } from "@/components/services/service-lead-form";
+import { resolveSiteContacts } from "@/lib/site/site-contacts";
 
 export const metadata: Metadata = {
   title: {
@@ -12,7 +13,9 @@ export const metadata: Metadata = {
   },
 };
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const contacts = await resolveSiteContacts();
+
   return (
     <main className="min-h-screen bg-[#F6F3EE] px-5 pb-24 pt-12 text-[#121212] sm:px-8 lg:px-10 lg:pb-32 lg:pt-20">
       <section className="grid gap-10 lg:grid-cols-[0.82fr_1.18fr] lg:items-start">
@@ -31,16 +34,16 @@ export default function ContactPage() {
               <p className="text-sm font-semibold uppercase tracking-[0.08em] text-[#6B6B6B]">
                 Email
               </p>
-              <a href="mailto:hello@skybric.kz" className="mt-2 inline-flex text-2xl font-semibold">
-                hello@skybric.kz
+              <a href={`mailto:${contacts.email}`} className="mt-2 inline-flex text-2xl font-semibold">
+                {contacts.email}
               </a>
             </div>
             <div className="border-t border-[#E6E0D8] pt-5">
               <p className="text-sm font-semibold uppercase tracking-[0.08em] text-[#6B6B6B]">
                 Телефон
               </p>
-              <a href="tel:+77772550000" className="mt-2 inline-flex text-2xl font-semibold">
-                +7 777 255-00-00
+              <a href={contacts.phoneHref} className="mt-2 inline-flex text-2xl font-semibold">
+                {contacts.phoneDisplay}
               </a>
             </div>
           </div>

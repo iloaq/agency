@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { serviceList } from "@/lib/services/services-data";
+import { resolveServiceList } from "@/lib/services/resolve-services";
 
 export const metadata: Metadata = {
   title: {
@@ -13,7 +13,8 @@ export const metadata: Metadata = {
   },
 };
 
-export default function ServicesPage() {
+export default async function ServicesPage() {
+  const serviceList = await resolveServiceList();
   return (
     <main className="isolate min-h-screen overflow-hidden bg-[#F6F3EE] px-5 pb-24 pt-12 text-[#121212] sm:px-8 lg:px-10 lg:pb-32 lg:pt-20">
       <section className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">

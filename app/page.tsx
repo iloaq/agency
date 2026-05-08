@@ -352,6 +352,14 @@ export default async function Home() {
           <ServiceLeadForm serviceSlug="homepage" serviceTitle="Главная страница Skybric" />
         </div>
       </section>
+      {/* Публичный UI: ссылка /admin только в development; в prod откройте /admin/login вручную. */}
+      {process.env.NODE_ENV === "development" ? (
+        <p className="px-5 pb-8 text-center text-xs text-[#6B6B6B] sm:px-8">
+          <Link href="/admin" className="underline underline-offset-2 hover:text-[#121212]">
+            Админка (dev)
+          </Link>
+        </p>
+      ) : null}
     </main>
   );
 }

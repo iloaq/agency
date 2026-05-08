@@ -1,4 +1,5 @@
 import type { ServiceData } from "@/lib/services/services-data";
+import { absoluteUrl } from "@/lib/site-url";
 import {
   BusinessResult,
   Deliverables,
@@ -37,8 +38,7 @@ function ServiceJsonLd({ service }: { service: ServiceData }) {
       "@type": "Organization",
       name: "Skybric",
     },
-    areaServed: "RU",
-    url: service.path,
+    url: absoluteUrl(service.path),
   };
 
   return (

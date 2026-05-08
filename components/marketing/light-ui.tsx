@@ -123,7 +123,7 @@ export function MetricCard({
 
 export function HeroFlowVisual({
   title = "Коммерческий контур",
-  nodes = ["Новая заявка", "AI квалификация", "CRM", "Follow-up"],
+  nodes = ["Новая заявка", "Проверка контекста", "CRM", "Follow-up"],
   footer = ["источник", "статус", "следующий шаг"],
 }: {
   title?: string;

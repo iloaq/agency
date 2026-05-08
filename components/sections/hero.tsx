@@ -64,7 +64,7 @@ export function Hero() {
           id="hero-heading"
           className="text-heading-h1 text-fonts-black"
         >
-          Сложная разработка{" "}
+          Сайты, веб-сервисы и автоматизация{" "}
           <span className="mx-0.5 inline-block align-middle sm:mx-1">
             {/* Source: https://nextjs.org/docs/app/getting-started/images */}
             <Image
@@ -76,12 +76,12 @@ export function Hero() {
               priority
             />
           </span>{" "}
-          AI-автоматизация для бизнеса, которому нужен результат.
+          для задач бизнеса, где важны заявки, данные и контроль.
         </h1>
         <p className="max-w-[80%] text-heading-subtitle2 text-fonts-black">
-          Проектируем сайты, сервисы, AI-решения и внутренние системы, которые
-          сокращают ручную работу, усиливают digital и помогают бизнесу расти
-          быстрее.
+          Проектируем сайты, личные кабинеты, Telegram-боты, CRM-интеграции и
+          SEO-систему. AI подключаем только там, где он сокращает ручную работу
+          и помогает команде быстрее обрабатывать задачи.
         </p>
       </div>
 
@@ -127,9 +127,11 @@ export function Hero() {
         {/* Статистика: на мобилке вторая, на lg по центру */}
         <div className="order-2 flex justify-end self-start lg:order-2 lg:basis-0 lg:grow-[3] lg:self-end">
           <p className="text-heading-h3 text-fonts-black">
-            50+ проектов
+            Задача
             <br />
-            от идеи до запуска
+            система
+            <br />
+            запуск
           </p>
         </div>
 

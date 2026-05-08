@@ -2,9 +2,11 @@ import type { Metadata } from "next";
 import { ServiceLeadForm } from "@/components/services/service-lead-form";
 
 export const metadata: Metadata = {
-  title: "Контакты Skybric — обсудить ИИ, автоматизацию или разработку",
+  title: {
+    absolute: "Контакты Skybric — обсудить сайт, веб-сервис, CRM или автоматизацию",
+  },
   description:
-    "Оставьте заявку на разработку ИИ-агента, CRM-интеграции, сайта, веб-приложения или мобильного приложения.",
+    "Оставьте заявку на разработку сайта, веб-сервиса, Telegram-бота, CRM-интеграции, SEO или автоматизацию процесса.",
   alternates: {
     canonical: "/contact",
   },
@@ -20,8 +22,8 @@ export default function ContactPage() {
           </h1>
           <p className="mt-7 max-w-3xl text-base leading-7 text-[#4B4B4B] sm:text-xl sm:leading-9">
             Опишите процесс, который забирает время, теряет заявки или требует ручной работы.
-            Мы посмотрим, какой формат решения подойдёт: ИИ-агент, интеграция, сайт,
-            кабинет, приложение или MVP.
+            Мы посмотрим, какой формат решения подойдёт: сайт, веб-сервис, Telegram-бот,
+            CRM-интеграция, SEO или автоматизация.
           </p>
 
           <div className="mt-10 grid gap-5 rounded-[30px] border border-[#E6E0D8] bg-white p-6 shadow-[0_18px_55px_rgba(72,57,41,0.08)]">

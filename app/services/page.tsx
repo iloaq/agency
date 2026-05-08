@@ -3,9 +3,11 @@ import Link from "next/link";
 import { serviceList } from "@/lib/services/services-data";
 
 export const metadata: Metadata = {
-  title: "Услуги Skybric — ИИ-агенты, веб-разработка, приложения и CRM-интеграции",
+  title: {
+    absolute: "Услуги Skybric — сайты, Telegram-боты, CRM, SEO и fintech-разработка",
+  },
   description:
-    "Разрабатываем ИИ-агентов, кастомные ИИ-решения, сложные сайты, веб-приложения, мобильные приложения и ИИ-интеграции в CRM.",
+    "Технологические услуги для бизнеса: сайты, веб-сервисы, Telegram-боты, CRM-интеграции, AI-автоматизация, SEO и fintech-разработка.",
   alternates: {
     canonical: "/services",
   },
@@ -16,12 +18,12 @@ export default function ServicesPage() {
     <main className="isolate min-h-screen overflow-hidden bg-[#F6F3EE] px-5 pb-24 pt-12 text-[#121212] sm:px-8 lg:px-10 lg:pb-32 lg:pt-20">
       <section className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
         <h1 className="max-w-6xl text-[clamp(2.7rem,7vw,6rem)] font-semibold leading-[1.01] tracking-normal">
-          Услуги для бизнеса, где важны заявки, данные и скорость процессов
+          Услуги Skybric для продаж, операционки и цифровых продуктов
         </h1>
         <p className="max-w-3xl text-base leading-7 text-[#4B4B4B] sm:text-xl sm:leading-9 lg:justify-self-end">
-          Мы не упаковываем разные услуги в одинаковые карточки. Каждое направление
-          закрывает конкретный участок: входящие обращения, CRM, документы, кабинеты,
-          приложения или интеграции.
+          Сайты, веб-сервисы, Telegram-боты, CRM, SEO, AI-автоматизация и fintech-разработка.
+          Каждое направление закрывает конкретный участок: привлечь заявку, связать
+          системы, убрать ручной труд или сделать продукт понятнее.
         </p>
       </section>
 

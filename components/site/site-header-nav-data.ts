@@ -1,14 +1,16 @@
 export const mainNav = [
   { href: "/services", label: "Услуги" },
   { href: "/cases", label: "Кейсы" },
-  { href: "/ai-audit", label: "ИИ-аудит" },
+  { href: "/process", label: "Процесс" },
+  { href: "/about", label: "О нас" },
   { href: "/contact", label: "Контакты" },
 ] as const;
 
 export const overlayPrimary = [
   { href: "/services", label: "Услуги" },
   { href: "/cases", label: "Кейсы" },
-  { href: "/ai-audit", label: "ИИ-аудит" },
+  { href: "/process", label: "Процесс" },
+  { href: "/about", label: "О нас" },
   { href: "/contact", label: "Контакты" },
 ] as const;
 
@@ -19,18 +21,22 @@ export const overlayColumns: {
   {
     title: "Услуги",
     links: [
-      { href: "/services/ai-agents", label: "ИИ-агенты" },
-      { href: "/services/custom-ai-development", label: "Кастомная ИИ-разработка" },
-      { href: "/services/web-development", label: "Сайты и веб-приложения" },
-      { href: "/services/ai-crm-integrations", label: "ИИ в CRM" },
+      { href: "/services/websites", label: "Сайты для бизнеса" },
+      { href: "/services/web-app-development", label: "Веб-сервисы и кабинеты" },
+      { href: "/services/telegram-bots", label: "Telegram-боты" },
+      { href: "/services/crm-integrations", label: "CRM и интеграции" },
+      { href: "/services/ai-automation", label: "AI-автоматизация" },
+      { href: "/services/seo", label: "SEO" },
+      { href: "/services/fintech-development", label: "Fintech-разработка" },
     ],
   },
   {
-    title: "Типовые задачи",
+    title: "Разделы",
     links: [
-      { href: "/cases", label: "Заявки и CRM" },
-      { href: "/cases", label: "Документы и КП" },
-      { href: "/cases", label: "Кабинеты и порталы" },
+      { href: "/cases", label: "Разборы задач" },
+      { href: "/process", label: "Как мы работаем" },
+      { href: "/about", label: "О команде" },
+      { href: "/ai-audit", label: "Аудит процессов и автоматизации" },
     ],
   },
   {

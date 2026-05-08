@@ -52,7 +52,7 @@ export function SiteHeader() {
           <SiteLogoLink />
 
           <nav
-            className="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 items-center gap-8 md:flex"
+            className="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 items-center gap-8 lg:flex"
             aria-label="Основная навигация"
           >
             {mainNav.map((item) => (
@@ -62,7 +62,7 @@ export function SiteHeader() {
             ))}
           </nav>
 
-          <div className="ml-auto flex items-center gap-3 md:ml-0">
+          <div className="ml-auto flex items-center gap-3 lg:ml-0">
             <Link
               href="/contact"
               className="hidden min-h-10 items-center justify-center rounded-full bg-[#18181B] px-5 text-sm font-semibold text-white transition hover:bg-[#2B2B31] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#6D4AFF] lg:inline-flex"

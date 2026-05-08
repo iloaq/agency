@@ -114,23 +114,19 @@ const processes = [
 const serviceJsonLd = {
   "@context": "https://schema.org",
   "@type": "Service",
-  name: "Бесплатный ИИ-аудит бизнеса",
-  serviceType: "Бесплатный ИИ-аудит",
+  name: "Аудит процессов и автоматизации",
+  serviceType: "Аудит процессов и автоматизации",
   description:
     "Разбор заявок, документов, CRM, клиентских вопросов и повторяющихся задач с краткой таблицей выводов.",
-  areaServed: "RU",
-  offers: {
-    "@type": "Offer",
-    price: "0",
-    priceCurrency: "RUB",
-    availability: "https://schema.org/InStock",
-  },
 };
 
 export const metadata: Metadata = {
-  title: "Бесплатный ИИ-аудит бизнеса — найдём потери заявок, времени и рутины",
+  title: "Аудит процессов и автоматизации — найдём потери заявок, времени и рутины",
   description:
-    "Разберём заявки, документы, CRM, клиентские вопросы и повторяющиеся задачи. Покажем, где теряется время и какие процессы можно улучшить с помощью ИИ.",
+    "Разберём заявки, документы, CRM, клиентские вопросы и повторяющиеся задачи. Покажем, где теряется время и какие процессы можно автоматизировать.",
+  alternates: {
+    canonical: "/ai-audit",
+  },
 };
 
 export default function AiAuditPage() {
@@ -147,7 +143,7 @@ export default function AiAuditPage() {
         <div className="grid w-full min-w-0 gap-9 lg:grid-rows-[auto_1fr]">
           <div className="min-w-0">
             <h1 className="max-w-[1180px] break-words text-[clamp(2.35rem,7.8vw,4.4rem)] font-semibold leading-[1.03] tracking-normal text-[#121212] sm:text-[clamp(3.2rem,5vw,5.85rem)]">
-              Проведём бесплатный ИИ-аудит бизнеса и покажем, где вы теряете заявки,
+              Проведём бесплатный аудит процессов и покажем, где вы теряете заявки,
               время сотрудников и деньги
             </h1>
           </div>
@@ -169,7 +165,7 @@ export default function AiAuditPage() {
                   className="inline-flex min-h-14 w-full min-w-0 items-center justify-center rounded-[999px] bg-[#18181B] px-7 text-center text-base font-semibold leading-6 text-white shadow-[0_18px_45px_rgba(24,24,27,0.25)] transition hover:bg-[#2B2B31] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#6D4AFF] sm:w-auto"
                 >
                   <span className="min-w-0 max-w-full whitespace-normal break-words">
-                    Получить бесплатную консультацию-аудит
+                    Получить аудит процессов
                   </span>
                 </a>
                 <p className="max-w-xl text-sm leading-6 text-[#6B6B6B] sm:text-base">
@@ -226,7 +222,7 @@ export default function AiAuditPage() {
                 id="fit-heading"
                 className="max-w-4xl text-[clamp(2.3rem,4.6vw,4.5rem)] font-semibold leading-[0.98] tracking-normal text-[#121212]"
               >
-                Кому подходит бесплатный ИИ-аудит
+                Кому подходит аудит процессов и автоматизации
               </h2>
             </div>
             <p className="max-w-3xl text-base leading-7 text-[#4B4B4B] sm:text-lg sm:leading-8 lg:justify-self-end">
@@ -314,7 +310,7 @@ export default function AiAuditPage() {
                 id="table-heading"
                 className="max-w-5xl text-[clamp(2.4rem,4.8vw,4.8rem)] font-semibold leading-[0.98] tracking-normal text-[#121212]"
               >
-                Что вы получите после бесплатного ИИ-аудита
+                Что вы получите после аудита процессов
               </h2>
               <p className="mt-6 max-w-3xl text-base leading-7 text-[#4B4B4B] sm:text-lg sm:leading-8">
                 Мы не просто проводим созвон. По итогам аудита вы получаете краткую таблицу
@@ -555,7 +551,7 @@ export default function AiAuditPage() {
                 id="form-heading"
                 className="text-[clamp(2.35rem,5vw,5rem)] font-semibold leading-[0.98] tracking-normal text-white"
               >
-                Получите бесплатный ИИ-аудит бизнес-процессов
+              Получите аудит процессов и автоматизации
               </h2>
               <p className="mt-6 max-w-xl text-lg leading-8 text-white/68">
                 Заполните форму — мы уточним, какой процесс стоит разобрать первым: заявки,

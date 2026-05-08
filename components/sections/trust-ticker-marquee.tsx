@@ -6,9 +6,9 @@ import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 // ScrollTrigger scrub: https://gsap.com/docs/v3/Plugins/ScrollTrigger/
 
 export const TRUST_STATS = [
-  { value: "50+", label: "проектов" },
-  { value: "7 лет", label: "опыта" },
-  { value: "100%", label: "удовлетворенность клиентов" },
+  { value: "B2B", label: "сайты и сервисы" },
+  { value: "CRM", label: "интеграции и заявки" },
+  { value: "SEO", label: "архитектура спроса" },
 ] as const;
 
 type StatIdx = 0 | 1 | 2;

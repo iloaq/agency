@@ -84,7 +84,7 @@ export function AiAuditForm() {
         className="mt-2 inline-flex min-h-14 w-full min-w-0 items-center justify-center rounded-[999px] bg-[#18181B] px-6 text-center text-base font-semibold leading-6 text-white transition hover:bg-[#2B2B31] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#6D4AFF]"
       >
         <span className="min-w-0 max-w-full whitespace-normal break-words">
-          Получить бесплатную консультацию-аудит
+          Получить аудит процессов
         </span>
       </button>
 
@@ -98,7 +98,7 @@ export function AiAuditForm() {
           role="status"
           aria-live="polite"
         >
-          Заявка отправлена. Мы свяжемся с вами, чтобы уточнить процессы для аудита.
+          Заявка отправлена. Мы свяжемся с вами, чтобы уточнить процессы для разбора.
         </p>
       ) : null}
     </form>

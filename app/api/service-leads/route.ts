@@ -38,6 +38,21 @@ function getSupabaseConfig() {
   };
 }
 
+type SupabaseConfig = NonNullable<ReturnType<typeof getSupabaseConfig>>;
+type LeadInsertPayload = Record<string, string | null>;
+
+function insertLead(
+  supabase: SupabaseConfig,
+  headers: HeadersInit,
+  payload: LeadInsertPayload
+) {
+  return fetch(`${supabase.url}/rest/v1/service_leads`, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(payload),
+  }).catch(() => null);
+}
+
 export async function POST(request: Request) {
   const contentType = request.headers.get("content-type") ?? "";
   if (!contentType.includes("application/json")) {
@@ -57,7 +72,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ message: genericError }, { status: 503 });
   }
 
-  const payload = {
+  const basePayload: LeadInsertPayload = {
     service_slug: lead.service_slug,
     service_title: lead.service_title,
     name: lead.name ?? null,
@@ -74,6 +89,17 @@ export async function POST(request: Request) {
     utm_term: lead.utm_term ?? null,
     client_id: lead.client_id ?? null,
   };
+  const hasQualificationFields = Boolean(
+    lead.service_interest || lead.project_stage || lead.budget_band
+  );
+  const payload: LeadInsertPayload = hasQualificationFields
+    ? {
+        ...basePayload,
+        service_interest: lead.service_interest ?? null,
+        project_stage: lead.project_stage ?? null,
+        budget_band: lead.budget_band ?? null,
+      }
+    : basePayload;
 
   const headers: HeadersInit = {
     apikey: supabase.key,
@@ -85,11 +111,15 @@ export async function POST(request: Request) {
     headers.Authorization = `Bearer ${supabase.key}`;
   }
 
-  const response = await fetch(`${supabase.url}/rest/v1/service_leads`, {
-    method: "POST",
-    headers,
-    body: JSON.stringify(payload),
-  }).catch(() => null);
+  const response = await insertLead(supabase, headers, payload);
+
+  if (!response?.ok && hasQualificationFields) {
+    const legacyResponse = await insertLead(supabase, headers, basePayload);
+
+    if (legacyResponse?.ok) {
+      return NextResponse.json({ ok: true }, { status: 201 });
+    }
+  }
 
   if (!response?.ok) {
     return NextResponse.json({ message: genericError }, { status: 502 });

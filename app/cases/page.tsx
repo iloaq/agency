@@ -2,9 +2,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Кейсы и примеры задач Skybric — ИИ, CRM, сайты и приложения",
+  title: {
+    absolute: "Разборы задач Skybric — сайты, CRM, Telegram, SEO и автоматизация",
+  },
   description:
-    "Примеры B2B-задач, которые Skybric берёт в работу: ИИ-агенты, CRM, документы, веб-приложения, кабинеты и интеграции.",
+    "Разборы B2B-задач: где ломался процесс, что можно собрать вместо ручной работы, какие системы связать и что станет проще после запуска.",
   alternates: {
     canonical: "/cases",
   },
@@ -12,32 +14,64 @@ export const metadata: Metadata = {
 
 const examples = [
   {
-    title: "Заявки из сайта и Telegram теряются до CRM",
-    situation:
-      "Клиенты пишут в несколько каналов, менеджеры отвечают вручную, статусы фиксируются нерегулярно.",
-    result:
-      "Проектируем единый маршрут заявки: первичная квалификация, запись в CRM, задача менеджеру и follow-up.",
+    task: "Заявки приходят из сайта, Telegram и звонков",
+    loss:
+      "Часть обращений остаётся в чатах, статус не фиксируется, follow-up зависит от памяти менеджера.",
+    build:
+      "Маршрут заявки: форма или бот принимает данные, CRM создаёт карточку, менеджер получает задачу и напоминание.",
+    systems: "сайт, Telegram, CRM, уведомления, аналитика",
+    easier:
+      "Команде проще видеть источник, ответственного, статус и следующий шаг по каждому обращению.",
   },
   {
-    title: "КП и документы собираются вручную",
-    situation:
-      "Специалисты копируют шаблоны, ищут данные в таблицах и переписках, вручную проверяют комплектность.",
-    result:
-      "Собираем генератор черновиков по правилам компании и оставляем контроль человека перед отправкой.",
+    task: "Корпоративный сайт не объясняет сложный продукт",
+    loss:
+      "Посетитель не понимает, чем отличаются услуги, почему стоит оставить заявку и какой следующий шаг.",
+    build:
+      "Структуру money-pages, понятные CTA, формы, SEO-метаданные и маршрут заявки в CRM или почту.",
+    systems: "сайт, формы, SEO, аналитика, CRM",
+    easier:
+      "Маркетинг быстрее тестирует офферы, а клиент получает ясную структуру без лишнего визуального шума.",
   },
   {
-    title: "Клиентам нужен личный кабинет",
-    situation:
-      "Статусы, документы и обращения идут через менеджеров, поэтому команда тратит время на повторные уточнения.",
-    result:
-      "Проектируем кабинет с ролями, статусами, документами, уведомлениями и интеграциями с backend/CRM.",
+    task: "Клиентам нужен личный кабинет",
+    loss:
+      "Статусы, документы, комментарии и вопросы идут через менеджеров, таблицы и ручные пересылки.",
+    build:
+      "Кабинет с ролями, статусами, документами, историей действий, уведомлениями и backend-логикой.",
+    systems: "frontend, backend, CRM, документы, роли",
+    easier:
+      "Клиент и команда видят один рабочий контур, а не набор разрозненных сообщений и файлов.",
   },
   {
-    title: "CRM есть, но контроля нет",
-    situation:
-      "Карточки неполные, звонки и переписки живут отдельно, руководитель не видит реальную картину.",
-    result:
-      "Добавляем резюме коммуникаций, контроль полей, подсказку следующего шага и понятный срез по воронке.",
+    task: "CRM есть, но руководитель не видит реальную картину",
+    loss:
+      "Карточки неполные, переписки живут отдельно, данные переносятся вручную, следующие шаги забываются.",
+    build:
+      "Интеграции с формами, Telegram, задачами, контролем обязательных полей и резюме коммуникаций.",
+    systems: "CRM, сайт, Telegram, телефония, email",
+    easier:
+      "Проще увидеть, где зависают сделки, какие данные не заполнены и кто отвечает за следующий шаг.",
+  },
+  {
+    task: "SEO не связано с продажами",
+    loss:
+      "Статьи публикуются отдельно, страницы услуг не закрывают коммерческий intent, внутренняя связность слабая.",
+    build:
+      "Карту service-pages, семантику, структуру контента, внутренние ссылки, sitemap и корректные metadata.",
+    systems: "сайт, CMS, sitemap, metadata, Search Console",
+    easier:
+      "Команда понимает, какие страницы работают на спрос, а не просто наполняет сайт материалами.",
+  },
+  {
+    task: "Telegram-бот нужен не для эффекта, а для процесса",
+    loss:
+      "Пользователь пишет в чат, менеджер вручную уточняет данные, отправляет статус и переносит заявку.",
+    build:
+      "Сценарий бота с вопросами, статусами, уведомлениями, оплатой при необходимости и записью в CRM.",
+    systems: "Telegram Bot API, CRM, backend, уведомления",
+    easier:
+      "Повторяемый сценарий проходит одинаково, а данные не остаются только в переписке.",
   },
 ] as const;
 
@@ -45,31 +79,48 @@ export default function CasesPage() {
   return (
     <main className="min-h-screen bg-[#F6F3EE] px-5 pb-24 pt-12 text-[#121212] sm:px-8 lg:px-10 lg:pb-32 lg:pt-20">
       <section className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
-        <h1 className="max-w-6xl text-[clamp(2.7rem,7vw,6rem)] font-semibold leading-[1.01]">
-          Кейсы без выдуманных цифр: примеры задач, которые можно автоматизировать
+        <h1 className="max-w-6xl text-[clamp(2.55rem,6.2vw,5.7rem)] font-semibold leading-[1.01]">
+          Разборы задач: где ломался процесс и что можно собрать вместо ручной работы
         </h1>
         <p className="max-w-3xl text-base leading-7 text-[#4B4B4B] sm:text-xl sm:leading-9 lg:justify-self-end">
-          Если нет подтверждённой статистики, мы не придумываем “рост на 300%”.
-          Ниже — типовые B2B-сценарии, которые можно разобрать и превратить в рабочий MVP.
+          Показываем не абстрактные услуги, а рабочую логику: контекст, ограничения,
+          архитектуру решения, стек, интеграции и следующий шаг для бизнеса.
         </p>
       </section>
 
       <section className="mt-14 grid gap-5 md:grid-cols-2">
         {examples.map((item) => (
-          <article key={item.title} className="rounded-[32px] border border-[#E6E0D8] bg-white p-6 shadow-[0_18px_55px_rgba(72,57,41,0.08)] sm:p-8">
-            <h2 className="text-3xl font-semibold leading-10">{item.title}</h2>
+          <article
+            key={item.task}
+            className="rounded-[32px] border border-[#E6E0D8] bg-white p-6 shadow-[0_18px_55px_rgba(72,57,41,0.08)] sm:p-8"
+          >
+            <h2 className="text-3xl font-semibold leading-10">{item.task}</h2>
             <div className="mt-8 grid gap-5">
               <div className="border-t border-[#E6E0D8] pt-4">
                 <p className="text-sm font-semibold uppercase tracking-[0.08em] text-[#6B6B6B]">
-                  Ситуация
+                  Где терялось время / контроль / заявка
                 </p>
-                <p className="mt-2 text-base leading-7 text-[#4B4B4B]">{item.situation}</p>
+                <p className="mt-2 text-base leading-7 text-[#4B4B4B]">{item.loss}</p>
               </div>
               <div className="rounded-[22px] bg-[#F6F3EE] p-5">
                 <p className="text-sm font-semibold uppercase tracking-[0.08em] text-[#6D4AFF]">
-                  Что можно сделать
+                  Что можно собрать
                 </p>
-                <p className="mt-2 text-base font-semibold leading-7">{item.result}</p>
+                <p className="mt-2 text-base font-semibold leading-7">{item.build}</p>
+              </div>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div className="border-t border-[#E6E0D8] pt-4">
+                  <p className="text-sm font-semibold uppercase tracking-[0.08em] text-[#6B6B6B]">
+                    Какие системы связать
+                  </p>
+                  <p className="mt-2 text-base leading-7 text-[#4B4B4B]">{item.systems}</p>
+                </div>
+                <div className="border-t border-[#E6E0D8] pt-4">
+                  <p className="text-sm font-semibold uppercase tracking-[0.08em] text-[#6B6B6B]">
+                    Что станет проще
+                  </p>
+                  <p className="mt-2 text-base leading-7 text-[#4B4B4B]">{item.easier}</p>
+                </div>
               </div>
             </div>
           </article>
@@ -78,9 +129,9 @@ export default function CasesPage() {
 
       <Link
         href="/contact"
-        className="mt-10 inline-flex min-h-14 items-center justify-center rounded-full bg-[#18181B] px-7 text-base font-semibold text-white shadow-[0_18px_45px_rgba(24,24,27,0.22)] transition hover:bg-[#2B2B31]"
+        className="mt-10 inline-flex min-h-14 items-center justify-center rounded-full bg-[#18181B] px-7 text-base font-semibold text-white shadow-[0_18px_45px_rgba(24,24,27,0.22)] transition hover:bg-[#2B2B31] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#6D4AFF]"
       >
-        Обсудить похожую задачу
+        Разобрать похожую задачу
       </Link>
     </main>
   );

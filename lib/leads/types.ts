@@ -6,6 +6,9 @@ export type ServiceLeadPayload = {
   email?: string;
   telegram?: string;
   company?: string;
+  service_interest?: string;
+  project_stage?: string;
+  budget_band?: string;
   message: string;
   source_page?: string;
   utm_source?: string;

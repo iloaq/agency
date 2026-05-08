@@ -80,42 +80,42 @@ const businessPains = [
 
 function PainCard({ pain }: { pain: (typeof businessPains)[number] }) {
   return (
-    <article className="group flex h-full min-w-0 flex-col rounded-[28px] border border-[#E4E7EC] bg-white p-6 shadow-[0_14px_40px_rgba(16,24,40,0.045)] transition duration-200 hover:-translate-y-0.5 hover:border-[#2563EB]/35 hover:shadow-[0_20px_55px_rgba(16,24,40,0.08)] motion-reduce:transition-none motion-reduce:hover:translate-y-0">
+    <article className="group flex h-full min-w-0 flex-col rounded-[28px] border border-[#E6E0D8] bg-white p-6 shadow-[0_18px_55px_rgba(72,57,41,0.07)] transition duration-200 hover:-translate-y-0.5 hover:border-[#6D4AFF]/35 hover:shadow-[0_22px_70px_rgba(72,57,41,0.11)] motion-reduce:transition-none motion-reduce:hover:translate-y-0">
       <div className="mb-7 flex items-start justify-between gap-4">
-        <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#EFF6FF] text-sm font-extrabold text-[#2563EB] ring-1 ring-[#BFDBFE]">
+        <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#F1EAFF] text-sm font-bold text-[#6D4AFF] ring-1 ring-[#D8CCFF]">
           {pain.number}
         </span>
-        <span className="shrink-0 rounded-full border border-[#E4E7EC] bg-[#F7F8FB] px-3 py-1.5 text-right text-xs font-bold uppercase tracking-[0.08em] text-[#667085]">
+        <span className="shrink-0 rounded-full border border-[#E6E0D8] bg-[#F6F3EE] px-3 py-1.5 text-right text-xs font-semibold uppercase tracking-[0.08em] text-[#6B6B6B]">
           {pain.tag}
         </span>
       </div>
 
-      <h3 className="text-[1.38rem] font-bold leading-[1.18] tracking-[-0.01em] text-[#101828] sm:text-2xl">
+      <h3 className="text-[1.38rem] font-semibold leading-[1.18] tracking-normal text-[#121212] sm:text-2xl">
         {pain.title}
       </h3>
 
       <div className="mt-6 flex flex-1 flex-col gap-4">
         <div>
-          <p className="text-xs font-bold uppercase tracking-[0.08em] text-[#667085]">
+          <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[#6B6B6B]">
             {pain.symptomLabel}
           </p>
-          <p className="mt-2 text-[15px] leading-[1.58] text-[#475467]">{pain.symptom}</p>
+          <p className="mt-2 text-[15px] leading-[1.58] text-[#4B4B4B]">{pain.symptom}</p>
         </div>
 
-        <div className="rounded-2xl bg-[#101828] p-4 text-white">
-          <p className="text-xs font-bold uppercase tracking-[0.08em] text-[#93C5FD]">
+        <div className="rounded-[18px] bg-[#18181B] p-4 text-white">
+          <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[#B8FF5C]">
             {pain.lossLabel}
           </p>
-          <p className="mt-2 text-[15px] font-semibold leading-[1.55] text-white/92">
+          <p className="mt-2 text-[15px] font-semibold leading-[1.55] text-white/90">
             {pain.loss}
           </p>
         </div>
 
-        <div className="rounded-2xl border border-[#E5E7EB] bg-[#F3F4F6] p-4">
-          <p className="text-xs font-bold uppercase tracking-[0.08em] text-[#7C3AED]">
+        <div className="rounded-[18px] border border-[#E6E0D8] bg-[#F6F3EE] p-4">
+          <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[#6D4AFF]">
             {pain.checkLabel}
           </p>
-          <p className="mt-2 text-[15px] font-medium leading-[1.55] text-[#101828]">
+          <p className="mt-2 text-[15px] font-medium leading-[1.55] text-[#121212]">
             {pain.check}
           </p>
         </div>
@@ -127,22 +127,22 @@ function PainCard({ pain }: { pain: (typeof businessPains)[number] }) {
 export function BusinessPainSection() {
   return (
     <section
-      className="bg-[#F7F8FB] px-5 py-16 sm:px-8 lg:px-10 lg:py-24"
+      className="bg-[#F6F3EE] px-5 py-16 sm:px-8 lg:px-10 lg:py-24"
       aria-labelledby="business-pain-heading"
     >
-      <div className="mx-auto grid w-full max-w-7xl gap-10 lg:gap-12">
+      <div className="grid w-full min-w-0 gap-10 lg:gap-12">
         <div className="grid gap-6 lg:grid-cols-12 lg:items-end">
           <div className="lg:col-span-7">
-            <p className="mb-5 text-xs font-extrabold uppercase tracking-[0.08em] text-[#7C3AED]">
+            <p className="mb-5 text-sm font-semibold uppercase tracking-[0.12em] text-[#6D4AFF]">
               БОЛИ БИЗНЕСА
             </p>
             <h2
               id="business-pain-heading"
-              className="max-w-[760px] text-[clamp(2rem,4.4vw,4rem)] font-extrabold leading-[1.05] tracking-[-0.025em] text-[#101828]"
+              className="max-w-4xl text-[clamp(2.4rem,4.8vw,4.8rem)] font-semibold leading-[0.98] tracking-normal text-[#121212]"
             >
               Где бизнес чаще всего теряет время и деньги
             </h2>
-            <p className="mt-6 max-w-[560px] text-base leading-[1.65] text-[#475467] sm:text-lg">
+            <p className="mt-6 max-w-3xl text-base leading-7 text-[#4B4B4B] sm:text-lg sm:leading-8">
               На аудите мы ищем не абстрактные проблемы, а конкретные процессы: где заявки
               теряются, сотрудники делают одно и то же вручную, документы собираются долго,
               а руководитель не видит реальную картину.
@@ -150,14 +150,11 @@ export function BusinessPainSection() {
           </div>
 
           <aside className="lg:col-span-5">
-            <div className="rounded-[28px] border border-[#E4E7EC] bg-white p-6 shadow-[0_16px_45px_rgba(16,24,40,0.055)]">
+            <div className="rounded-[30px] border border-[#E6E0D8] bg-white p-6 shadow-[0_24px_70px_rgba(72,57,41,0.1)]">
               <div className="flex items-start justify-between gap-4">
-                <h3 className="text-2xl font-bold leading-8 tracking-[-0.01em] text-[#101828]">
+                <h3 className="text-2xl font-semibold leading-8 tracking-normal text-[#121212]">
                   Что ищем на аудите
                 </h3>
-                <span className="rounded-full bg-[#EFF6FF] px-3 py-1.5 text-xs font-bold text-[#2563EB]">
-                  фокус
-                </span>
               </div>
               <ul className="mt-6 grid gap-3">
                 {[
@@ -167,13 +164,13 @@ export function BusinessPainSection() {
                 ].map((item) => (
                   <li
                     key={item}
-                    className="rounded-2xl border border-[#EEF0F4] bg-[#F7F8FB] px-4 py-3 text-[15px] font-bold leading-6 text-[#101828]"
+                    className="rounded-[18px] border border-[#E6E0D8] bg-[#F6F3EE] px-4 py-3 text-[15px] font-semibold leading-6 text-[#121212]"
                   >
                     {item}
                   </li>
                 ))}
               </ul>
-              <p className="mt-5 rounded-2xl bg-[#101828] px-4 py-3 text-sm font-semibold leading-6 text-white">
+              <p className="mt-5 rounded-[18px] bg-[#18181B] px-4 py-3 text-sm font-semibold leading-6 text-white">
                 Находим точки потерь и фиксируем, что проверить первым.
               </p>
             </div>

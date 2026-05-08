@@ -7,6 +7,33 @@ import { normalizeServiceLead, validateServiceLead } from "@/lib/leads/validate-
 
 type FormState = "idle" | "loading" | "success" | "error";
 
+const serviceInterestOptions = [
+  "Сайт для бизнеса",
+  "Веб-сервис или личный кабинет",
+  "Telegram-бот",
+  "CRM и интеграции",
+  "AI-автоматизация",
+  "SEO",
+  "Fintech-разработка",
+  "Пока не уверен",
+] as const;
+
+const projectStageOptions = [
+  "Есть идея, нужна структура",
+  "Есть ТЗ или прототип",
+  "Есть текущий сайт или система",
+  "Нужно доработать существующее",
+  "Нужно запустить MVP",
+] as const;
+
+const budgetBandOptions = [
+  "Пока не определён",
+  "Нужна оценка после разбора",
+  "До 1 млн ₸",
+  "1–3 млн ₸",
+  "3+ млн ₸",
+] as const;
+
 export function ServiceLeadForm({
   serviceSlug,
   serviceTitle,
@@ -128,6 +155,51 @@ export function ServiceLeadForm({
           className="min-h-13 rounded-[18px] border border-[#E6E0D8] bg-[#F6F3EE] px-4 text-base outline-none transition focus:border-[#6D4AFF] focus:bg-white focus:ring-4 focus:ring-[#6D4AFF]/10"
         />
       </label>
+
+      <div className="grid gap-4 sm:grid-cols-3">
+        <label className="grid min-w-0 gap-2 text-sm font-semibold">
+          Интересует услуга
+          <select
+            name="service_interest"
+            className="min-h-13 w-full min-w-0 rounded-[18px] border border-[#E6E0D8] bg-[#F6F3EE] px-4 text-base outline-none transition focus:border-[#6D4AFF] focus:bg-white focus:ring-4 focus:ring-[#6D4AFF]/10"
+          >
+            <option value="">Выберите, если понятно</option>
+            {serviceInterestOptions.map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label className="grid min-w-0 gap-2 text-sm font-semibold">
+          Стадия проекта
+          <select
+            name="project_stage"
+            className="min-h-13 w-full min-w-0 rounded-[18px] border border-[#E6E0D8] bg-[#F6F3EE] px-4 text-base outline-none transition focus:border-[#6D4AFF] focus:bg-white focus:ring-4 focus:ring-[#6D4AFF]/10"
+          >
+            <option value="">Выберите, если понятно</option>
+            {projectStageOptions.map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label className="grid min-w-0 gap-2 text-sm font-semibold">
+          Бюджетный диапазон
+          <select
+            name="budget_band"
+            className="min-h-13 w-full min-w-0 rounded-[18px] border border-[#E6E0D8] bg-[#F6F3EE] px-4 text-base outline-none transition focus:border-[#6D4AFF] focus:bg-white focus:ring-4 focus:ring-[#6D4AFF]/10"
+          >
+            <option value="">Можно не указывать</option>
+            {budgetBandOptions.map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+          </select>
+        </label>
+      </div>
 
       <label className="grid gap-2 text-sm font-semibold">
         Сообщение

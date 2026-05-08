@@ -5,6 +5,7 @@ import { LenisGsapProvider } from "@/components/providers/lenis-gsap-provider";
 import { SiteHeader } from "@/components/site/site-header";
 import { ToastProvider } from "@/components/ui/toast";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { siteUrl } from "@/lib/site-url";
 import "./globals.css";
 
 /* MUI + Next.js App Router: https://mui.com/material-ui/integrations/nextjs/ */
@@ -20,9 +21,31 @@ const manrope = Manrope({
 });
 
 export const metadata: Metadata = {
-  title: "Skybric — digital и AI-разработка для бизнеса",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: "Skybric — веб-разработка, автоматизация и digital-системы для бизнеса",
+    template: "%s | Skybric",
+  },
   description:
-    "Skybric проектирует ИИ-агентов, автоматизацию, CRM-интеграции, сайты, веб-приложения и мобильные продукты под процессы бизнеса.",
+    "Разрабатываем сайты, веб-сервисы, Telegram-ботов, CRM-интеграции, AI-автоматизацию, SEO и fintech-решения для B2B-компаний в Казахстане и на международном рынке.",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    locale: "ru_KZ",
+    url: siteUrl,
+    siteName: "Skybric",
+    title: "Skybric — веб-разработка, автоматизация и digital-системы для бизнеса",
+    description:
+      "Сайты, веб-сервисы, Telegram-боты, CRM-интеграции, AI-автоматизация, SEO и fintech-разработка для B2B.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Skybric — веб-разработка, автоматизация и digital-системы для бизнеса",
+    description:
+      "Технологический B2B-партнёр для сайтов, веб-сервисов, Telegram, CRM, SEO, AI-automation и fintech.",
+  },
 };
 
 export default function RootLayout({

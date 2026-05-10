@@ -167,24 +167,6 @@ export default function AiAuditPage() {
         </div>
       </section>
 
-      <section className="px-5 py-10 sm:px-8 lg:px-10" aria-label="Краткий результат аудита">
-        <div className="rounded-[30px] border border-[#E6E0D8] bg-white p-5 shadow-[0_16px_46px_rgba(72,57,41,0.055)] lg:p-7">
-          <div className="grid gap-3 md:grid-cols-3">
-            {auditRows.map((row) => (
-              <article key={row.process} className="rounded-[22px] bg-[#F6F3EE] p-4">
-                <div className="flex items-start justify-between gap-3">
-                  <h3 className="text-lg font-semibold">{row.process}</h3>
-                  <span className="rounded-full bg-white px-3 py-1 text-xs font-semibold text-[#6D4AFF]">
-                    {row.priority}
-                  </span>
-                </div>
-                <p className="mt-3 text-sm leading-6 text-[#6B6B6B]">{row.ai}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
       <section
         className="px-5 py-16 sm:px-8 lg:px-10 lg:py-20"
         aria-labelledby="fit-heading"

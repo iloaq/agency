@@ -43,8 +43,9 @@ jobs:
             captain-definition
           outPath: deploy.tar
 
+      # Раньше было refs/heads/main — при ветке master деплой не выполнялся.
       - name: Deploy App to CapRover
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        if: github.event_name == 'push'
         uses: caprover/deploy-from-github@v1.0.1
         with:
           server: "${{ secrets.CAPROVER_SERVER }}"

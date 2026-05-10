@@ -10,9 +10,11 @@ ENV HOSTNAME=0.0.0.0
 RUN addgroup --system --gid 1001 nodejs \
   && adduser --system --uid 1001 nextjs
 
-COPY public ./public
-COPY .next/static ./.next/static
+# Порядок как в Next: сначала standalone, иначе .next/static может затереться.
+# Source: https://nextjs.org/docs/app/guides/self-hosting#docker-image
 COPY .next/standalone ./
+COPY .next/static ./.next/static
+COPY public ./public
 
 USER nextjs
 

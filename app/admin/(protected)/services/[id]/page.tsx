@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { FiArrowLeft } from "react-icons/fi";
+import { AdminPageHeader, AdminPanel } from "@/components/admin/admin-ui";
 import { getSupabaseAdminClient } from "@/lib/admin/supabase-admin";
 import type { ServiceRow } from "@/lib/supabase/fetch-services";
 import { ServiceForm } from "../service-form";
@@ -11,14 +13,28 @@ type Props = {
   searchParams: Promise<{ err?: string; saved?: string }>;
 };
 
+function Feedback({ saved, err }: { saved?: string; err?: string }) {
+  if (saved === "1") {
+    return <p className="rounded-[18px] border border-[#cceec8] bg-[#f1ffed] px-4 py-3 text-sm font-medium text-[#245b20]">Сохранено.</p>;
+  }
+  if (!err) return null;
+
+  const message =
+    err === "badjson"
+      ? "Поле content должно быть корректным JSON-объектом."
+      : err === "required"
+        ? "Заполните обязательные поля."
+        : "Ошибка записи в Supabase.";
+
+  return <p className="rounded-[18px] border border-[#f5c2bd] bg-[#fff4f2] px-4 py-3 text-sm font-medium text-[#b42318]">{message}</p>;
+}
+
 export default async function AdminServiceEditPage({ params, searchParams }: Props) {
   const { id } = await params;
   const sp = await searchParams;
   const isNew = id === "new";
 
-  if (!isNew && !uuidRe.test(id)) {
-    notFound();
-  }
+  if (!isNew && !uuidRe.test(id)) notFound();
 
   let row: ServiceRow | null = null;
   if (!isNew) {
@@ -29,27 +45,27 @@ export default async function AdminServiceEditPage({ params, searchParams }: Pro
   }
 
   return (
-    <div className="space-y-6">
-      <nav className="text-sm text-[var(--fonts-grey)]">
-        <Link href="/admin/services" className="underline-offset-2 hover:underline">
-          Услуги
-        </Link>
-        <span className="mx-2">/</span>
-        <span>{isNew ? "Новая" : row?.slug}</span>
-      </nav>
-      {sp.saved === "1" ? (
-        <p className="text-sm text-[var(--fonts-success)]">Сохранено.</p>
-      ) : null}
-      {sp.err === "badjson" ? (
-        <p className="text-sm text-[var(--fonts-error)]">Поле content должно быть JSON-объектом.</p>
-      ) : null}
-      {sp.err === "required" ? (
-        <p className="text-sm text-[var(--fonts-error)]">Заполните обязательные поля.</p>
-      ) : null}
-      {sp.err === "db" ? (
-        <p className="text-sm text-[var(--fonts-error)]">Ошибка записи в Supabase.</p>
-      ) : null}
-      <h1 className="text-2xl font-semibold">{isNew ? "Новая услуга" : "Редактирование услуги"}</h1>
+    <div className="space-y-7">
+      <Link
+        href="/admin/services"
+        className="inline-flex items-center gap-2 text-sm font-semibold text-[#6d4aff] hover:text-[#4d32ce]"
+      >
+        <FiArrowLeft className="size-4" />
+        К списку услуг
+      </Link>
+
+      <AdminPageHeader
+        eyebrow="Услуга"
+        title={isNew ? "Новая услуга" : "Редактирование услуги"}
+        description={isNew ? "Создайте новую страницу услуги." : `Редактируется запись ${row?.slug}.`}
+      />
+
+      <Feedback saved={sp.saved} err={sp.err} />
+
+      <AdminPanel className="p-5 text-sm leading-6 text-[#6b6b6b]">
+        JSON-поле используется для расширенного контента страницы. Перед сохранением проверяйте структуру, чтобы публичная страница не получила пустые блоки.
+      </AdminPanel>
+
       <ServiceForm row={row} />
     </div>
   );

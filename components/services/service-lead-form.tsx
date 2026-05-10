@@ -1,11 +1,13 @@
-﻿"use client";
+"use client";
 
 import { useRef, useState } from "react";
 import { getClientId } from "@/lib/leads/analytics-client";
 import { submitLead } from "@/lib/leads/submit-lead";
 import { normalizeServiceLead, validateServiceLead } from "@/lib/leads/validate-service-lead";
+import { useToast } from "@/components/ui/toast";
 
-type FormState = "idle" | "loading" | "success" | "error";
+type FormState = "idle" | "loading" | "success";
+type ContactMethod = "email" | "telegram";
 
 const serviceInterestOptions = [
   "Сайт для бизнеса",
@@ -15,34 +17,19 @@ const serviceInterestOptions = [
   "AI-автоматизация",
   "SEO",
   "Fintech-разработка",
+  "Digital-сопровождение бизнеса",
+  "Аудит процессов и автоматизации",
   "Пока не уверен",
 ] as const;
 
-const projectStageOptions = [
-  "Есть идея, нужна структура",
-  "Есть ТЗ или прототип",
-  "Есть текущий сайт или система",
-  "Нужно доработать существующее",
-  "Нужно запустить MVP",
-] as const;
+const contactMethods: { value: ContactMethod; label: string; placeholder: string }[] = [
+  { value: "email", label: "Email", placeholder: "name@company.kz" },
+  { value: "telegram", label: "Telegram", placeholder: "@username" },
+];
 
-const budgetBandOptions = [
-  "Пока не определён",
-  "Нужна оценка после разбора",
-  "До 1 млн ₸",
-  "1–3 млн ₸",
-  "3+ млн ₸",
-] as const;
-
-const preferredContactOptions = [
-  { value: "email", label: "Email" },
-  { value: "phone", label: "Телефон" },
-  { value: "telegram", label: "Telegram" },
-] as const;
-
-const labelClass = "grid min-w-0 gap-2 text-sm font-semibold text-[#121212]";
+const labelClass = "grid min-w-0 gap-2 text-sm font-semibold text-white";
 const fieldClass =
-  "min-h-14 w-full min-w-0 rounded-[18px] border border-[#E6E0D8] bg-white px-4 text-base text-[#121212] outline-none transition placeholder:text-[#8B8B8B] focus:border-[#6D4AFF] focus:ring-4 focus:ring-[#6D4AFF]/10";
+  "min-h-14 w-full min-w-0 rounded-[18px] border border-white/12 bg-white/[0.08] px-4 text-base font-medium text-white outline-none transition placeholder:text-white/38 focus:border-[#6D4AFF] focus:bg-white/[0.11] focus:ring-4 focus:ring-[#6D4AFF]/20";
 
 export function ServiceLeadForm({
   serviceSlug,
@@ -51,28 +38,42 @@ export function ServiceLeadForm({
   serviceSlug: string;
   serviceTitle: string;
 }) {
+  const { toast } = useToast();
   const [state, setState] = useState<FormState>("idle");
-  const [message, setMessage] = useState("");
+  const [contactMethod, setContactMethod] = useState<ContactMethod>("email");
   const lastSubmitAt = useRef(0);
+  const defaultServiceInterest =
+    serviceInterestOptions.find((option) => option === serviceTitle) ?? "";
 
   return (
     <form
-      className="grid min-w-0 gap-4 rounded-[28px] border border-[#E6E0D8] bg-[#FDFCF9] p-5 text-[#121212] shadow-[0_14px_42px_rgba(72,57,41,0.06)] sm:p-6 lg:p-8"
+      className="grid min-w-0 gap-4 rounded-[28px] border border-white/10 bg-[#202024] p-5 text-white shadow-[0_18px_54px_rgba(0,0,0,0.22)] sm:p-6 lg:p-7"
       onSubmit={async (event) => {
         event.preventDefault();
 
         const now = Date.now();
         if (now - lastSubmitAt.current < 6000) {
-          setState("error");
-          setMessage("Заявка уже отправляется. Подождите несколько секунд.");
+          toast({
+            title: "Заявка уже отправляется. Подождите несколько секунд.",
+            variant: "neutral",
+            shape: "pill",
+          });
           return;
         }
 
         const form = event.currentTarget;
         const formData = new FormData(form);
         const url = new URL(window.location.href);
+        const role = String(formData.get("role") ?? "").trim();
+        const rawMessage = String(formData.get("message") ?? "").trim();
+        const message = [role ? `Должность: ${role}` : null, rawMessage]
+          .filter(Boolean)
+          .join("\n\n");
+
         const lead = normalizeServiceLead({
           ...Object.fromEntries(formData.entries()),
+          phone: "",
+          message,
           source_page: url.href,
           utm_source: url.searchParams.get("utm_source") ?? "",
           utm_medium: url.searchParams.get("utm_medium") ?? "",
@@ -84,30 +85,43 @@ export function ServiceLeadForm({
         const validationError = validateServiceLead(lead);
 
         if (validationError) {
-          setState("error");
-          setMessage(validationError);
+          toast({
+            title: validationError,
+            variant: "neutral",
+            shape: "rounded",
+          });
           return;
         }
 
         lastSubmitAt.current = now;
         setState("loading");
-        setMessage("");
 
         const result = await submitLead(lead);
 
         if (!result.ok) {
-          setState("error");
-          setMessage(result.message);
+          setState("idle");
+          toast({
+            title: result.message,
+            variant: "neutral",
+            shape: "rounded",
+          });
           return;
         }
 
         setState("success");
-        setMessage("Заявка отправлена. Мы изучим задачу и свяжемся с вами.");
+        toast({
+          title: "Заявка отправлена. Мы изучим задачу и свяжемся с вами.",
+          variant: "success",
+          shape: "pill",
+        });
         form.reset();
+        setContactMethod("email");
+        window.setTimeout(() => setState("idle"), 2500);
       }}
     >
       <input type="hidden" name="service_slug" value={serviceSlug} readOnly />
       <input type="hidden" name="service_title" value={serviceTitle} readOnly />
+      <input type="hidden" name="preferred_contact" value={contactMethod} readOnly />
       <input type="hidden" name="source_page" value="" readOnly />
       <input type="hidden" name="utm_source" value="" readOnly />
       <input type="hidden" name="utm_medium" value="" readOnly />
@@ -123,103 +137,67 @@ export function ServiceLeadForm({
       <div className="grid gap-4 md:grid-cols-2">
         <label className={labelClass}>
           Имя
-          <input
-            name="name"
-            autoComplete="name"
-            className={fieldClass}
-          />
+          <input name="name" autoComplete="name" className={fieldClass} />
         </label>
         <label className={labelClass}>
-          Телефон
-          <input
-            name="phone"
-            autoComplete="tel"
-            className={fieldClass}
-          />
-        </label>
-        <label className={labelClass}>
-          Telegram
-          <input
-            name="telegram"
-            autoComplete="username"
-            placeholder="@username"
-            className={fieldClass}
-          />
-        </label>
-        <label className={labelClass}>
-          Email *
-          <input
-            name="email"
-            type="email"
-            required
-            autoComplete="email"
-            className={fieldClass}
-          />
+          Компания
+          <input name="company" autoComplete="organization" className={fieldClass} />
         </label>
       </div>
 
-      <label className={labelClass}>
-        Предпочитаемый способ связи *
-        <select name="preferred_contact" required className={fieldClass} defaultValue="email">
-          {preferredContactOptions.map((o) => (
-            <option key={o.value} value={o.value}>
-              {o.label}
-            </option>
-          ))}
-        </select>
-      </label>
+      <div className="grid gap-3">
+        <p className="text-sm font-semibold text-white">Предпочитаемый способ связи</p>
+        <div className="grid grid-cols-2 gap-2 rounded-[20px] border border-white/10 bg-white/[0.05] p-1">
+          {contactMethods.map((method) => {
+            const active = contactMethod === method.value;
+            return (
+              <button
+                key={method.value}
+                type="button"
+                className={[
+                  "min-h-11 rounded-[16px] px-4 text-sm font-semibold transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#6D4AFF]",
+                  active ? "bg-[#6D4AFF] text-white" : "text-white/68 hover:bg-white/10 hover:text-white",
+                ].join(" ")}
+                aria-pressed={active}
+                onClick={() => setContactMethod(method.value)}
+              >
+                {method.label}
+              </button>
+            );
+          })}
+        </div>
+      </div>
 
       <label className={labelClass}>
-        Компания
+        {contactMethod === "email" ? "Email" : "Telegram"}
         <input
-          name="company"
-          autoComplete="organization"
+          key={contactMethod}
+          name={contactMethod}
+          type={contactMethod === "email" ? "email" : "text"}
+          autoComplete={contactMethod === "email" ? "email" : "username"}
+          placeholder={contactMethods.find((method) => method.value === contactMethod)?.placeholder}
+          required
           className={fieldClass}
         />
       </label>
 
       <div className="grid gap-4 md:grid-cols-2">
         <label className={labelClass}>
-          Интересует услуга
-          <select
-            name="service_interest"
-            className={fieldClass}
-          >
-            <option value="">Выберите, если понятно</option>
+          Услуга
+          <select name="service_interest" className={fieldClass} defaultValue={defaultServiceInterest}>
+            <option value="" className="text-[#121212]">
+              Выберите, если понятно
+            </option>
             {serviceInterestOptions.map((option) => (
-              <option key={option} value={option}>
+              <option key={option} value={option} className="text-[#121212]">
                 {option}
               </option>
             ))}
           </select>
         </label>
         <label className={labelClass}>
-          Стадия проекта
-          <select
-            name="project_stage"
-            className={fieldClass}
-          >
-            <option value="">Выберите, если понятно</option>
-            {projectStageOptions.map((option) => (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label className={labelClass}>
-          Бюджетный диапазон
-          <select
-            name="budget_band"
-            className={fieldClass}
-          >
-            <option value="">Можно не указывать</option>
-            {budgetBandOptions.map((option) => (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            ))}
-          </select>
+          Должность
+          <input name="role" autoComplete="organization-title" className={fieldClass} />
         </label>
       </div>
 
@@ -229,7 +207,7 @@ export function ServiceLeadForm({
           name="message"
           minLength={10}
           rows={5}
-          placeholder="Опишите задачу: что хотите автоматизировать, какая CRM или система уже есть, где сейчас теряется время."
+          placeholder="Опишите задачу: что нужно собрать, связать, автоматизировать или улучшить."
           className={`${fieldClass} min-h-36 resize-y py-4`}
         />
       </label>
@@ -237,31 +215,14 @@ export function ServiceLeadForm({
       <button
         type="submit"
         disabled={state === "loading" || state === "success"}
-        className="mt-2 inline-flex min-h-14 w-full items-center justify-center rounded-[18px] bg-[#18181B] px-6 text-base font-bold text-white shadow-[0_14px_34px_rgba(24,24,27,0.18)] transition hover:bg-[#2B2B31] disabled:cursor-not-allowed disabled:opacity-60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#6D4AFF]"
+        className="mt-2 inline-flex min-h-14 w-full items-center justify-center rounded-[18px] bg-white px-6 text-base font-bold text-[#18181B] shadow-[0_16px_40px_rgba(255,255,255,0.08)] transition hover:bg-[#F6F3EE] disabled:cursor-not-allowed disabled:opacity-60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#6D4AFF]"
       >
-        {state === "loading" ? "Отправляем..." : "Отправить заявку"}
+        {state === "loading"
+          ? "Отправляем..."
+          : state === "success"
+            ? "Отправлено"
+            : "Отправить заявку"}
       </button>
-
-      <p className="text-sm leading-6 text-[#6B6B6B]">
-        Обязательны: email, сообщение (от 10 символов), предпочитаемый способ связи. Телефон и Telegram — по
-        необходимости (если выбран соответствующий способ — поле нужно заполнить).
-      </p>
-
-      {message ? (
-        <p
-          className={[
-            "rounded-[18px] px-4 py-3 text-sm font-semibold leading-6",
-            state === "success"
-              ? "border border-[#ABEFC6] bg-[#ECFDF3] text-[#027A48]"
-              : "border border-red-200 bg-red-50 text-red-700",
-          ].join(" ")}
-          role="status"
-          aria-live="polite"
-        >
-          {message}
-        </p>
-      ) : null}
     </form>
   );
 }
-

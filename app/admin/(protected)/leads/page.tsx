@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { FiArrowUpRight } from "react-icons/fi";
+import { AdminEmptyState, AdminPageHeader, AdminPanel, AdminStatusBadge } from "@/components/admin/admin-ui";
 import { getSupabaseAdminClient } from "@/lib/admin/supabase-admin";
 import type { ServiceLeadAdminRow } from "@/lib/leads/service-lead-admin-types";
 
@@ -13,80 +15,110 @@ function formatDate(iso: string) {
   }
 }
 
+type LeadListRow = Pick<
+  ServiceLeadAdminRow,
+  | "id"
+  | "created_at"
+  | "service_slug"
+  | "service_title"
+  | "name"
+  | "email"
+  | "telegram"
+  | "company"
+  | "service_interest"
+  | "status"
+>;
+
 export default async function AdminLeadsListPage() {
   const supabase = getSupabaseAdminClient();
   const { data, error } = await supabase
     .from("service_leads")
-    .select("id, created_at, service_slug, service_title, name, email, phone, telegram, company, status")
+    .select("id, created_at, service_slug, service_title, name, email, telegram, company, service_interest, status")
     .order("created_at", { ascending: false })
     .limit(200);
 
-  const rows = (error ? [] : data) as Pick<
-    ServiceLeadAdminRow,
-    "id" | "created_at" | "service_slug" | "service_title" | "name" | "email" | "phone" | "telegram" | "company" | "status"
-  >[];
+  const rows = (error ? [] : data) as LeadListRow[];
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-semibold tracking-tight text-white">Лиды</h1>
-        <p className="mt-1 max-w-2xl text-sm text-slate-400">
-          Заявки из форм. Колонка «предпочитаемая связь» появится после миграции{" "}
-          <span className="font-mono text-xs text-slate-500">service_leads_preferred_contact.sql</span>.
-        </p>
-      </div>
+    <div className="space-y-7">
+      <AdminPageHeader
+        eyebrow="CRM"
+        title="Заявки"
+        description="Все обращения из форм сайта. В списке показываем услугу, контакт, компанию и текущий статус."
+      />
+
       {error ? (
-        <p className="rounded-lg border border-rose-500/30 bg-rose-500/10 px-4 py-3 text-sm text-rose-200">
-          Ошибка загрузки: {error.message}
-        </p>
+        <AdminPanel className="p-5">
+          <p className="text-sm leading-6 text-[#b42318]">Ошибка загрузки заявок: {error.message}</p>
+        </AdminPanel>
       ) : null}
-      <div className="overflow-x-auto rounded-xl border border-slate-700/80 bg-slate-900/50 shadow-lg shadow-black/20">
-        <table className="w-full min-w-[720px] text-left text-sm">
-          <thead className="border-b border-slate-700/80 bg-slate-800/50 text-slate-400">
-            <tr>
-              <th className="px-3 py-3 font-medium">Дата</th>
-              <th className="px-3 py-3 font-medium">Услуга</th>
-              <th className="px-3 py-3 font-medium">Имя</th>
-              <th className="px-3 py-3 font-medium">Email</th>
-              <th className="px-3 py-3 font-medium">Статус</th>
-              <th className="px-3 py-3 font-medium" />
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-slate-800/80 text-slate-200">
-            {rows.map((r) => (
-              <tr key={r.id} className="transition hover:bg-slate-800/30">
-                <td className="whitespace-nowrap px-3 py-3 text-slate-400">{formatDate(r.created_at)}</td>
-                <td className="max-w-[200px] px-3 py-3">
-                  <div className="truncate font-medium text-white" title={r.service_title}>
-                    {r.service_title}
-                  </div>
-                  <div className="truncate font-mono text-xs text-slate-500" title={r.service_slug}>
-                    {r.service_slug}
-                  </div>
-                </td>
-                <td className="max-w-[140px] truncate px-3 py-3">{r.name ?? "—"}</td>
-                <td className="max-w-[200px] truncate px-3 py-3 font-mono text-xs text-slate-300">{r.email ?? "—"}</td>
-                <td className="px-3 py-3">
-                  <span className="rounded-md bg-slate-800 px-2 py-0.5 text-xs font-medium text-slate-300">
-                    {r.status}
-                  </span>
-                </td>
-                <td className="px-3 py-3 text-right">
-                  <Link
-                    href={`/admin/leads/${r.id}`}
-                    className="font-medium text-violet-400 underline-offset-2 hover:text-violet-300 hover:underline"
-                  >
-                    Открыть
-                  </Link>
-                </td>
+
+      <AdminPanel className="overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className="w-full min-w-[920px] text-left text-sm">
+            <thead className="border-b border-[#eee6dc] bg-[#fbfaf7] text-xs font-semibold uppercase tracking-[0.12em] text-[#77716a]">
+              <tr>
+                <th className="px-5 py-4">Дата</th>
+                <th className="px-5 py-4">Клиент</th>
+                <th className="px-5 py-4">Услуга</th>
+                <th className="px-5 py-4">Контакт</th>
+                <th className="px-5 py-4">Статус</th>
+                <th className="px-5 py-4" />
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody className="divide-y divide-[#eee6dc]">
+              {rows.map((row) => {
+                const contact = row.email || row.telegram || "не указан";
+                const client = row.name || row.company || "Без имени";
+                return (
+                  <tr key={row.id} className="transition hover:bg-[#fbfaf7]">
+                    <td className="whitespace-nowrap px-5 py-4 text-[#6b6b6b]">{formatDate(row.created_at)}</td>
+                    <td className="max-w-[220px] px-5 py-4">
+                      <p className="truncate font-semibold text-[#111111]" title={client}>
+                        {client}
+                      </p>
+                      {row.company ? (
+                        <p className="mt-1 truncate text-xs text-[#8a8177]" title={row.company}>
+                          {row.company}
+                        </p>
+                      ) : null}
+                    </td>
+                    <td className="max-w-[260px] px-5 py-4">
+                      <p className="truncate font-medium text-[#111111]" title={row.service_interest || row.service_title}>
+                        {row.service_interest || row.service_title}
+                      </p>
+                      <p className="mt-1 truncate font-mono text-xs text-[#8a8177]" title={row.service_slug}>
+                        {row.service_slug}
+                      </p>
+                    </td>
+                    <td className="max-w-[220px] truncate px-5 py-4 font-mono text-xs text-[#5f5f5f]" title={contact}>
+                      {contact}
+                    </td>
+                    <td className="px-5 py-4">
+                      <AdminStatusBadge status={row.status} />
+                    </td>
+                    <td className="px-5 py-4 text-right">
+                      <Link
+                        href={`/admin/leads/${row.id}`}
+                        className="inline-flex items-center gap-2 rounded-full border border-[#ded6ca] px-3 py-2 text-xs font-semibold text-[#111111] transition hover:border-[#6d4aff] hover:text-[#6d4aff]"
+                      >
+                        Открыть
+                        <FiArrowUpRight className="size-3.5" />
+                      </Link>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+
         {rows.length === 0 && !error ? (
-          <p className="p-6 text-sm text-slate-500">Пока нет заявок.</p>
+          <div className="p-5">
+            <AdminEmptyState title="Заявок пока нет" description="Новые обращения появятся здесь после отправки формы." />
+          </div>
         ) : null}
-      </div>
+      </AdminPanel>
     </div>
   );
 }

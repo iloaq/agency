@@ -1,18 +1,29 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import type { ReactNode } from "react";
+import type { IconType } from "react-icons";
+import {
+  FiCpu,
+  FiCreditCard,
+  FiFilm,
+  FiGitBranch,
+  FiGlobe,
+  FiLayers,
+  FiSearch,
+  FiSend,
+} from "react-icons/fi";
 import { ServiceLeadForm } from "@/components/services/service-lead-form";
 import { LogoText } from "@/components/site/logo";
 import { SITE_CONTACTS_FALLBACK } from "@/lib/site/site-contacts-model";
 import { siteUrl } from "@/lib/site-url";
-import { serviceList } from "@/lib/services/services-data";
+import { serviceList, type ServiceSlug } from "@/lib/services/services-data";
 
 export const metadata: Metadata = {
   title: {
     absolute: "Skybric — веб-разработка, автоматизация и digital-системы для бизнеса",
   },
   description:
-    "Разрабатываем сайты, веб-сервисы, Telegram-ботов, CRM-интеграции, AI-автоматизацию, SEO и fintech-решения для B2B-компаний в Казахстане и на международном рынке.",
+    "Разрабатываем сайты, веб-сервисы, Telegram-ботов, CRM-интеграции, AI-автоматизацию, SEO, digital-сопровождение и fintech-решения для B2B-компаний.",
   alternates: {
     canonical: "/",
   },
@@ -42,12 +53,23 @@ const processSteps = [
 ] as const;
 
 const teamRoles = [
-  ["Стратегия", "архитектура продукта"],
-  ["Дизайн", "UX/UI и прототипы"],
-  ["Разработка", "frontend и backend"],
-  ["Интеграции", "CRM, API, Telegram"],
-  ["Маркетинг", "SEO и контент"],
+  ["Архитектура", "собираем логику проекта до дизайна и кода"],
+  ["Интерфейсы", "проектируем понятные сценарии для клиента и команды"],
+  ["Разработка", "закрываем frontend, backend и интеграции"],
+  ["Запуск", "проверяем формы, данные, аналитику и маршруты заявок"],
+  ["Развитие", "улучшаем продукт после первых реальных сценариев"],
 ] as const;
+
+const serviceIcons: Record<ServiceSlug, IconType> = {
+  websites: FiGlobe,
+  "web-app-development": FiLayers,
+  "telegram-bots": FiSend,
+  "crm-integrations": FiGitBranch,
+  "ai-automation": FiCpu,
+  seo: FiSearch,
+  "fintech-development": FiCreditCard,
+  "digital-support": FiFilm,
+};
 
 function JsonLd() {
   const organizationJsonLd = {
@@ -62,6 +84,7 @@ function JsonLd() {
       "CRM integrations",
       "Telegram bots",
       "SEO",
+      "digital marketing",
       "AI automation",
       "fintech development",
     ],
@@ -117,10 +140,10 @@ function SectionLabel({ children }: { children: ReactNode }) {
   );
 }
 
-function ServiceIcon() {
+function ServiceIcon({ icon: Icon }: { icon: IconType }) {
   return (
-    <div className="grid h-11 w-11 place-items-center rounded-full border border-[#E6E0D8] bg-[#F6F3EE] text-lg font-semibold text-[#6D4AFF]">
-      +
+    <div className="grid h-11 w-11 place-items-center rounded-full border border-[#E6E0D8] bg-[#F6F3EE] text-[#6D4AFF]">
+      <Icon aria-hidden className="h-5 w-5" />
     </div>
   );
 }
@@ -179,8 +202,7 @@ export default function Home() {
 
       <section className="px-5 pb-14 pt-10 sm:px-8 lg:px-10 lg:pb-20 lg:pt-14">
         <div className="w-full min-w-0">
-          <SectionLabel>Технологический партнёр</SectionLabel>
-          <h1 className="mt-7 text-[clamp(2.55rem,6.4vw,7rem)] font-semibold leading-[0.94] tracking-normal">
+          <h1 className="text-[clamp(2.55rem,6.4vw,7rem)] font-semibold leading-[0.94] tracking-normal">
             Цифровые системы, которые <span className="text-[#6D4AFF]">масштабируют</span> ваш бизнес
           </h1>
 
@@ -225,18 +247,23 @@ export default function Home() {
 
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {serviceList.map((service) => (
+              (() => {
+                const Icon = serviceIcons[service.slug];
+                return (
               <Link
                 key={service.slug}
                 href={service.path}
                 className="group flex min-h-[220px] flex-col rounded-[24px] border border-[#E6E0D8] bg-white p-5 shadow-[0_12px_34px_rgba(72,57,41,0.045)] transition hover:-translate-y-0.5 hover:border-[#6D4AFF]/30 hover:shadow-[0_18px_52px_rgba(72,57,41,0.08)] motion-reduce:transition-none motion-reduce:hover:translate-y-0"
               >
-                <ServiceIcon />
+                <ServiceIcon icon={Icon} />
                 <h3 className="mt-6 text-lg font-semibold leading-6">{service.title}</h3>
-                <p className="mt-3 flex-1 text-sm leading-6 text-[#6B6B6B]">
-                  {service.valuePoints[0]}
+                <p className="mt-3 flex-1 text-sm leading-6 text-[#6B6B6B] line-clamp-3">
+                  {service.shortDescription}
                 </p>
                 <ArrowBadge />
               </Link>
+                );
+              })()
             ))}
           </div>
         </div>
@@ -280,7 +307,7 @@ export default function Home() {
           <div className="grid gap-4 md:grid-cols-3">
             {resultItems.map((item) => (
               <article key={item.title} className="rounded-[24px] border border-[#E6E0D8] bg-[#F6F3EE] p-5">
-                <ServiceIcon />
+                <ServiceIcon icon={FiGitBranch} />
                 <h3 className="mt-6 text-3xl font-semibold text-[#121212]">{item.title}</h3>
                 <p className="mt-3 text-sm leading-6 text-[#6B6B6B]">{item.text}</p>
               </article>
@@ -322,26 +349,23 @@ export default function Home() {
             <div>
               <SectionLabel>Команда</SectionLabel>
               <h2 className="mt-5 max-w-2xl text-[clamp(2.05rem,3.4vw,3.6rem)] font-semibold leading-[1.05]">
-                Эксперты, которые думают как партнёры
+                Компактная команда без лишней передачи между отделами
               </h2>
             </div>
             <p className="text-base leading-7 text-[#6B6B6B]">
-              Стратегия, дизайн, разработка, интеграции и SEO работают вместе, чтобы
-              решение не распалось на отдельные куски.
+              Вместо витрины с фотографиями показываем контур работы: кто отвечает за
+              архитектуру, интерфейс, код, запуск и развитие продукта.
             </p>
           </div>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
             {teamRoles.map(([title, text]) => (
               <article key={title} className="rounded-[24px] border border-[#E6E0D8] bg-white p-5">
-                <p className="text-sm font-semibold uppercase tracking-[0.12em] text-[#6D4AFF]">
-                  роль
-                </p>
-                <div className="mt-12 flex items-end justify-between gap-4 border-t border-[#E6E0D8] pt-5">
+                <div className="flex min-h-[150px] flex-col justify-between gap-8">
+                  <FiLayers aria-hidden className="h-6 w-6 text-[#6D4AFF]" />
                   <div>
                     <h3 className="text-lg font-semibold">{title}</h3>
                     <p className="mt-1 text-sm text-[#6B6B6B]">{text}</p>
                   </div>
-                  <ArrowBadge />
                 </div>
               </article>
             ))}
@@ -361,20 +385,10 @@ export default function Home() {
             </p>
             <div className="mt-10 grid gap-6 text-white/72">
               <div>
-                <p className="font-semibold text-white">Contact Us</p>
+                <p className="font-semibold text-white">Контакт</p>
                 <a href={`mailto:${SITE_CONTACTS_FALLBACK.email}`} className="mt-3 block hover:text-white">
                   {SITE_CONTACTS_FALLBACK.email}
                 </a>
-                <a href={SITE_CONTACTS_FALLBACK.phoneHref} className="mt-2 block hover:text-white">
-                  {SITE_CONTACTS_FALLBACK.phoneDisplay}
-                </a>
-              </div>
-              <div>
-                <p className="font-semibold text-white">Channels</p>
-                <div className="mt-3 flex flex-wrap gap-3">
-                  <span>Telegram</span>
-                  <span>WhatsApp</span>
-                </div>
               </div>
             </div>
             <div className="mt-16 w-fit">

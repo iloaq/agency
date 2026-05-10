@@ -3,11 +3,7 @@
 import Close from "@mui/icons-material/Close";
 import Link from "next/link";
 import type { RefObject } from "react";
-import CenterUnderline from "@/components/fancy/text/underline-center";
-import ComesInGoesOutUnderline from "@/components/fancy/text/underline-comes-in-goes-out";
-import GoesOutComesInUnderline from "@/components/fancy/text/underline-goes-out-comes-in";
 import { Button } from "@/components/ui/button";
-import { siteGutterX } from "@/lib/site-gutters";
 import { SiteLogoLink } from "@/components/site/site-logo-link";
 import { buildOverlayColumns, overlayPrimary } from "@/components/site/site-header-nav-data";
 import type { SiteContacts } from "@/lib/site/site-contacts-model";
@@ -26,100 +22,76 @@ export default function SiteHeaderMenuOverlay({
   contacts,
 }: SiteHeaderMenuOverlayProps) {
   const overlayColumns = buildOverlayColumns(contacts);
+
   return (
     <div
       id={panelId}
       role="dialog"
       aria-modal="true"
       aria-label="Меню сайта"
-      className="fixed inset-0 z-[60] flex flex-col bg-white-primary text-fonts-black"
+      className="fixed inset-0 z-[60] bg-[#121212]/28 p-3 text-[#121212] backdrop-blur-sm sm:p-4"
     >
-      <div
-        className={`flex h-16 shrink-0 items-center justify-between border-b border-black/10 ${siteGutterX}`}
-      >
-        <SiteLogoLink />
-        <Button
-          ref={closeRef}
-          type="button"
-          size="medium"
-          variant="secondary"
-          mode="icon"
-          icon={<Close sx={{ fontSize: 24 }} aria-hidden />}
-          aria-label="Закрыть меню"
-          onClick={onClose}
-        />
-      </div>
+      <div className="flex h-full min-h-0 flex-col overflow-hidden rounded-[28px] border border-[#E6E0D8] bg-[#F6F3EE] shadow-[0_24px_80px_rgba(18,18,18,0.2)]">
+        <div className="flex h-16 shrink-0 items-center justify-between border-b border-[#E6E0D8] px-5 sm:px-8">
+          <SiteLogoLink />
+          <Button
+            ref={closeRef}
+            type="button"
+            size="medium"
+            variant="secondary"
+            mode="icon"
+            icon={<Close sx={{ fontSize: 24 }} aria-hidden />}
+            aria-label="Закрыть меню"
+            onClick={onClose}
+          />
+        </div>
 
-      <div
-        className={`min-h-0 flex-1 overflow-y-auto overscroll-contain py-space-lg ${siteGutterX}`}
-      >
-        <div className="grid w-full gap-space-lg lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:gap-space-xl2">
-          <div>
-            <nav aria-label="Разделы">
-              <ul className="flex flex-col gap-2">
-                {overlayPrimary.map((item, idx) => (
+        <div className="min-h-0 flex-1 overflow-y-auto px-5 py-8 sm:px-8 lg:px-10 lg:py-12">
+          <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+            <nav aria-label="Основные разделы">
+              <ul className="grid gap-3">
+                {overlayPrimary.map((item) => (
                   <li key={item.href}>
                     <Link
                       href={item.href}
-                      className="block py-1 text-4xl font-bold uppercase tracking-wide text-fonts-grey transition-colors hover:text-fonts-black sm:text-5xl lg:text-6xl"
+                      className="group flex items-center justify-between gap-5 border-b border-[#E6E0D8] py-4 text-[clamp(2.4rem,7vw,5.8rem)] font-semibold uppercase leading-[0.95] tracking-normal text-[#121212] transition hover:text-[#6D4AFF]"
                       onClick={onClose}
                     >
-                      <ComesInGoesOutUnderline
-                        direction={idx % 2 === 0 ? "left" : "right"}
-                        underlineHeightRatio={0.08}
-                        underlinePaddingRatio={0.02}
+                      <span>{item.label}</span>
+                      <span
+                        aria-hidden
+                        className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-[#DCD3C8] bg-white text-2xl transition group-hover:border-[#6D4AFF] group-hover:bg-[#6D4AFF] group-hover:text-white"
                       >
-                        {item.label}
-                      </ComesInGoesOutUnderline>
+                        ↗
+                      </span>
                     </Link>
                   </li>
                 ))}
               </ul>
             </nav>
 
-            <div className="mt-space-lg flex flex-col gap-space-base border-t border-black/10 pt-space-lg">
-              <div className="flex flex-wrap gap-x-space-lg gap-y-2 text-sm">
-                <a
-                  href={contacts.phoneHref}
-                  className="inline-flex text-fonts-black transition-colors hover:text-accent-violet"
-                >
-                  <GoesOutComesInUnderline direction="left">
-                    {contacts.phoneDisplay}
-                  </GoesOutComesInUnderline>
-                </a>
-                <a
-                  href={`mailto:${contacts.email}`}
-                  className="inline-flex text-fonts-black transition-colors hover:text-accent-violet"
-                >
-                  <GoesOutComesInUnderline direction="right">
-                    {contacts.email}
-                  </GoesOutComesInUnderline>
-                </a>
-              </div>
+            <div className="grid gap-8 md:grid-cols-3 lg:pt-2">
+              {overlayColumns.map((col) => (
+                <div key={col.title}>
+                  <p className="mb-4 text-xs font-semibold uppercase tracking-[0.12em] text-[#6B6B6B]">
+                    {col.title}
+                  </p>
+                  <ul className="grid gap-3">
+                    {col.links.map((link) => (
+                      <li key={link.label}>
+                        <Link
+                          href={link.href}
+                          className="inline-flex text-base font-medium leading-6 text-[#4B4B4B] transition hover:text-[#6D4AFF]"
+                          onClick={onClose}
+                        >
+                          {link.label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
             </div>
-          </div>
-
-          <div className="grid gap-space-lg sm:grid-cols-2">
-            {overlayColumns.map((col) => (
-              <div key={col.title}>
-                <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-fonts-grey">
-                  {col.title}
-                </p>
-                <ul className="space-y-2">
-                  {col.links.map((l) => (
-                    <li key={l.label}>
-                      <Link
-                        href={l.href}
-                        className="inline-flex text-sm text-fonts-grey transition-colors hover:text-fonts-black"
-                        onClick={onClose}
-                      >
-                        <CenterUnderline>{l.label}</CenterUnderline>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
           </div>
         </div>
       </div>

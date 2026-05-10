@@ -76,20 +76,23 @@ export function validateServiceLead(lead: ServiceLeadPayload) {
     return "Не удалось отправить заявку. Проверьте данные или попробуйте позже.";
   }
 
-  if (!lead.email || !isEmail(lead.email)) {
+  const pref = lead.preferred_contact?.toLowerCase();
+  if (lead.email && !isEmail(lead.email)) {
     return "Укажите email в формате name@example.com — на него можно отправить ответ.";
   }
-
-  const pref = lead.preferred_contact?.toLowerCase();
-  if (pref === "phone" && !lead.phone?.trim()) {
-    return "Выбран способ «Телефон» — укажите номер телефона.";
+  if (pref === "email" && (!lead.email || !isEmail(lead.email))) {
+    return "Выбран способ «Email» — укажите email в формате name@example.com.";
   }
   if (pref === "telegram" && !lead.telegram?.trim()) {
     return "Выбран способ «Telegram» — укажите ник или ссылку.";
   }
 
-  if (pref && !["phone", "telegram", "email"].includes(pref)) {
+  if (pref && !["telegram", "email"].includes(pref)) {
     return "Выберите предпочитаемый способ связи из списка.";
+  }
+
+  if (!pref && !lead.email && !lead.telegram) {
+    return "Укажите email или Telegram, чтобы мы могли связаться.";
   }
 
   if (!lead.message || lead.message.length < 10) {

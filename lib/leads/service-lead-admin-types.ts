@@ -1,4 +1,4 @@
-/** Строка `service_leads` для админки (чтение через service role). */
+/** Row from `service_leads` for the admin area. Read server-side through the service role helper. */
 export type ServiceLeadAdminRow = {
   id: string;
   created_at: string;
@@ -12,7 +12,7 @@ export type ServiceLeadAdminRow = {
   service_interest: string | null;
   project_stage: string | null;
   budget_band: string | null;
-  /** После миграции `service_leads_preferred_contact.sql` приходит из БД. */
+  /** Available after the `service_leads_preferred_contact.sql` migration. */
   preferred_contact?: string | null;
   message: string;
   source_page: string | null;

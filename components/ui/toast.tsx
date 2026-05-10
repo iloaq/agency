@@ -74,7 +74,7 @@ function CheckIcon({ className }: { className?: string }) {
 
 const shells: Record<ToastVariant, string> = {
   neutral: "text-fonts-black shadow-lg",
-  success: "bg-charts-green-data text-white shadow-lg",
+  success: "bg-charts-green-data text-fonts-black shadow-lg",
 };
 
 const shapes: Record<ToastShape, string> = {

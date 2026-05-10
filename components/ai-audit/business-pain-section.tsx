@@ -76,9 +76,6 @@ function PainCard({ pain }: { pain: (typeof businessPains)[number] }) {
         <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#F1EAFF] text-sm font-bold text-[#6D4AFF] ring-1 ring-[#D8CCFF]">
           {pain.number}
         </span>
-        <span className="shrink-0 rounded-full border border-[#E6E0D8] bg-[#F6F3EE] px-3 py-1.5 text-right text-xs font-semibold uppercase tracking-[0.08em] text-[#6B6B6B]">
-          {pain.tag}
-        </span>
       </div>
 
       <h3 className="text-[1.38rem] font-semibold leading-[1.18] tracking-normal text-[#121212] sm:text-2xl">

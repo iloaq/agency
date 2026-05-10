@@ -2,55 +2,99 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { FiBriefcase, FiGrid, FiInbox, FiLayers, FiLogOut, FiSettings } from "react-icons/fi";
+import type { IconType } from "react-icons";
 
-const nav = [
-  { href: "/admin", label: "Обзор", icon: "◆" },
-  { href: "/admin/leads", label: "Лиды", icon: "◇" },
-  { href: "/admin/cases", label: "Кейсы", icon: "▣" },
-  { href: "/admin/services", label: "Услуги", icon: "▤" },
-  { href: "/admin/site-settings", label: "Настройки", icon: "⚙" },
-] as const;
+type AdminNavItem = {
+  href: string;
+  label: string;
+  helper: string;
+  icon: IconType;
+};
+
+const nav: AdminNavItem[] = [
+  { href: "/admin", label: "Дашборд", helper: "обзор", icon: FiGrid },
+  { href: "/admin/leads", label: "Заявки", helper: "лиды", icon: FiInbox },
+  { href: "/admin/services", label: "Услуги", helper: "контент", icon: FiLayers },
+  { href: "/admin/cases", label: "Проекты", helper: "разборы", icon: FiBriefcase },
+  { href: "/admin/site-settings", label: "Настройки", helper: "сайт", icon: FiSettings },
+];
+
+function isActive(pathname: string, href: string) {
+  return href === "/admin" ? pathname === "/admin" || pathname === "/admin/" : pathname === href || pathname.startsWith(`${href}/`);
+}
 
 export function AdminSidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="flex w-56 shrink-0 flex-col border-r border-slate-800/90 bg-slate-950">
-      <div className="border-b border-slate-800/90 px-4 py-5">
-        <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-500">Панель</p>
-        <p className="mt-1 text-lg font-semibold tracking-tight text-white">Skybric</p>
+    <aside className="border-b border-[#ded6ca] bg-[#111111] text-white lg:sticky lg:top-0 lg:h-screen lg:w-[286px] lg:border-b-0 lg:border-r lg:border-[#2a2a2d]">
+      <div className="flex items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:block lg:px-5 lg:py-6">
+        <Link href="/admin" className="block">
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-white/45">Admin</p>
+          <p className="mt-1 text-xl font-semibold tracking-tight">Skybric</p>
+        </Link>
+        <div className="flex items-center gap-2 lg:mt-5">
+          <Link
+            href="/"
+            className="rounded-full border border-white/12 px-3 py-2 text-xs font-semibold text-white/72 transition hover:border-white/28 hover:text-white"
+          >
+            На сайт
+          </Link>
+          <form action="/admin/logout" method="post" className="lg:hidden">
+            <button
+              type="submit"
+              className="rounded-full border border-white/12 px-3 py-2 text-xs font-semibold text-white/54 transition hover:border-white/28 hover:text-white"
+            >
+              Выйти
+            </button>
+          </form>
+        </div>
       </div>
-      <nav className="flex flex-1 flex-col gap-0.5 p-2">
+
+      <nav className="flex gap-2 overflow-x-auto px-4 pb-4 sm:px-6 lg:flex-col lg:overflow-visible lg:px-3 lg:pb-0">
         {nav.map((item) => {
-          const active =
-            item.href === "/admin"
-              ? pathname === "/admin" || pathname === "/admin/"
-              : pathname === item.href || pathname.startsWith(`${item.href}/`);
+          const Icon = item.icon;
+          const active = isActive(pathname, item.href);
+
           return (
             <Link
               key={item.href}
               href={item.href}
               className={[
-                "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition",
+                "flex min-w-fit items-center gap-3 rounded-2xl px-3 py-3 text-sm font-medium transition lg:min-w-0",
                 active
-                  ? "bg-violet-600/15 text-violet-200 ring-1 ring-violet-500/30"
-                  : "text-slate-400 hover:bg-slate-800/60 hover:text-slate-200",
+                  ? "bg-white text-[#111111] shadow-[0_14px_38px_rgba(0,0,0,0.26)]"
+                  : "text-white/62 hover:bg-white/8 hover:text-white",
               ].join(" ")}
             >
-              <span className="w-5 text-center text-xs opacity-80" aria-hidden>
-                {item.icon}
+              <span
+                className={[
+                  "flex size-9 shrink-0 items-center justify-center rounded-full",
+                  active ? "bg-[#f1ede6] text-[#6d4aff]" : "bg-white/8 text-white/62",
+                ].join(" ")}
+                aria-hidden
+              >
+                <Icon className="size-4" />
               </span>
-              {item.label}
+              <span className="grid leading-tight">
+                <span>{item.label}</span>
+                <span className={active ? "text-xs text-[#6b6b6b]" : "text-xs text-white/35"}>{item.helper}</span>
+              </span>
             </Link>
           );
         })}
       </nav>
-      <div className="border-t border-slate-800/90 p-2">
+
+      <div className="hidden px-5 lg:absolute lg:bottom-5 lg:left-0 lg:right-0 lg:block">
         <form action="/admin/logout" method="post">
           <button
             type="submit"
-            className="w-full rounded-lg px-3 py-2.5 text-left text-sm font-medium text-slate-500 transition hover:bg-slate-800/80 hover:text-slate-300"
+            className="flex w-full items-center gap-3 rounded-2xl px-3 py-3 text-sm font-medium text-white/48 transition hover:bg-white/8 hover:text-white"
           >
+            <span className="flex size-9 items-center justify-center rounded-full bg-white/8" aria-hidden>
+              <FiLogOut className="size-4" />
+            </span>
             Выйти
           </button>
         </form>

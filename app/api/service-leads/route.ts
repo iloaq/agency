@@ -136,7 +136,8 @@ export async function POST(request: Request) {
   }
 
   const stripPreferred = (p: LeadInsertPayload) => {
-    const { preferred_contact: _pc, ...rest } = p;
+    const rest = { ...p };
+    delete rest.preferred_contact;
     return rest;
   };
 

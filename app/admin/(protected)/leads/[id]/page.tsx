@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { FiArrowLeft } from "react-icons/fi";
+import { AdminPageHeader, AdminPanel, AdminStatusBadge } from "@/components/admin/admin-ui";
 import { getSupabaseAdminClient } from "@/lib/admin/supabase-admin";
 import type { ServiceLeadAdminRow } from "@/lib/leads/service-lead-admin-types";
 
@@ -19,11 +21,12 @@ function formatDate(iso: string) {
 }
 
 function Field({ label, value }: { label: string; value: string | null | undefined }) {
-  const v = value?.trim();
+  const normalized = value?.trim();
+
   return (
-    <div className="grid gap-1 border-b border-slate-800 py-3 last:border-0">
-      <dt className="text-xs font-medium uppercase tracking-wide text-slate-500">{label}</dt>
-      <dd className="min-w-0 break-words text-sm text-slate-200">{v ? v : "—"}</dd>
+    <div className="rounded-[18px] border border-[#eee6dc] bg-[#fbfaf7] p-4">
+      <dt className="text-xs font-semibold uppercase tracking-[0.12em] text-[#77716a]">{label}</dt>
+      <dd className="mt-2 min-w-0 break-words text-sm leading-6 text-[#111111]">{normalized || "—"}</dd>
     </div>
   );
 }
@@ -37,36 +40,61 @@ export default async function AdminLeadDetailPage({ params }: Props) {
   if (error || !data) notFound();
 
   const row = data as ServiceLeadAdminRow;
+  const clientTitle = row.name || row.company || "Заявка";
 
   return (
-    <div className="space-y-6">
-      <nav className="text-sm text-slate-500">
-        <Link href="/admin/leads" className="text-violet-400 hover:text-violet-300 hover:underline">
-          Лиды
-        </Link>
-        <span className="mx-2 text-slate-600">/</span>
-        <span className="font-mono text-xs text-slate-400">{row.id.slice(0, 8)}…</span>
-      </nav>
-      <div>
-        <h1 className="text-2xl font-semibold tracking-tight text-white">Заявка</h1>
-        <p className="mt-1 text-sm text-slate-400">{formatDate(row.created_at)}</p>
+    <div className="space-y-7">
+      <Link
+        href="/admin/leads"
+        className="inline-flex items-center gap-2 text-sm font-semibold text-[#6d4aff] hover:text-[#4d32ce]"
+      >
+        <FiArrowLeft className="size-4" />
+        К списку заявок
+      </Link>
+
+      <AdminPageHeader
+        eyebrow="Заявка"
+        title={clientTitle}
+        description={`Создана ${formatDate(row.created_at)}. ID: ${row.id}`}
+        action={<AdminStatusBadge status={row.status} />}
+      />
+
+      <div className="grid gap-6 xl:grid-cols-[0.9fr_1.1fr]">
+        <AdminPanel className="p-5">
+          <h2 className="text-lg font-semibold tracking-tight">Контакт и контекст</h2>
+          <dl className="mt-5 grid gap-3">
+            <Field label="Имя" value={row.name} />
+            <Field label="Компания" value={row.company} />
+            <Field label="Email" value={row.email} />
+            <Field label="Telegram" value={row.telegram} />
+            <Field label="Предпочитаемый способ связи" value={row.preferred_contact} />
+            {row.phone ? <Field label="Телефон из старой заявки" value={row.phone} /> : null}
+          </dl>
+        </AdminPanel>
+
+        <AdminPanel className="p-5">
+          <h2 className="text-lg font-semibold tracking-tight">Задача</h2>
+          <dl className="mt-5 grid gap-3 sm:grid-cols-2">
+            <Field label="Услуга" value={row.service_title} />
+            <Field label="Slug" value={row.service_slug} />
+            <Field label="Интерес к услуге" value={row.service_interest} />
+            <Field label="Стадия проекта" value={row.project_stage} />
+            <Field label="Бюджетный диапазон" value={row.budget_band} />
+            <Field label="Страница-источник" value={row.source_page} />
+          </dl>
+        </AdminPanel>
       </div>
 
-      <div className="rounded-xl border border-slate-700/80 bg-slate-900/50 px-4 sm:px-6">
-        <dl>
-          <Field label="Статус" value={row.status} />
-          <Field label="Услуга (slug)" value={row.service_slug} />
-          <Field label="Услуга (название)" value={row.service_title} />
-          <Field label="Имя" value={row.name} />
-          <Field label="Email" value={row.email} />
-          <Field label="Телефон" value={row.phone} />
-          <Field label="Telegram" value={row.telegram} />
-          <Field label="Предпочитаемая связь" value={row.preferred_contact} />
-          <Field label="Компания" value={row.company} />
-          <Field label="Интерес к услуге" value={row.service_interest} />
-          <Field label="Стадия проекта" value={row.project_stage} />
-          <Field label="Бюджет" value={row.budget_band} />
-          <Field label="Страница источника" value={row.source_page} />
+      <AdminPanel className="p-5">
+        <h2 className="text-lg font-semibold tracking-tight">Сообщение</h2>
+        <pre className="mt-4 max-h-[520px] overflow-auto whitespace-pre-wrap break-words rounded-[22px] bg-[#18181b] p-5 font-sans text-sm leading-7 text-white/86">
+          {row.message}
+        </pre>
+      </AdminPanel>
+
+      <AdminPanel className="p-5">
+        <h2 className="text-lg font-semibold tracking-tight">UTM и аналитика</h2>
+        <dl className="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
           <Field label="utm_source" value={row.utm_source} />
           <Field label="utm_medium" value={row.utm_medium} />
           <Field label="utm_campaign" value={row.utm_campaign} />
@@ -74,14 +102,7 @@ export default async function AdminLeadDetailPage({ params }: Props) {
           <Field label="utm_term" value={row.utm_term} />
           <Field label="client_id" value={row.client_id} />
         </dl>
-      </div>
-
-      <div className="rounded-xl border border-slate-700/80 bg-slate-900/50 p-4 sm:p-6">
-        <h2 className="mb-3 text-xs font-semibold uppercase tracking-wide text-slate-500">Сообщение</h2>
-        <pre className="max-h-[480px] overflow-auto whitespace-pre-wrap break-words font-sans text-sm leading-relaxed text-slate-200">
-          {row.message}
-        </pre>
-      </div>
+      </AdminPanel>
     </div>
   );
 }

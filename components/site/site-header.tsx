@@ -11,17 +11,13 @@ import type { SiteContacts } from "@/lib/site/site-contacts-model";
 import { SITE_CONTACTS_FALLBACK } from "@/lib/site/site-contacts-model";
 import { siteGutterX } from "@/lib/site-gutters";
 
-/* Тяжёлое меню (MUI + GSAP) — только после открытия. https://nextjs.org/docs/app/building-your-application/optimizing/lazy-loading */
-
 const SiteHeaderMenuOverlay = dynamic(
   () => import("@/components/site/site-header-menu-overlay"),
   { ssr: false },
 );
 
-const linkBarClass =
-  "text-body-2-semibold text-fonts-black transition-colors hover:text-accent-violet focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent-violet";
-
-const navLinkUnderline = `${linkBarClass} relative inline-flex pb-1 after:pointer-events-none after:absolute after:inset-x-0 after:bottom-0 after:h-px after:origin-center after:scale-x-0 after:bg-current after:opacity-90 after:transition-transform after:duration-200 motion-reduce:after:transition-none hover:after:scale-x-100`;
+const navLinkClass =
+  "relative inline-flex pb-1 text-base font-semibold text-[#121212] transition-colors hover:text-[#6D4AFF] after:pointer-events-none after:absolute after:inset-x-0 after:bottom-0 after:h-px after:origin-center after:scale-x-0 after:bg-current after:transition-transform hover:after:scale-x-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#6D4AFF]";
 
 export function SiteHeader({ contacts = SITE_CONTACTS_FALLBACK }: { contacts?: SiteContacts }) {
   const [open, setOpen] = useState(false);
@@ -32,17 +28,15 @@ export function SiteHeader({ contacts = SITE_CONTACTS_FALLBACK }: { contacts?: S
 
   useEffect(() => {
     if (!open) return;
-    document.body.dataset.agencyMenu = "open";
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     closeRef.current?.focus();
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") close();
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") close();
     };
     window.addEventListener("keydown", onKey);
     return () => {
       document.body.style.overflow = prev;
-      delete document.body.dataset.agencyMenu;
       window.removeEventListener("keydown", onKey);
     };
   }, [open, close]);
@@ -58,7 +52,7 @@ export function SiteHeader({ contacts = SITE_CONTACTS_FALLBACK }: { contacts?: S
             aria-label="Основная навигация"
           >
             {mainNav.map((item) => (
-              <Link key={item.href} href={item.href} className={navLinkUnderline}>
+              <Link key={item.href} href={item.href} className={navLinkClass}>
                 {item.label}
               </Link>
             ))}

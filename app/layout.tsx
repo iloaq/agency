@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     template: "%s | Skybric",
   },
   description:
-    "Разрабатываем сайты, веб-сервисы, Telegram-ботов, CRM-интеграции, AI-автоматизацию, SEO и fintech-решения для B2B-компаний в Казахстане и на международном рынке.",
+    "Разрабатываем сайты, веб-сервисы, Telegram-ботов, CRM-интеграции, AI-автоматизацию, SEO, digital-сопровождение и fintech-решения для B2B-компаний.",
   alternates: {
     canonical: "/",
   },
@@ -40,13 +40,13 @@ export const metadata: Metadata = {
     siteName: "Skybric",
     title: "Skybric — веб-разработка, автоматизация и digital-системы для бизнеса",
     description:
-      "Сайты, веб-сервисы, Telegram-боты, CRM-интеграции, AI-автоматизация, SEO и fintech-разработка для B2B.",
+      "Сайты, веб-сервисы, Telegram-боты, CRM-интеграции, AI-автоматизация, SEO, digital-сопровождение и fintech-разработка для B2B.",
   },
   twitter: {
     card: "summary_large_image",
     title: "Skybric — веб-разработка, автоматизация и digital-системы для бизнеса",
     description:
-      "Технологический B2B-партнёр для сайтов, веб-сервисов, Telegram, CRM, SEO, AI-automation и fintech.",
+      "Технологический B2B-партнёр для сайтов, веб-сервисов, Telegram, CRM, SEO, digital-сопровождения, AI-automation и fintech.",
   },
   // Source: https://nextjs.org/docs/app/api-reference/functions/generate-metadata#applewebapp
   appleWebApp: {

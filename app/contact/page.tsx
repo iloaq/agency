@@ -41,14 +41,6 @@ export default async function ContactPage() {
                     {contacts.email}
                   </a>
                 </div>
-                <div className="border-t border-[#E6E0D8] pt-5">
-                  <p className="text-sm font-semibold uppercase tracking-[0.08em] text-[#6B6B6B]">
-                    Телефон
-                  </p>
-                  <a href={contacts.phoneHref} className="mt-2 inline-flex text-2xl font-semibold">
-                    {contacts.phoneDisplay}
-                  </a>
-                </div>
               </div>
             </div>
 

@@ -4,11 +4,11 @@ export function AdminDeleteTrigger({ formId, label = "Удалить" }: { formI
   return (
     <button
       type="button"
-      className="rounded-full border border-[var(--fonts-error)] px-4 py-2 text-sm font-medium text-[var(--fonts-error)] transition hover:bg-[var(--bg-quaternary)]"
+      className="rounded-full border border-[#f0aaa3] px-5 py-3 text-sm font-semibold text-[#b42318] transition hover:border-[#b42318] hover:bg-[#fff4f2] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#b42318]"
       onClick={() => {
-        if (confirm("Удалить запись? Необратимо.")) {
-          const el = document.getElementById(formId) as HTMLFormElement | null;
-          el?.requestSubmit();
+        if (confirm("Удалить запись? Это действие нельзя отменить.")) {
+          const form = document.getElementById(formId) as HTMLFormElement | null;
+          form?.requestSubmit();
         }
       }}
     >

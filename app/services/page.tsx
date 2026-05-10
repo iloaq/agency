@@ -1,26 +1,17 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import type { ReactNode } from "react";
 import { resolveServiceList } from "@/lib/services/resolve-services";
 
 export const metadata: Metadata = {
   title: {
-    absolute: "Услуги Skybric — сайты, Telegram-боты, CRM, SEO и fintech-разработка",
+    absolute: "Услуги Skybric — сайты, Telegram-боты, CRM, SEO, digital и fintech-разработка",
   },
   description:
-    "Технологические услуги для бизнеса: сайты, веб-сервисы, Telegram-боты, CRM-интеграции, AI-автоматизация, SEO и fintech-разработка.",
+    "Технологические и digital-услуги для бизнеса: сайты, веб-сервисы, Telegram-боты, CRM-интеграции, AI-автоматизация, SEO, digital-сопровождение и fintech-разработка.",
   alternates: {
     canonical: "/services",
   },
 };
-
-function SectionLabel({ children }: { children: ReactNode }) {
-  return (
-    <span className="inline-flex w-fit text-sm font-semibold uppercase tracking-[0.12em] text-[#6D4AFF]">
-      {children}
-    </span>
-  );
-}
 
 export default async function ServicesPage() {
   const serviceList = await resolveServiceList();
@@ -28,13 +19,12 @@ export default async function ServicesPage() {
     <main className="isolate min-h-screen overflow-hidden bg-[#F6F3EE] pb-24 pt-10 text-[#121212] lg:pb-32 lg:pt-14">
       <section className="px-5 sm:px-8 lg:px-10">
         <div className="w-full min-w-0">
-          <SectionLabel>Услуги Skybric</SectionLabel>
-          <h1 className="mt-7 text-[clamp(2.55rem,6.4vw,7rem)] font-semibold leading-[0.94] tracking-normal">
+          <h1 className="text-[clamp(2.55rem,6.4vw,7rem)] font-semibold leading-[0.94] tracking-normal">
             Услуги для продаж, операционки и цифровых продуктов
           </h1>
           <div className="mt-8 max-w-3xl">
             <p className="text-base leading-7 text-[#4B4B4B] sm:text-lg sm:leading-8">
-              Сайты, веб-сервисы, Telegram-боты, CRM, SEO, AI-автоматизация и fintech-разработка.
+              Сайты, веб-сервисы, Telegram-боты, CRM, SEO, AI-автоматизация, digital-сопровождение и fintech-разработка.
               Каждое направление закрывает конкретный участок: привлечь заявку, связать
               системы, убрать ручной труд или сделать продукт понятнее.
             </p>

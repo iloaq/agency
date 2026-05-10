@@ -1,358 +1,417 @@
 @import "tailwindcss";
 
-/* ============================================
-   DARK LAB (TECH LUXURY) — DESIGN TOKENS
-   ============================================ */
+/*
+  Кастомные text-* утилиты (Tailwind v4 @utility).
+  Source: https://tailwindcss.com/docs/adding-custom-styles#adding-custom-utilities
+*/
+/*
+  Size tokens → p-size-* / gap-size-* (отдельная шкала).
+  Spacing tokens → p-space-* / gap-space-* (основные отступы макета).
+  Source: https://tailwindcss.com/docs/theme#spacing
+*/
 :root {
-  /* Required tokens (strict) */
-  --bg-base: #00090C;
-  --bg-surface: #192124;
-  --border-subtle: #4C5254;
-  --text-primary: #FFFFFF;
-  --accent-primary: #00AEEF;
-  --accent-secondary: #09E9D4;
-
-  /* RGB helpers for alpha colors (CSS Color 4) */
-  --bg-base-rgb: 0 9 12;
-  --bg-surface-rgb: 25 33 36;
-  --border-subtle-rgb: 76 82 84;
-  --text-primary-rgb: 255 255 255;
-  --accent-primary-rgb: 0 174 239;
-  --accent-secondary-rgb: 9 233 212;
-
-  /* Motion tokens */
-  --ease-standard: cubic-bezier(0.4, 0.0, 0.2, 1);
-  --duration-quick: 180ms;
-  --duration-fast: 240ms;
-
-  /* Radii */
-  --radius-sm: 12px;
-  --radius-md: 16px;
-  --radius-lg: 24px;
-
-  /* Compatibility aliases (old components) */
-  --current-scheme-background: var(--bg-base);
-  --current-scheme-foreground: var(--bg-surface);
-  --current-scheme-border: var(--border-subtle);
-  --current-scheme-text: var(--text-primary);
-  --current-scheme-accent: var(--accent-primary);
+  /* Source: https://tailwindcss.com/docs/theme#colors — светлая тема по умолчанию */
+  /* Единая палитра сайта: совпадает с визуальной системой /ai-audit. */
+  --bg-primary: #f6f3ee;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #18181b;
+  --bg-quaternary: #efe9df;
+  --bg-fivefold: #e6e0d8;
+  --buttons-black-normal: #18181b;
+  --buttons-black-hover: #2b2b31;
+  --buttons-black-pressed: #121214;
+  --buttons-violet-normal: #6d4aff;
+  --buttons-violet-hover: #5d3ee4;
+  --buttons-violet-pressed: #4f32cc;
+  --buttons-green-normal: #b8ff5c;
+  --buttons-green-hover: #c8ff7c;
+  --buttons-green-pressed: #9ee946;
+  --fonts-black: #121212;
+  --fonts-grey: #6b6b6b;
+  --fonts-white: #f5f5f5;
+  --fonts-success: #4e9f00;
+  --fonts-error: #fe3332;
+  --fonts-info: #ffdc5f;
+  --icons-grey: #6b6b6b;
+  --icons-white: #f5f5f5;
+  --system-success: #4e9f00;
+  --system-error: #fe3332;
+  --system-info: #ffdc5f;
+  --charts-green-primary: #18181b;
+  --charts-green-secondary: #2b2b31;
+  --charts-green-line: #e6e0d8;
+  --charts-green-data: #b8ff5c;
+  --black-primary: #121212;
+  --blue-dark: #18181b;
+  --white-primary: #f6f3ee;
+  --accent-violet: #6d4aff;
+  --background: var(--bg-primary);
+  --foreground: var(--fonts-black);
+  --size-zero: 0;
+  --size-xxs: 2px;
+  --size-xs: 4px;
+  --size-sm: 8px;
+  --size-base: 12px;
+  --size-lg: 16px;
+  --size-xl: 20px;
+  --size-2xl: 24px;
+  --size-3xl: 32px;
+  --size-4xl: 40px;
+  --size-5xl: 48px;
+  /* Radius tokens (px) — в CSS: var(--rad-md) и т.д. */
+  --rad-none: 0;
+  --rad-sm: 2px;
+  --rad-md: 4px;
+  --rad-lg: 8px;
+  --rad-xl: 12px;
+  --rad-2xl: 16px;
+  --rad-3xl: 24px;
+  --rad-4xl: 32px;
+  --rad-5xl: 48px;
+  --rad-full: 999px;
+  /* Spacing tokens (px) — в CSS: var(--space-md) и т.д. */
+  --space-zero: 0;
+  --space-px: 1px;
+  --space-xxs: 2px;
+  --space-xs2: 4px;
+  --space-xs: 8px;
+  --space-sm: 12px;
+  --space-base: 16px;
+  --space-md: 20px;
+  --space-lg: 24px;
+  --space-xl: 28px;
+  --space-xl2: 32px;
+  --space-xl3: 40px;
+  --space-xl4: 48px;
+  --space-xl5: 60px;
+  --space-xl6: 72px;
+  /* Скроллбар на светлом фоне: https://developer.mozilla.org/en-US/docs/Web/CSS/scrollbar-color */
+  --scrollbar-thumb: #d8d0c5;
+  --scrollbar-thumb-hover: #b8ad9f;
 }
 
-/* Dark-mode native */
-html {
-  color-scheme: dark;
-  background: var(--bg-base);
-}
-
-body,
-html {
-  font-family: var(--font-body), system-ui, -apple-system, "Segoe UI", Roboto, Arial,
-    "Noto Sans", "Liberation Sans", sans-serif;
-  background: var(--bg-base);
-  color: var(--text-primary);
-  overflow-x: hidden;
-}
-
-::selection {
-  background: rgb(var(--accent-primary-rgb) / 0.28);
-}
-
-/* ============================================
-   TAILWIND 4 THEME CONFIGURATION (@theme)
-   Source: https://tailwindcss.com/docs/theme
-   ============================================ */
 @theme inline {
-  /* Colors */
-  --color-bg-base: var(--bg-base);
-  --color-bg-surface: var(--bg-surface);
-  --color-border-subtle: var(--border-subtle);
-  --color-text-primary: var(--text-primary);
-  --color-accent-primary: var(--accent-primary);
-  --color-accent-secondary: var(--accent-secondary);
-
-  /* Typography */
-  --font-heading: var(--font-heading);
-  --font-body: var(--font-body);
-  --font-mono: var(--font-mono);
-
-  /* Motion */
-  --ease-standard: var(--ease-standard);
-  --duration-quick: var(--duration-quick);
-  --duration-fast: var(--duration-fast);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-background-primary: var(--bg-primary);
+  --color-background-secondary: var(--bg-secondary);
+  --color-background-tertiary: var(--bg-tertiary);
+  --color-background-quaternary: var(--bg-quaternary);
+  --color-background-fivefold: var(--bg-fivefold);
+  --color-button-black: var(--buttons-black-normal);
+  --color-button-black-hover: var(--buttons-black-hover);
+  --color-button-black-pressed: var(--buttons-black-pressed);
+  --color-button-violet: var(--buttons-violet-normal);
+  --color-button-violet-hover: var(--buttons-violet-hover);
+  --color-button-violet-pressed: var(--buttons-violet-pressed);
+  --color-button-green: var(--buttons-green-normal);
+  --color-button-green-hover: var(--buttons-green-hover);
+  --color-button-green-pressed: var(--buttons-green-pressed);
+  --color-fonts-black: var(--fonts-black);
+  --color-fonts-grey: var(--fonts-grey);
+  --color-fonts-white: var(--fonts-white);
+  --color-fonts-success: var(--fonts-success);
+  --color-fonts-error: var(--fonts-error);
+  --color-fonts-info: var(--fonts-info);
+  --color-icons-grey: var(--icons-grey);
+  --color-icons-white: var(--icons-white);
+  --color-system-success: var(--system-success);
+  --color-system-error: var(--system-error);
+  --color-system-info: var(--system-info);
+  --color-charts-green-primary: var(--charts-green-primary);
+  --color-charts-green-secondary: var(--charts-green-secondary);
+  --color-charts-green-line: var(--charts-green-line);
+  --color-charts-green-data: var(--charts-green-data);
+  --color-black-primary: var(--black-primary);
+  --color-blue-dark: var(--blue-dark);
+  --color-white-primary: var(--white-primary);
+  --color-accent-violet: var(--accent-violet);
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  /* Source: https://tailwindcss.com/docs/border-radius */
+  --radius-none: var(--rad-none);
+  --radius-sm: var(--rad-sm);
+  --radius-md: var(--rad-md);
+  --radius-lg: var(--rad-lg);
+  --radius-xl: var(--rad-xl);
+  --radius-2xl: var(--rad-2xl);
+  --radius-3xl: var(--rad-3xl);
+  --radius-4xl: var(--rad-4xl);
+  --radius-5xl: var(--rad-5xl);
+  --radius-full: var(--rad-full);
+  --spacing-size-zero: var(--size-zero);
+  --spacing-size-xxs: var(--size-xxs);
+  --spacing-size-xs: var(--size-xs);
+  --spacing-size-sm: var(--size-sm);
+  --spacing-size-base: var(--size-base);
+  --spacing-size-lg: var(--size-lg);
+  --spacing-size-xl: var(--size-xl);
+  --spacing-size-2xl: var(--size-2xl);
+  --spacing-size-3xl: var(--size-3xl);
+  --spacing-size-4xl: var(--size-4xl);
+  --spacing-size-5xl: var(--size-5xl);
+  --spacing-space-zero: var(--space-zero);
+  --spacing-space-px: var(--space-px);
+  --spacing-space-xxs: var(--space-xxs);
+  --spacing-space-xs2: var(--space-xs2);
+  --spacing-space-xs: var(--space-xs);
+  --spacing-space-sm: var(--space-sm);
+  --spacing-space-base: var(--space-base);
+  --spacing-space-md: var(--space-md);
+  --spacing-space-lg: var(--space-lg);
+  --spacing-space-xl: var(--space-xl);
+  --spacing-space-xl2: var(--space-xl2);
+  --spacing-space-xl3: var(--space-xl3);
+  --spacing-space-xl4: var(--space-xl4);
+  --spacing-space-xl5: var(--space-xl5);
+  --spacing-space-xl6: var(--space-xl6);
 }
 
-/* ============================================
-   CONTAINER UTILITIES
-   ============================================ */
-@layer utilities {
-  .container-full {
-    max-width: 100%;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  
-  .container-wide {
-    max-width: 1600px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  
-  .container {
-    max-width: 1312px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  
-  .container-narrow {
-    max-width: 1024px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  
-  .container-padding {
-    padding-left: 1rem; /* 16px */
-    padding-right: 1rem; /* 16px */
-  }
-  
-  @media (min-width: 640px) {
-    .container-padding {
-      padding-left: 1.5rem; /* 24px */
-      padding-right: 1.5rem; /* 24px */
-    }
-  }
-  
-  @media (min-width: 1024px) {
-    .container-padding {
-      padding-left: 2rem; /* 32px */
-      padding-right: 2rem; /* 32px */
-    }
-  }
+body {
+  background: var(--background);
+  color: var(--foreground);
 }
 
-/* ============================================
-   UI PRIMITIVES
-   ============================================ */
-@layer utilities {
-  .glass-panel {
-    background: rgb(var(--bg-surface-rgb) / 0.72);
-    border: 1px solid rgb(var(--border-subtle-rgb) / 0.55);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-radius: var(--radius-md);
-  }
-
-  /* Premium glass (hero / command panels) */
-  .glass-premium {
-    background:
-      radial-gradient(1200px 600px at 30% 20%, rgb(var(--accent-primary-rgb) / 0.10), transparent 55%),
-      radial-gradient(900px 520px at 80% 70%, rgb(var(--accent-secondary-rgb) / 0.10), transparent 55%),
-      rgb(var(--bg-surface-rgb) / 0.58);
-    border: 1px solid rgb(var(--border-subtle-rgb) / 0.55);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border-radius: 18px;
-    box-shadow:
-      0 0 0 1px rgb(var(--bg-base-rgb) / 0.55) inset,
-      0 18px 60px rgb(0 0 0 / 0.32);
-  }
-
-  /* Subtle grid lines (only.digital vibe, adapted to dark) */
-  .gridlines {
-    background-image:
-      linear-gradient(to right, rgb(var(--border-subtle-rgb) / 0.14) 1px, transparent 1px),
-      linear-gradient(to bottom, rgb(var(--border-subtle-rgb) / 0.14) 1px, transparent 1px);
-    background-size: 96px 96px;
-    mask-image: radial-gradient(900px 520px at 30% 20%, black 42%, transparent 72%);
-    -webkit-mask-image: radial-gradient(900px 520px at 30% 20%, black 42%, transparent 72%);
-  }
-
-  .hairline {
-    border-color: rgb(var(--border-subtle-rgb) / 0.55);
-  }
-
-  .focus-ring {
-    outline: none;
-  }
-
-  .focus-ring:focus-visible {
-    box-shadow:
-      0 0 0 2px rgb(var(--bg-base-rgb) / 1),
-      0 0 0 4px rgb(var(--accent-primary-rgb) / 0.6);
-    transition: box-shadow var(--duration-fast) var(--ease-standard);
-  }
+/*
+  Кастомный скролл (WebKit + Firefox).
+  Source: https://developer.mozilla.org/en-US/docs/Web/CSS/scrollbar-color
+  Source: https://developer.mozilla.org/en-US/docs/Web/CSS/::-webkit-scrollbar
+*/
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) transparent;
 }
 
-/* ============================================
-   TYPOGRAPHY SYSTEM
-   ============================================ */
-@layer utilities {
-  /* Heading Styles */
-  .heading-display {
-    font-family: var(--font-heading), var(--font-body), system-ui, sans-serif;
-    font-size: 4.5rem; /* 72px */
-    line-height: 100%;
-    font-weight: 600;
-    letter-spacing: -0.02em;
-  }
-  
-  .heading-1 {
-    font-family: var(--font-heading), var(--font-body), system-ui, sans-serif;
-    font-size: 3.25rem; /* 52px */
-    line-height: 100%;
-    font-weight: 600;
-    letter-spacing: -0.02em;
-  }
-  
-  .heading-2 {
-    font-family: var(--font-heading), var(--font-body), system-ui, sans-serif;
-    font-size: 2.75rem; /* 44px */
-    line-height: 100%;
-    font-weight: 600;
-    letter-spacing: -0.01em;
-  }
-  
-  .heading-3 {
-    font-family: var(--font-heading), var(--font-body), system-ui, sans-serif;
-    font-size: 2.25rem; /* 36px */
-    line-height: 100%;
-    font-weight: 600;
-    letter-spacing: -0.01em;
-  }
-  
-  .heading-4 {
-    font-family: var(--font-heading), var(--font-body), system-ui, sans-serif;
-    font-size: 1.75rem; /* 28px */
-    line-height: 110%;
-    font-weight: 600;
-  }
-  
-  .heading-5 {
-    font-family: var(--font-heading), var(--font-body), system-ui, sans-serif;
-    font-size: 1.375rem; /* 22px */
-    line-height: 110%;
-    font-weight: 600;
-  }
-  
-  .heading-6 {
-    font-family: var(--font-heading), var(--font-body), system-ui, sans-serif;
-    font-size: 1rem; /* 16px */
-    line-height: 150%;
-    font-weight: 600;
-  }
-  
-  /* Tagline */
-  .tagline {
-    font-family: var(--font-body);
-    font-size: 1.375rem; /* 22px */
-    line-height: 150%;
-  }
-  
-  /* Text Sizes */
-  .text-large {
-    font-size: 1.375rem; /* 22px */
-    line-height: 150%;
-  }
-  
-  .text-medium {
-    font-size: 1rem; /* 16px */
-    line-height: 150%;
-  }
-  
-  .text-regular {
-    font-size: 0.875rem; /* 14px */
-    line-height: 150%;
-  }
-  
-  .text-small {
-    font-size: 0.75rem; /* 12px */
-    line-height: 150%;
-  }
-  
-  .text-tiny {
-    font-size: 0.75rem; /* 12px */
-    line-height: 150%;
-  }
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
 
-  /* Metrics / Numbers */
-  .metric {
-    font-family: var(--font-mono), ui-monospace, SFMono-Regular, Menlo, Monaco,
-      Consolas, "Liberation Mono", "Courier New", monospace;
-    letter-spacing: -0.02em;
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  border-radius: 9999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  background-color: var(--scrollbar-thumb);
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: var(--scrollbar-thumb-hover);
+}
+
+/* Tooltip: fade + scale + slide (Radix data-state). Source: https://www.radix-ui.com/primitives/docs/components/tooltip */
+@keyframes agency-tooltip-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px) scale(0.95);
   }
-  
-  /* Font Weights */
-  .font-extrabold {
-    font-weight: 800;
-  }
-  
-  .font-bold {
-    font-weight: 700;
-  }
-  
-  .font-semibold {
-    font-weight: 600;
-  }
-  
-  .font-medium {
-    font-weight: 500;
-  }
-  
-  .font-normal {
-    font-weight: 400;
-  }
-  
-  .font-light {
-    font-weight: 300;
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
   }
 }
 
-/* Mobile Typography */
-@media (max-width: 768px) {
-  .heading-display {
-    font-size: 2.75rem; /* 44px */
+@keyframes agency-tooltip-out {
+  to {
+    opacity: 0;
   }
-  
-  .heading-1 {
-    font-size: 2.5rem; /* 40px */
-  }
-  
-  .heading-2 {
-    font-size: 2rem; /* 32px */
-  }
-  
-  .heading-3 {
-    font-size: 1.5rem; /* 24px */
-  }
-  
-  .heading-4 {
-    font-size: 1.25rem; /* 20px */
-  }
-  
-  .heading-5 {
-    font-size: 1.125rem; /* 18px */
-  }
-  
-  .tagline {
-    font-size: 1.125rem; /* 18px */
-  }
-  
-  .text-large {
-    font-size: 1rem; /* 16px */
-  }
-  
-  .text-medium {
-    font-size: 0.875rem; /* 14px */
-  }
-  
-  .text-regular {
-    font-size: 0.75rem; /* 12px */
-  }
-  
-  .text-small {
-    font-size: 0.75rem; /* 12px */
-  }
-  
-  .text-tiny {
-    font-size: 0.75rem; /* 12px */
-  }
+}
+
+.agency-tooltip-panel[data-state="delayed-open"],
+.agency-tooltip-panel[data-state="instant-open"] {
+  animation: agency-tooltip-in 200ms ease-out forwards;
+}
+
+.agency-tooltip-panel[data-state="closed"] {
+  animation: agency-tooltip-out 100ms ease-out forwards;
+}
+
+/* Numbers-1 */
+@utility text-numbers-1 {
+  font-size: 16px;
+  line-height: 22px;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+/* Title */
+@utility text-title-hero {
+  font-size: 120px;
+  line-height: 120px;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+@utility text-title-subtitle1 {
+  font-size: 56px;
+  line-height: 68px;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+/* Heading */
+@utility text-heading-h1 {
+  font-size: 64px;
+  line-height: 80px;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+@utility text-heading-subtitle2 {
+  font-size: 24px;
+  line-height: 32px;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+@utility text-heading-h2 {
+  font-size: 48px;
+  line-height: 56px;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+@utility text-heading-h3 {
+  font-size: 36px;
+  line-height: 44px;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+@utility text-heading-h4 {
+  font-size: 28px;
+  line-height: 32px;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+@utility text-heading-h6 {
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+/* Label */
+@utility text-label-1-regular {
+  font-size: 16px;
+  line-height: 22px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+@utility text-label-1-semibold {
+  font-size: 16px;
+  line-height: 22px;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+@utility text-label-2-medium {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+@utility text-label-2-semibold {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+@utility text-label-3-medium {
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: -0.12px;
+}
+
+@utility text-label-3-semibold {
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 600;
+  letter-spacing: -0.12px;
+}
+
+@utility text-label-3-bold {
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 700;
+  letter-spacing: -0.12px;
+}
+
+/* Body */
+@utility text-body-1-regular {
+  font-size: 20px;
+  line-height: 32px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+@utility text-body-1-semibold {
+  font-size: 20px;
+  line-height: 32px;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+@utility text-body-2-regular {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+@utility text-body-2-semibold {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+@utility text-body-3-regular {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+@utility text-body-3-semibold {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+@utility text-body-4-regular {
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+@utility text-body-4-semibold {
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+/* Caption */
+@utility text-caption-medium {
+  font-size: 10px;
+  line-height: 12px;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+@utility text-caption-semibold {
+  font-size: 10px;
+  line-height: 12px;
+  font-weight: 600;
+  letter-spacing: 0;
 }

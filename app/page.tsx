@@ -256,7 +256,7 @@ export default function Home() {
           </div>
 
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {serviceList.map((service) => (
+            {serviceList.slice(0, 4).map((service) => (
               (() => {
                 const Icon = serviceIcons[service.slug];
                 return (

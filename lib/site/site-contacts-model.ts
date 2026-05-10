@@ -6,7 +6,7 @@ export type SiteContacts = {
 };
 
 export const SITE_CONTACTS_FALLBACK: SiteContacts = {
-  email: "hello@skybric.kz",
+  email: "hello@skybric.ru",
   phoneDisplay: "+7(777)336-56-02",
   phoneHref: "tel:+77773365602",
 };

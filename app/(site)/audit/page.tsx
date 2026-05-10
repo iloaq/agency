@@ -46,8 +46,8 @@ export default function AuditPage() {
         <Reveal delay={0.1}>
           <div className="mt-10 text-sm text-[rgb(var(--text-primary-rgb)/0.72)]">
             Быстрый канал:{" "}
-            <a className="focus-ring rounded-md" href="mailto:hello@skybric.digital">
-              hello@skybric.digital
+            <a className="focus-ring rounded-md" href="mailto:hello@skybric.ru">
+              hello@skybric.ru
             </a>
           </div>
         </Reveal>

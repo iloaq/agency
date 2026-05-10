@@ -63,11 +63,11 @@ export function SiteFooter() {
           <div className="space-y-3">
             <div className="text-sm text-[rgb(var(--text-primary-rgb)/0.9)]">Связь</div>
             <div className="space-y-2 text-sm text-[rgb(var(--text-primary-rgb)/0.72)]">
-              <a className="focus-ring block rounded-md hover:text-[rgb(var(--text-primary-rgb)/1)]" href="mailto:hello@skybric.digital">
-                hello@skybric.digital
+              <a className="focus-ring block rounded-md hover:text-[rgb(var(--text-primary-rgb)/1)]" href="mailto:hello@skybric.ru">
+                hello@skybric.ru
               </a>
-              <a className="focus-ring block rounded-md hover:text-[rgb(var(--text-primary-rgb)/1)]" href="tel:+74957409979">
-                +7 (495) 740‑99‑79
+              <a className="focus-ring block rounded-md hover:text-[rgb(var(--text-primary-rgb)/1)]" href="tel:+77773365602">
+                +7(777)336-56-02
               </a>
             </div>
           </div>

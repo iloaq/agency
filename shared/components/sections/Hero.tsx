@@ -136,23 +136,23 @@ export function Hero() {
               <div className="flex items-end justify-end lg:justify-start">
                 <div className="flex flex-col gap-6">
                   <a
-                    href="mailto:hello@skybric.digital"
+                    href="mailto:hello@skybric.ru"
                     className="flex items-center gap-3 hover:opacity-80 transition-opacity"
                     style={{ color: 'var(--current-scheme-text)' }}
                   >
                     <Icon icon={MdEmail} size={24} />
                     <Text variant="large" style={{ color: 'var(--current-scheme-text)' }}>
-                      hello@skybric.digital
+                      hello@skybric.ru
                     </Text>
                   </a>
                   <a
-                    href="tel:+74957409979"
+                    href="tel:+77773365602"
                     className="flex items-center gap-3 hover:opacity-80 transition-opacity"
                     style={{ color: 'var(--current-scheme-text)' }}
                   >
                     <Icon icon={MdPhone} size={24} />
                     <Text variant="large" style={{ color: 'var(--current-scheme-text)' }}>
-                      +7 (495) 740 99 79
+                      +7(777)336-56-02
                     </Text>
                   </a>
                   <a

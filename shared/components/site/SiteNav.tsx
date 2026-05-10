@@ -170,15 +170,15 @@ export function SiteNav() {
                         <div className="mt-3 space-y-2">
                           <a
                             className="focus-ring block rounded-md text-sm text-[rgb(var(--text-primary-rgb)/0.82)] hover:text-[rgb(var(--text-primary-rgb)/0.95)]"
-                            href="mailto:hello@skybric.digital"
+                            href="mailto:hello@skybric.ru"
                           >
-                            hello@skybric.digital
+                            hello@skybric.ru
                           </a>
                           <a
                             className="focus-ring block rounded-md text-sm text-[rgb(var(--text-primary-rgb)/0.82)] hover:text-[rgb(var(--text-primary-rgb)/0.95)]"
-                            href="tel:+74957409979"
+                            href="tel:+77773365602"
                           >
-                            +7 (495) 740‑99‑79
+                            +7(777)336-56-02
                           </a>
                         </div>
                         <div className="mt-4 text-[11px] text-[rgb(var(--text-primary-rgb)/0.55)]">

@@ -18,8 +18,8 @@ export default function HomePage() {
   const org = organizationJsonLd({
     url: "https://skybric.digital",
     name: "SKybric",
-    email: "hello@skybric.digital",
-    telephone: "+7-495-740-99-79",
+    email: "hello@skybric.ru",
+    telephone: "+7-777-336-56-02",
   });
 
   return (

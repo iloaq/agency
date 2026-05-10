@@ -24,8 +24,8 @@ export default function ContactPage() {
           <Reveal>
             <CTA
               title="Письмо"
-              description="hello@skybric.digital"
-              primary={{ label: "Написать", href: "mailto:hello@skybric.digital" }}
+              description="hello@skybric.ru"
+              primary={{ label: "Написать", href: "mailto:hello@skybric.ru" }}
               secondary={{ label: "Запросить аудит", href: "/audit" }}
             />
           </Reveal>

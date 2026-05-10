@@ -1,75 +1,75 @@
 import type { Metadata } from "next";
-import { IBM_Plex_Mono, Inter, Space_Grotesk } from "next/font/google";
+import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
+import { Manrope } from "next/font/google";
+import { LenisGsapProvider } from "@/components/providers/lenis-gsap-provider";
+import { SiteHeader } from "@/components/site/site-header";
+import { ToastProvider } from "@/components/ui/toast";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { resolveSiteContacts } from "@/lib/site/site-contacts";
+import { siteUrl } from "@/lib/site-url";
 import "./globals.css";
 
-// Source: https://nextjs.org/docs/app/building-your-application/optimizing/fonts
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-heading",
-  subsets: ["latin"],
-  weight: ["500", "600", "700"],
-  display: "swap",
-});
+/* MUI + Next.js App Router: https://mui.com/material-ui/integrations/nextjs/ */
 
-// Source: https://nextjs.org/docs/app/building-your-application/optimizing/fonts
-const inter = Inter({
-  variable: "--font-body",
+/* Source: https://nextjs.org/docs/app/building-your-application/optimizing/fonts */
+const manrope = Manrope({
+  variable: "--font-manrope",
   subsets: ["latin", "cyrillic"],
   weight: ["300", "400", "500", "600", "700"],
+  /* Без link preload — Chrome не ругается, если вес ещё не применён к тексту. */
+  preload: false,
   display: "swap",
 });
 
-// Source: https://nextjs.org/docs/app/building-your-application/optimizing/fonts
-const ibmPlexMono = IBM_Plex_Mono({
-  variable: "--font-mono",
-  subsets: ["latin", "cyrillic"],
-  weight: ["400", "500"],
-  display: "swap",
-});
-
-const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/+$/, "") ?? "http://localhost:3000";
-
-// Source: https://nextjs.org/docs/app/building-your-application/optimizing/metadata
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "SKybric — цифровые системы роста",
-    template: "%s — SKybric",
+    default: "Skybric — веб-разработка, автоматизация и digital-системы для бизнеса",
+    template: "%s | Skybric",
   },
   description:
-    "Стратегия, дизайн, инженерия и AI‑автоматизация для B2B и enterprise. Фокус: измеримый рост, надёжность, масштаб.",
-  robots: {
-    index: true,
-    follow: true,
+    "Разрабатываем сайты, веб-сервисы, Telegram-ботов, CRM-интеграции, AI-автоматизацию, SEO и fintech-решения для B2B-компаний в Казахстане и на международном рынке.",
+  alternates: {
+    canonical: "/",
   },
   openGraph: {
     type: "website",
-    url: "/",
-    siteName: "SKybric",
-    title: "SKybric — цифровые системы роста",
+    locale: "ru_KZ",
+    url: siteUrl,
+    siteName: "Skybric",
+    title: "Skybric — веб-разработка, автоматизация и digital-системы для бизнеса",
     description:
-      "Стратегия, дизайн, инженерия и AI‑автоматизация для B2B и enterprise. Фокус: измеримый рост, надёжность, масштаб.",
-    locale: "ru_RU",
+      "Сайты, веб-сервисы, Telegram-боты, CRM-интеграции, AI-автоматизация, SEO и fintech-разработка для B2B.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "SKybric — цифровые системы роста",
+    title: "Skybric — веб-разработка, автоматизация и digital-системы для бизнеса",
     description:
-      "Стратегия, дизайн, инженерия и AI‑автоматизация для B2B и enterprise. Фокус: измеримый рост, надёжность, масштаб.",
+      "Технологический B2B-партнёр для сайтов, веб-сервисов, Telegram, CRM, SEO, AI-automation и fintech.",
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const contacts = await resolveSiteContacts();
   return (
-    <html lang="ru">
-      <body
-        className={`${spaceGrotesk.variable} ${inter.variable} ${ibmPlexMono.variable} antialiased`}
-      >
-        {children}
+    <html lang="ru" className={`${manrope.variable} h-full antialiased`}>
+      <body className="flex min-h-full flex-col bg-background-primary font-sans text-fonts-black">
+        <AppRouterCacheProvider options={{ key: "mui" }}>
+          <TooltipProvider>
+            <ToastProvider>
+              <div className="flex min-h-0 flex-1 flex-col">
+                <SiteHeader contacts={contacts} />
+                <div className="flex min-h-0 w-full min-w-0 flex-1 flex-col">
+                  <LenisGsapProvider>{children}</LenisGsapProvider>
+                </div>
+              </div>
+            </ToastProvider>
+          </TooltipProvider>
+        </AppRouterCacheProvider>
       </body>
     </html>
   );

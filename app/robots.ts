@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { absoluteUrl, siteUrl } from "@/lib/site-url";
+import { absoluteUrl, siteRobotsHost } from "@/lib/site-url";
 
 // Генерация /robots.txt: https://nextjs.org/docs/app/api-reference/file-conventions/metadata/robots
 export default function robots(): MetadataRoute.Robots {
@@ -12,6 +12,6 @@ export default function robots(): MetadataRoute.Robots {
       },
     ],
     sitemap: absoluteUrl("/sitemap.xml"),
-    host: siteUrl,
+    host: siteRobotsHost(),
   };
 }

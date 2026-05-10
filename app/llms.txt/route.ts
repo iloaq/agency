@@ -1,5 +1,5 @@
 import { resolveServiceList } from "@/lib/services/resolve-services";
-import { absoluteUrl, siteUrl } from "@/lib/site-url";
+import { absoluteUrl, siteBrandOrigins, siteUrl } from "@/lib/site-url";
 
 // Формат llms.txt: https://llmstxt.org/
 // Кэш: https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config#revalidate
@@ -19,7 +19,7 @@ export async function GET() {
   const lines = [
     "# Skybric",
     "",
-    `> Веб-разработка, автоматизация и digital-системы для B2B. Публичный сайт: ${siteUrl}`,
+    `> Веб-разработка, автоматизация и digital-системы для B2B. Домены: ${siteBrandOrigins().join(", ")}. Канонический URL: ${siteUrl}`,
     "",
     "## Основные страницы",
     "",

@@ -40,9 +40,9 @@ function main() {
 VALUES (
   1,
   ${dollarQuote("Skybric")},
-  ${dollarQuote("hello@skybric.kz")},
-  ${dollarQuote("+7 777 255-00-00")},
-  ${dollarQuote("tel:+77772550000")},
+  ${dollarQuote("hello@skybric.ru")},
+  ${dollarQuote("+7(777)336-56-02")},
+  ${dollarQuote("tel:+77773365602")},
   '{}'::jsonb,
   true
 )

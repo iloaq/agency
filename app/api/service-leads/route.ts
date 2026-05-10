@@ -24,21 +24,43 @@ function isForbiddenSupabaseKey(key: string) {
   return payload?.role === "service_role";
 }
 
-function getSupabaseConfig() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+/** Anon/publishable key в env; без этого POST /api/service-leads отдаёт 503. */
+function resolveSupabase():
+  | { ok: true; url: string; key: string }
+  | { ok: false; message: string } {
+  const urlRaw = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
+  const keyRaw = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim();
 
-  if (!url || !key || isForbiddenSupabaseKey(key)) {
-    return null;
+  if (!urlRaw) {
+    return {
+      ok: false,
+      message:
+        "Сервер: не задан NEXT_PUBLIC_SUPABASE_URL. Добавьте переменную в CapRover (App Config → Environmental Variables) и перезапустите приложение.",
+    };
+  }
+  if (!keyRaw) {
+    return {
+      ok: false,
+      message:
+        "Сервер: не задан NEXT_PUBLIC_SUPABASE_ANON_KEY. В Supabase: Settings → API → anon public key (не service_role).",
+    };
+  }
+  if (isForbiddenSupabaseKey(keyRaw)) {
+    return {
+      ok: false,
+      message:
+        "Сервер: в NEXT_PUBLIC_SUPABASE_ANON_KEY должен быть anon (publishable) ключ, не service_role.",
+    };
   }
 
   return {
-    url: url.replace(/\/$/, ""),
-    key,
+    ok: true,
+    url: urlRaw.replace(/\/$/, ""),
+    key: keyRaw,
   };
 }
 
-type SupabaseConfig = NonNullable<ReturnType<typeof getSupabaseConfig>>;
+type SupabaseConfig = { url: string; key: string };
 type LeadInsertPayload = Record<string, string | null>;
 
 function insertLead(
@@ -67,10 +89,11 @@ export async function POST(request: Request) {
     return NextResponse.json({ message: validationError }, { status: 400 });
   }
 
-  const supabase = getSupabaseConfig();
-  if (!supabase) {
-    return NextResponse.json({ message: genericError }, { status: 503 });
+  const supabaseRes = resolveSupabase();
+  if (!supabaseRes.ok) {
+    return NextResponse.json({ message: supabaseRes.message }, { status: 503 });
   }
+  const supabase: SupabaseConfig = supabaseRes;
 
   const basePayload: LeadInsertPayload = {
     service_slug: lead.service_slug,

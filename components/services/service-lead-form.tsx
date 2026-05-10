@@ -9,6 +9,12 @@ import { useToast } from "@/components/ui/toast";
 type FormState = "idle" | "loading" | "success";
 type ContactMethod = "email" | "telegram";
 
+declare global {
+  interface Window {
+    dataLayer?: Record<string, unknown>[];
+  }
+}
+
 const serviceInterestOptions = [
   "Сайт для бизнеса",
   "Веб-сервис или личный кабинет",
@@ -109,6 +115,14 @@ export function ServiceLeadForm({
         }
 
         setState("success");
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+          event: "lead_submit",
+          service_slug: serviceSlug,
+          service_title: serviceTitle,
+          service_interest: lead.service_interest,
+          preferred_contact: lead.preferred_contact,
+        });
         toast({
           title: "Заявка отправлена. Мы изучим задачу и свяжемся с вами.",
           variant: "success",

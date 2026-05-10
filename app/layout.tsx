@@ -5,6 +5,7 @@ import { LenisGsapProvider } from "@/components/providers/lenis-gsap-provider";
 import { SiteHeader } from "@/components/site/site-header";
 import { ToastProvider } from "@/components/ui/toast";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { GoogleTagManager } from "@/components/analytics/google-tag-manager";
 import { YandexMetrika } from "@/components/analytics/yandex-metrika";
 import { resolveSiteContacts } from "@/lib/site/site-contacts";
 import { siteUrl } from "@/lib/site-url";
@@ -63,6 +64,7 @@ export default async function RootLayout({
   return (
     <html lang="ru" className={`${manrope.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col bg-background-primary font-sans text-fonts-black">
+        <GoogleTagManager />
         <AppRouterCacheProvider options={{ key: "mui" }}>
           <TooltipProvider>
             <ToastProvider>

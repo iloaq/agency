@@ -139,13 +139,6 @@ export default function AiAuditPage() {
             </div>
           </div>
 
-          <div className="mt-10 grid gap-3 sm:grid-cols-3">
-            {["не презентация", "таблица по процессам", "что проверить первым"].map((item) => (
-              <div key={item} className="rounded-[20px] border border-[#E6E0D8] bg-white px-5 py-4 text-base font-semibold shadow-[0_10px_28px_rgba(72,57,41,0.04)]">
-                {item}
-              </div>
-            ))}
-          </div>
         </div>
       </section>
 
@@ -221,10 +214,14 @@ export default function AiAuditPage() {
             >
               Что вы получите после аудита
             </h2>
-            <p className="max-w-3xl text-base leading-7 text-[#4B4B4B] sm:text-lg sm:leading-8">
-              Результат фиксируем в простой таблице: процесс, сильные и слабые места,
-              потери, возможность для автоматизации и приоритет.
-            </p>
+            <div className="max-w-3xl">
+              <p className="w-fit rounded-full bg-white px-4 py-2 text-sm font-semibold text-[#6D4AFF] shadow-[0_10px_28px_rgba(72,57,41,0.04)]">
+                1. Фрагмент таблицы — конкретика по процессам
+              </p>
+              <p className="mt-4 text-base leading-7 text-[#4B4B4B] sm:text-lg sm:leading-8">
+                Фиксируем выводы в формате таблицы: процесс, что уже работает, слабое место, потери, возможность для автоматизации, приоритет и комментарий.
+              </p>
+            </div>
           </div>
 
           <div className="overflow-hidden rounded-[30px] border border-[#E6E0D8] bg-white shadow-[0_16px_48px_rgba(72,57,41,0.07)]">

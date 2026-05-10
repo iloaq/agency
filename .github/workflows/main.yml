@@ -1,0 +1,52 @@
+name: Build & Deploy
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Use Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build application
+        run: npm run build --if-present
+
+      - name: Run tests
+        run: npm run test --if-present
+
+      # Source: https://github.com/caprover/deploy-from-github/blob/master/README.md
+      - name: Create deployment package
+        uses: a7ul/tar-action@v1.1.0
+        with:
+          command: c
+          cwd: "./"
+          files: |
+            .next/standalone/
+            .next/static/
+            public/
+            Dockerfile
+            captain-definition
+          outPath: deploy.tar
+
+      - name: Deploy App to CapRover
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: caprover/deploy-from-github@v1.0.1
+        with:
+          server: "${{ secrets.CAPROVER_SERVER }}"
+          app: "${{ secrets.APP_NAME }}"
+          token: "${{ secrets.APP_TOKEN }}"

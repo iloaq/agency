@@ -82,15 +82,12 @@ export async function saveCaseStudy(formData: FormData) {
   if (isNew) {
     const { data, error } = await supabase.from(TABLE).insert(row).select("id").single();
     if (error || !data) redirect(`/admin/cases/new?err=db`);
-    revalidatePath("/cases");
     revalidatePath("/admin/cases");
     redirect(`/admin/cases/${data.id}?saved=1`);
   }
 
   const { error } = await supabase.from(TABLE).update(row).eq("id", id);
   if (error) redirect(`/admin/cases/${id}?err=db`);
-  revalidatePath("/cases");
-  revalidatePath(`/cases/${slug}`);
   revalidatePath("/admin/cases");
   redirect(`/admin/cases/${id}?saved=1`);
 }
@@ -102,7 +99,6 @@ export async function deleteCaseStudy(formData: FormData) {
   const supabase = getSupabaseAdminClient();
   const { error } = await supabase.from(TABLE).delete().eq("id", id);
   if (error) redirect(`/admin/cases?err=db`);
-  revalidatePath("/cases");
   revalidatePath("/admin/cases");
   redirect("/admin/cases");
 }

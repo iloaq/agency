@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { ServiceLeadForm } from "@/components/services/service-lead-form";
+import { LogoText } from "@/components/site/logo";
 import { SITE_CONTACTS_FALLBACK } from "@/lib/site/site-contacts-model";
 import { siteUrl } from "@/lib/site-url";
 import { serviceList } from "@/lib/services/services-data";
@@ -205,10 +206,10 @@ export default function Home() {
               Обсудить проект ↗
             </Link>
             <Link
-              href="/cases"
+              href="/services"
               className="inline-flex min-h-14 items-center justify-center gap-3 rounded-2xl border border-[#E6E0D8] bg-white px-7 text-center text-base font-semibold text-[#121212] transition hover:border-[#6D4AFF]/45 hover:text-[#6D4AFF] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#6D4AFF]"
             >
-              Смотреть кейсы <ArrowBadge />
+              Все услуги <ArrowBadge />
             </Link>
           </div>
 
@@ -365,60 +366,6 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="cases" className="px-5 py-12 sm:px-8 lg:px-10 lg:py-16">
-        <div className="grid w-full overflow-hidden rounded-[30px] border border-[#E6E0D8] bg-white shadow-[0_16px_46px_rgba(72,57,41,0.055)] lg:grid-cols-[0.38fr_0.62fr]">
-          <div className="p-6 lg:p-8">
-            <SectionLabel>Кейс</SectionLabel>
-            <h2 className="mt-5 text-3xl font-semibold leading-[1.1]">
-              Разбор задачи: финансовый сервис
-            </h2>
-            <p className="mt-4 text-base leading-7 text-[#6B6B6B]">
-              Разбор задачи: личный кабинет, заявки, документы, интеграции и контроль
-              процесса без разрозненных таблиц.
-            </p>
-            <div className="mt-8 grid gap-3 sm:grid-cols-3">
-              {["личный кабинет", "интеграции", "контроль заявок"].map((item) => (
-                <div key={item} className="rounded-[18px] bg-[#F6F3EE] p-4 text-sm font-semibold">
-                  {item}
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="grid min-h-[300px] content-between bg-[#18181B] p-6 text-white lg:p-8">
-            <div className="grid gap-3 sm:grid-cols-3">
-              {[
-                ["Вход", "форма и заявки"],
-                ["Логика", "статусы и документы"],
-                ["Контроль", "ответственные и сроки"],
-              ].map(([title, text]) => (
-                <div
-                  key={title}
-                  className="rounded-[22px] border border-white/10 bg-white/[0.06] p-4"
-                >
-                  <p className="text-sm font-semibold text-[#B8FF5C]">{title}</p>
-                  <p className="mt-3 text-base font-semibold leading-6 text-white/88">{text}</p>
-                </div>
-              ))}
-            </div>
-            <div className="mt-10 max-w-xl">
-              <p className="text-[clamp(2rem,3vw,3.4rem)] font-semibold leading-[1.02]">
-                Из разрозненного процесса в управляемый сервис
-              </p>
-              <p className="mt-4 text-base leading-7 text-white/62">
-                Показываем задачу через архитектуру: какие точки входа связать, где
-                хранить данные и как команде видеть следующий шаг.
-              </p>
-            </div>
-            <Link
-              href="/cases"
-              className="mt-8 inline-flex min-h-13 w-fit items-center justify-center rounded-2xl bg-white px-6 text-sm font-semibold text-[#121212] shadow-[0_16px_40px_rgba(24,24,27,0.16)]"
-            >
-              Смотреть кейс ↗
-            </Link>
-          </div>
-        </div>
-      </section>
-
       <section id="contact" className="px-5 pb-10 pt-8 sm:px-8 lg:px-10">
         <div className="grid w-full gap-8 rounded-[30px] bg-[#18181B] p-6 text-white shadow-[0_24px_70px_rgba(24,24,27,0.16)] lg:grid-cols-[0.42fr_0.58fr] lg:p-8">
           <div>
@@ -447,14 +394,18 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            <p className="mt-16 text-3xl font-bold">SKYBRIC</p>
+            <div className="mt-16 w-fit">
+              <LogoText alt="Skybric" width={138} height={40} className="!h-9 !w-auto sm:!h-10" />
+            </div>
           </div>
           <div className="min-w-0">
             <ServiceLeadForm serviceSlug="homepage" serviceTitle="Главная страница Skybric" />
           </div>
         </div>
         <footer className="flex w-full flex-col gap-4 px-4 py-5 text-sm text-[#6B6B6B] sm:flex-row sm:items-center sm:justify-between">
-          <p className="font-semibold text-[#121212]">SKYBRIC</p>
+          <div className="shrink-0">
+            <LogoText alt="Skybric" width={138} height={40} className="!h-7 !w-auto sm:!h-8" />
+          </div>
           <p>© 2026 Skybric. Все права защищены.</p>
           <Link href="/contact" className="hover:text-[#6D4AFF]">
             Контакты

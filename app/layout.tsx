@@ -47,6 +47,10 @@ export const metadata: Metadata = {
     description:
       "Технологический B2B-партнёр для сайтов, веб-сервисов, Telegram, CRM, SEO, AI-automation и fintech.",
   },
+  // Source: https://nextjs.org/docs/app/api-reference/functions/generate-metadata#applewebapp
+  appleWebApp: {
+    title: "Skybric",
+  },
 };
 
 export default async function RootLayout({

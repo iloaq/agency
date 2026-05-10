@@ -3,6 +3,7 @@
 import ChevronLeft from "@mui/icons-material/ChevronLeft";
 import ChevronRight from "@mui/icons-material/ChevronRight";
 import Image from "next/image";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useCallback, useState } from "react";
 
@@ -11,13 +12,13 @@ import { useCallback, useState } from "react";
 type HeroSlide = {
   eyebrow: string;
   title: string;
-  /** Превью кейса; из `public/` — путь вида `/photo.jpg` */
+  /** Превью; из `public/` — путь вида `/photo.jpg` */
   image?: string;
 };
 
 const slides: HeroSlide[] = [
-  { eyebrow: "Проекты", title: "ExchangeBRO" },
-  { eyebrow: "Проекты", title: "FinFlow" },
+  { eyebrow: "Направления", title: "Продукт и веб" },
+  { eyebrow: "Направления", title: "Интеграции и CRM" },
 ];
 
 function SlidePreview({ image, title }: { image?: string; title: string }) {
@@ -129,7 +130,12 @@ export function Hero() {
           {/* <HeroStackMarquee className="relative z-0 -mb-1 w-full max-lg:mx-auto lg:-left-2" /> */}
           <div className="relative z-10 flex w-full flex-col items-end gap-4 pb-2 sm:flex-row sm:flex-wrap lg:pb-6">
             <Button variant="violet" size="large">Обсудить проект</Button>
-            <Button variant="secondary" size="large">Смотреть кейсы</Button>
+            <Link
+              href="/services"
+              className="inline-flex min-h-[60px] items-center justify-center rounded-[30px] border border-black/12 bg-white-primary px-[24px] py-[18px] font-sans text-base font-light leading-6 tracking-[0.01em] text-fonts-black transition-colors hover:bg-black/[0.05] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-violet"
+            >
+              Услуги
+            </Link>
           </div>
         </div>
       </div>

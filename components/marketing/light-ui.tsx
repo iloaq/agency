@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { LogoText } from "@/components/site/logo";
 
 const colors = {
   text: "#121212",
@@ -197,7 +198,9 @@ export function IntegrationVisual() {
           ))}
         </div>
         <div className="rounded-[24px] border border-[#E6E0D8] bg-white p-5 text-center shadow-[0_10px_28px_rgba(72,57,41,0.05)]">
-          <p className="text-xs font-bold uppercase tracking-[0.12em] text-[#6D4AFF]">Skybric</p>
+          <div className="flex justify-center">
+            <LogoText alt="Skybric" width={138} height={40} className="!h-5 !w-auto sm:!h-6" />
+          </div>
           <p className="mt-2 text-2xl font-bold leading-7 text-[#121212]">логика решения</p>
         </div>
         <div className="grid gap-3">

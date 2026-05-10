@@ -21,7 +21,7 @@ export function LogoMark({ className, alt = "Sky Bric", ...props }: ImgProps) {
   );
 }
 
-/** Текстовый логотип — `public/logo_text.svg` (SKY BRIC). */
+/** Текстовый логотип — `public/logo_text.svg`. */
 export function LogoText({
   className,
   alt = "Sky Bric",
@@ -31,9 +31,9 @@ export function LogoText({
     <Image
       src="/logo_text.svg"
       alt={alt}
-      width={257}
-      height={65}
-      className={["h-auto w-[clamp(8rem,40vw,16rem)] max-w-full", className]
+      width={138}
+      height={40}
+      className={["h-auto w-[clamp(6rem,32vw,8.5rem)] max-w-full", className]
         .filter(Boolean)
         .join(" ")}
       {...props}

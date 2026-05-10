@@ -111,6 +111,7 @@ export async function POST(request: Request) {
     utm_content: lead.utm_content ?? null,
     utm_term: lead.utm_term ?? null,
     client_id: lead.client_id ?? null,
+    preferred_contact: lead.preferred_contact ?? null,
   };
   const hasQualificationFields = Boolean(
     lead.service_interest || lead.project_stage || lead.budget_band
@@ -134,10 +135,20 @@ export async function POST(request: Request) {
     headers.Authorization = `Bearer ${supabase.key}`;
   }
 
-  const response = await insertLead(supabase, headers, payload);
+  const stripPreferred = (p: LeadInsertPayload) => {
+    const { preferred_contact: _pc, ...rest } = p;
+    return rest;
+  };
+
+  let response = await insertLead(supabase, headers, payload);
+
+  if (!response?.ok && lead.preferred_contact) {
+    response = await insertLead(supabase, headers, stripPreferred(payload));
+  }
 
   if (!response?.ok && hasQualificationFields) {
-    const legacyResponse = await insertLead(supabase, headers, basePayload);
+    const legacyPayload = stripPreferred(basePayload);
+    const legacyResponse = await insertLead(supabase, headers, legacyPayload);
 
     if (legacyResponse?.ok) {
       return NextResponse.json({ ok: true }, { status: 201 });

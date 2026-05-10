@@ -34,6 +34,12 @@ const budgetBandOptions = [
   "3+ млн ₸",
 ] as const;
 
+const preferredContactOptions = [
+  { value: "email", label: "Email" },
+  { value: "phone", label: "Телефон" },
+  { value: "telegram", label: "Telegram" },
+] as const;
+
 const labelClass = "grid min-w-0 gap-2 text-sm font-semibold text-[#121212]";
 const fieldClass =
   "min-h-14 w-full min-w-0 rounded-[18px] border border-[#E6E0D8] bg-white px-4 text-base text-[#121212] outline-none transition placeholder:text-[#8B8B8B] focus:border-[#6D4AFF] focus:ring-4 focus:ring-[#6D4AFF]/10";
@@ -141,15 +147,27 @@ export function ServiceLeadForm({
           />
         </label>
         <label className={labelClass}>
-          Email
+          Email *
           <input
             name="email"
             type="email"
+            required
             autoComplete="email"
             className={fieldClass}
           />
         </label>
       </div>
+
+      <label className={labelClass}>
+        Предпочитаемый способ связи *
+        <select name="preferred_contact" required className={fieldClass} defaultValue="email">
+          {preferredContactOptions.map((o) => (
+            <option key={o.value} value={o.value}>
+              {o.label}
+            </option>
+          ))}
+        </select>
+      </label>
 
       <label className={labelClass}>
         Компания
@@ -225,7 +243,8 @@ export function ServiceLeadForm({
       </button>
 
       <p className="text-sm leading-6 text-[#6B6B6B]">
-        Обязательны: сообщение и любой контакт — телефон, Telegram или email.
+        Обязательны: email, сообщение (от 10 символов), предпочитаемый способ связи. Телефон и Telegram — по
+        необходимости (если выбран соответствующий способ — поле нужно заполнить).
       </p>
 
       {message ? (

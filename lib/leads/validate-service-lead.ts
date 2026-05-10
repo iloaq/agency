@@ -11,6 +11,7 @@ const MAX_LENGTHS: Partial<Record<keyof ServiceLeadPayload, number>> = {
   service_interest: 180,
   project_stage: 160,
   budget_band: 120,
+  preferred_contact: 32,
   message: 3000,
   source_page: 500,
   utm_source: 160,
@@ -47,6 +48,7 @@ export function normalizeServiceLead(input: unknown) {
     service_interest: cleanValue(raw.service_interest, MAX_LENGTHS.service_interest),
     project_stage: cleanValue(raw.project_stage, MAX_LENGTHS.project_stage),
     budget_band: cleanValue(raw.budget_band, MAX_LENGTHS.budget_band),
+    preferred_contact: cleanValue(raw.preferred_contact, MAX_LENGTHS.preferred_contact),
     message: cleanValue(raw.message, MAX_LENGTHS.message) ?? "",
     source_page: cleanValue(raw.source_page, MAX_LENGTHS.source_page),
     utm_source: cleanValue(raw.utm_source, MAX_LENGTHS.utm_source),
@@ -74,13 +76,20 @@ export function validateServiceLead(lead: ServiceLeadPayload) {
     return "Не удалось отправить заявку. Проверьте данные или попробуйте позже.";
   }
 
-  const hasContact = Boolean(lead.phone || lead.telegram || lead.email);
-  if (!hasContact) {
-    return "Укажите телефон, Telegram или email, чтобы мы могли связаться с вами.";
+  if (!lead.email || !isEmail(lead.email)) {
+    return "Укажите email в формате name@example.com — на него можно отправить ответ.";
   }
 
-  if (lead.email && !isEmail(lead.email)) {
-    return "Проверьте email: в нём должна быть почта в формате name@example.com.";
+  const pref = lead.preferred_contact?.toLowerCase();
+  if (pref === "phone" && !lead.phone?.trim()) {
+    return "Выбран способ «Телефон» — укажите номер телефона.";
+  }
+  if (pref === "telegram" && !lead.telegram?.trim()) {
+    return "Выбран способ «Telegram» — укажите ник или ссылку.";
+  }
+
+  if (pref && !["phone", "telegram", "email"].includes(pref)) {
+    return "Выберите предпочитаемый способ связи из списка.";
   }
 
   if (!lead.message || lead.message.length < 10) {

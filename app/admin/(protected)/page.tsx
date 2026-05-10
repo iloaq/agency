@@ -10,6 +10,11 @@ export default function AdminHomePage() {
       </p>
       <ul className="flex list-disc flex-col gap-2 pl-5 text-sm">
         <li>
+          <Link href="/admin/leads" className="text-[var(--accent-violet)] underline-offset-2 hover:underline">
+            Лиды (service_leads)
+          </Link>
+        </li>
+        <li>
           <Link href="/admin/cases" className="text-[var(--accent-violet)] underline-offset-2 hover:underline">
             Кейсы (case_studies)
           </Link>

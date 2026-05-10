@@ -9,6 +9,8 @@ export type ServiceLeadPayload = {
   service_interest?: string;
   project_stage?: string;
   budget_band?: string;
+  /** phone | telegram | email — как удобнее связаться первым */
+  preferred_contact?: string;
   message: string;
   source_page?: string;
   utm_source?: string;

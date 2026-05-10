@@ -5,42 +5,10 @@ import { getClientId } from "@/lib/leads/analytics-client";
 import { submitLead } from "@/lib/leads/submit-lead";
 import { normalizeServiceLead, validateServiceLead } from "@/lib/leads/validate-service-lead";
 
-const fields = [
-  {
-    id: "name",
-    label: "Имя",
-    type: "text",
-    autoComplete: "name",
-    required: true,
-  },
-  {
-    id: "contact",
-    label: "Телефон / Telegram",
-    type: "text",
-    autoComplete: "tel",
-    required: true,
-  },
-  {
-    id: "company",
-    label: "Компания / проект",
-    type: "text",
-    autoComplete: "organization",
-    required: true,
-  },
-  {
-    id: "industry",
-    label: "Сфера бизнеса",
-    type: "text",
-    autoComplete: "organization-title",
-    required: true,
-  },
-  {
-    id: "role",
-    label: "Должность",
-    type: "text",
-    autoComplete: "organization-title",
-    required: true,
-  },
+const preferredContactOptions = [
+  { value: "email", label: "Email" },
+  { value: "phone", label: "Телефон" },
+  { value: "telegram", label: "Telegram" },
 ] as const;
 
 const labelClass = "grid min-w-0 gap-2 text-sm font-semibold text-[#121212]";
@@ -48,18 +16,6 @@ const fieldClass =
   "min-h-14 w-full min-w-0 rounded-[18px] border border-[#E6E0D8] bg-white px-4 text-base font-medium text-[#121212] outline-none transition placeholder:text-[#8B8B8B] focus:border-[#6D4AFF] focus:ring-4 focus:ring-[#6D4AFF]/10";
 
 type FormState = "idle" | "loading" | "success" | "error";
-
-function isEmailLike(value: string) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
-}
-
-function routeContact(raw: string): { phone?: string; email?: string; telegram?: string } {
-  const v = raw.trim();
-  if (!v) return {};
-  if (isEmailLike(v)) return { email: v };
-  if (v.startsWith("@") || /t\.me\//i.test(v)) return { telegram: v };
-  return { phone: v };
-}
 
 export function AiAuditForm() {
   const [state, setState] = useState<FormState>("idle");
@@ -84,19 +40,25 @@ export function AiAuditForm() {
         const url = new URL(window.location.href);
 
         const name = String(formData.get("name") ?? "").trim();
-        const contactRaw = String(formData.get("contact") ?? "").trim();
+        const email = String(formData.get("email") ?? "").trim();
+        const phone = String(formData.get("phone") ?? "").trim();
+        const telegram = String(formData.get("telegram") ?? "").trim();
+        const preferred_contact = String(formData.get("preferred_contact") ?? "").trim();
         const company = String(formData.get("company") ?? "").trim();
         const industry = String(formData.get("industry") ?? "").trim();
         const role = String(formData.get("role") ?? "").trim();
         const process = String(formData.get("process") ?? "").trim();
 
-        const contactFields = routeContact(contactRaw);
         const messageBody = [`Сфера: ${industry}`, `Должность: ${role}`, "", process].join("\n");
 
         const lead = normalizeServiceLead({
           service_slug: "ai-audit",
           service_title: "Аудит процессов и автоматизации",
           name,
+          email,
+          phone,
+          telegram,
+          preferred_contact,
           company,
           message: messageBody,
           source_page: url.href,
@@ -107,7 +69,6 @@ export function AiAuditForm() {
           utm_term: url.searchParams.get("utm_term") ?? "",
           client_id: getClientId(),
           website: String(formData.get("website") ?? ""),
-          ...contactFields,
         });
 
         const validationError = validateServiceLead(lead);
@@ -140,18 +101,54 @@ export function AiAuditForm() {
       </label>
 
       <div className="grid gap-4 md:grid-cols-2">
-        {fields.map((field) => (
-          <label key={field.id} className={labelClass}>
-            {field.label}
-            <input
-              name={field.id}
-              type={field.type}
-              autoComplete={field.autoComplete}
-              required={field.required}
-              className={fieldClass}
-            />
-          </label>
-        ))}
+        <label className={labelClass}>
+          Имя
+          <input name="name" type="text" autoComplete="name" required className={fieldClass} />
+        </label>
+        <label className={labelClass}>
+          Email *
+          <input name="email" type="email" autoComplete="email" required className={fieldClass} />
+        </label>
+        <label className={labelClass}>
+          Телефон
+          <input name="phone" type="text" autoComplete="tel" className={fieldClass} />
+        </label>
+        <label className={labelClass}>
+          Telegram
+          <input
+            name="telegram"
+            type="text"
+            autoComplete="username"
+            placeholder="@username"
+            className={fieldClass}
+          />
+        </label>
+      </div>
+
+      <label className={labelClass}>
+        Предпочитаемый способ связи *
+        <select name="preferred_contact" required className={fieldClass} defaultValue="email">
+          {preferredContactOptions.map((o) => (
+            <option key={o.value} value={o.value}>
+              {o.label}
+            </option>
+          ))}
+        </select>
+      </label>
+
+      <div className="grid gap-4 md:grid-cols-2">
+        <label className={labelClass}>
+          Компания / проект
+          <input name="company" type="text" autoComplete="organization" required className={fieldClass} />
+        </label>
+        <label className={labelClass}>
+          Сфера бизнеса
+          <input name="industry" type="text" autoComplete="organization-title" required className={fieldClass} />
+        </label>
+        <label className={`${labelClass} md:col-span-2`}>
+          Должность
+          <input name="role" type="text" autoComplete="organization-title" required className={fieldClass} />
+        </label>
       </div>
 
       <label className={labelClass}>
@@ -177,7 +174,7 @@ export function AiAuditForm() {
       </button>
 
       <p className="text-sm leading-6 text-[#6B6B6B]">
-        20 минут общения. Таблица с выводами — в течение 2 дней после аудита.
+        Обязательны: email и описание (от 20 символов). Телефон или Telegram — если выбран такой способ связи.
       </p>
 
       {message ? (

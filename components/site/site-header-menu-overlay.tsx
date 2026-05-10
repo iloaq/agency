@@ -29,9 +29,10 @@ export default function SiteHeaderMenuOverlay({
       role="dialog"
       aria-modal="true"
       aria-label="Меню сайта"
-      className="fixed inset-0 z-[60] bg-[#121212]/28 p-3 text-[#121212] backdrop-blur-sm sm:p-4"
+      className="fixed inset-0 z-[60] bg-[#121212]/28 p-0 text-[#121212] backdrop-blur-sm sm:p-4"
     >
-      <div className="flex h-full min-h-0 flex-col overflow-hidden rounded-[28px] border border-[#E6E0D8] bg-[#F6F3EE] shadow-[0_24px_80px_rgba(18,18,18,0.2)]">
+      {/* На узком экране — на весь viewport без «письма в конверте»; см. 100dvh: https://developer.mozilla.org/en-US/docs/Web/CSS/length#dvh */}
+      <div className="flex h-[100dvh] min-h-0 w-full flex-col overflow-hidden bg-[#F6F3EE] shadow-none max-sm:rounded-none sm:h-[calc(100dvh-2rem)] sm:rounded-[28px] sm:border sm:border-[#E6E0D8] sm:shadow-[0_24px_80px_rgba(18,18,18,0.2)]">
         <div className="flex h-16 shrink-0 items-center justify-between border-b border-[#E6E0D8] px-5 sm:px-8">
           <SiteLogoLink />
           <Button
@@ -46,10 +47,11 @@ export default function SiteHeaderMenuOverlay({
           />
         </div>
 
-        <div className="min-h-0 flex-1 overflow-y-auto px-5 py-8 sm:px-8 lg:px-10 lg:py-12">
-          <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
-            <nav aria-label="Основные разделы">
-              <ul className="grid gap-3">
+        <div className="min-h-0 flex-1 overflow-y-auto">
+          <div className="flex min-h-full flex-col justify-center px-5 py-8 sm:justify-start sm:px-8 lg:min-h-0 lg:px-10 lg:py-12">
+            <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+              <nav aria-label="Основные разделы">
+                <ul className="grid gap-3">
                 {overlayPrimary.map((item) => (
                   <li key={item.href}>
                     <Link
@@ -68,11 +70,11 @@ export default function SiteHeaderMenuOverlay({
                   </li>
                 ))}
               </ul>
-            </nav>
+              </nav>
 
-            <div className="grid gap-8 md:grid-cols-3 lg:pt-2">
+              <div className="grid gap-8 md:grid-cols-3 lg:pt-2">
               {overlayColumns.map((col) => (
-                <div key={col.title}>
+                  <div key={col.title}>
                   <p className="mb-4 text-xs font-semibold uppercase tracking-[0.12em] text-[#6B6B6B]">
                     {col.title}
                   </p>
@@ -89,8 +91,9 @@ export default function SiteHeaderMenuOverlay({
                       </li>
                     ))}
                   </ul>
-                </div>
-              ))}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>

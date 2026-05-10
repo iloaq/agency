@@ -36,6 +36,8 @@ const contactMethods: { value: ContactMethod; label: string; placeholder: string
 const labelClass = "grid min-w-0 gap-2 text-sm font-semibold text-white";
 const fieldClass =
   "min-h-14 w-full min-w-0 rounded-[18px] border border-white/12 bg-white/[0.08] px-4 text-base font-medium text-white outline-none transition placeholder:text-white/38 focus:border-[#6D4AFF] focus:bg-white/[0.11] focus:ring-4 focus:ring-[#6D4AFF]/20";
+/* Кастомная стрелка: https://developer.mozilla.org/en-US/docs/Web/CSS/appearance */
+const selectClass = `${fieldClass} cursor-pointer appearance-none bg-[#252529] pr-12 hover:border-white/20`;
 
 export function ServiceLeadForm({
   serviceSlug,
@@ -198,16 +200,36 @@ export function ServiceLeadForm({
       <div className="grid gap-4 md:grid-cols-2">
         <label className={labelClass}>
           Услуга
-          <select name="service_interest" className={fieldClass} defaultValue={defaultServiceInterest}>
-            <option value="" className="text-[#121212]">
-              Выберите, если понятно
-            </option>
-            {serviceInterestOptions.map((option) => (
-              <option key={option} value={option} className="text-[#121212]">
-                {option}
+          <div className="relative min-w-0">
+            <select
+              name="service_interest"
+              className={selectClass}
+              defaultValue={defaultServiceInterest}
+            >
+              <option value="" className="text-[#121212]">
+                Выберите, если понятно
               </option>
-            ))}
-          </select>
+              {serviceInterestOptions.map((option) => (
+                <option key={option} value={option} className="text-[#121212]">
+                  {option}
+                </option>
+              ))}
+            </select>
+            <span
+              aria-hidden
+              className="pointer-events-none absolute right-3 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-white/12 bg-white/[0.06] text-white/55"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden>
+                <path
+                  d="M6 9l6 6 6-6"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </span>
+          </div>
         </label>
         <label className={labelClass}>
           Должность

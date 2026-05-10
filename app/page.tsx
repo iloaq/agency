@@ -13,7 +13,7 @@ import {
   FiSend,
 } from "react-icons/fi";
 import { ServiceLeadForm } from "@/components/services/service-lead-form";
-import { LogoText } from "@/components/site/logo";
+import { SiteMarketingFooter } from "@/components/site/site-marketing-footer";
 import { SITE_CONTACTS_FALLBACK } from "@/lib/site/site-contacts-model";
 import { siteUrl } from "@/lib/site-url";
 import { serviceList, type ServiceSlug } from "@/lib/services/services-data";
@@ -391,23 +391,12 @@ export default function Home() {
                 </a>
               </div>
             </div>
-            <div className="mt-16 w-fit">
-              <LogoText alt="Skybric" width={138} height={40} className="!h-9 !w-auto sm:!h-10" />
-            </div>
           </div>
           <div className="min-w-0">
             <ServiceLeadForm serviceSlug="homepage" serviceTitle="Главная страница Skybric" />
           </div>
         </div>
-        <footer className="flex w-full flex-col gap-4 px-4 py-5 text-sm text-[#6B6B6B] sm:flex-row sm:items-center sm:justify-between">
-          <div className="shrink-0">
-            <LogoText alt="Skybric" width={138} height={40} className="!h-7 !w-auto sm:!h-8" />
-          </div>
-          <p>© 2026 Skybric. Все права защищены.</p>
-          <Link href="/contact" className="hover:text-[#6D4AFF]">
-            Контакты
-          </Link>
-        </footer>
+        <SiteMarketingFooter />
       </section>
     </main>
   );

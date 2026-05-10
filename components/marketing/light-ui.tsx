@@ -259,11 +259,6 @@ export function ContactCTA({
             </h2>
             <p className="mt-6 max-w-xl text-lg leading-8 text-white/68">{text}</p>
           </div>
-          <div className="rounded-[24px] border border-white/10 bg-white/[0.08] p-5">
-            <p className="text-base font-semibold leading-7 text-white/82">
-              Без навязывания лишней разработки. Сначала разбираем процесс и только потом предлагаем решение.
-            </p>
-          </div>
         </div>
         {children}
       </div>

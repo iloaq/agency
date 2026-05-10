@@ -3,6 +3,7 @@ import Link from "next/link";
 import { BusinessPainSection } from "@/components/ai-audit/business-pain-section";
 import { ContactCTA } from "@/components/marketing/light-ui";
 import { ServiceLeadForm } from "@/components/services/service-lead-form";
+import { SiteMarketingFooter } from "@/components/site/site-marketing-footer";
 
 const fitCards = [
   {
@@ -310,6 +311,8 @@ export default function AiAuditPage() {
           />
         </ContactCTA>
       </div>
+
+      <SiteMarketingFooter />
     </main>
   );
 }

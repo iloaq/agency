@@ -1,18 +1,11 @@
+import type { SiteContacts } from "@/lib/site/site-contacts-model";
+import { SITE_CONTACTS_FALLBACK } from "@/lib/site/site-contacts-model";
 import { fetchPublishedSiteSettings } from "@/lib/supabase/fetch-site-settings";
 
-export type SiteContacts = {
-  email: string;
-  phoneDisplay: string;
-  phoneHref: string;
-};
+export type { SiteContacts } from "@/lib/site/site-contacts-model";
+export { SITE_CONTACTS_FALLBACK } from "@/lib/site/site-contacts-model";
 
 /** Fallback при отсутствии Supabase или строки с published=false. */
-export const SITE_CONTACTS_FALLBACK: SiteContacts = {
-  email: "hello@skybric.kz",
-  phoneDisplay: "+7 777 255-00-00",
-  phoneHref: "tel:+77772550000",
-};
-
 export async function resolveSiteContacts(): Promise<SiteContacts> {
   const row = await fetchPublishedSiteSettings();
   if (row) {

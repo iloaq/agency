@@ -33,14 +33,17 @@ const auditSteps = [
   {
     badge: "Знакомство",
     title: "Знакомимся с вашим бизнесом (Телемост, Google meet, Zoom и тд.)",
+    text: "Фиксируем контекст, роли, каналы заявок и процессы, которые стоит разобрать первыми.",
   },
   {
     badge: "Разбор процессов",
     title: "Разбираем конкретно 2 процесса",
+    text: "Смотрим, где есть ручная работа, задержки, потери данных и зависимость от сотрудников.",
   },
   {
     badge: "Фиксация, обмен контактами",
     title: "В течение 2 дней отправляем таблицу",
+    text: "Отправляем краткий результат: что работает, где слабое место и что можно проверить первым.",
   },
 ] as const;
 
@@ -133,73 +136,79 @@ export default function AiAuditPage() {
         }}
       />
 
-      <section className="flex min-h-[calc(100svh-4rem)] px-5 pb-14 pt-9 sm:px-8 lg:px-10 lg:pb-16 lg:pt-12">
-        <div className="grid w-full min-w-0 gap-9 lg:grid-rows-[auto_1fr]">
-          <div className="min-w-0">
-            <h1 className="max-w-[1180px] break-words text-[clamp(2.35rem,7.8vw,4.4rem)] font-semibold leading-[1.03] tracking-normal text-[#121212] sm:text-[clamp(3.2rem,5vw,5.85rem)]">
-              Проведём бесплатный аудит процессов и покажем, где вы теряете заявки,
-              время сотрудников и деньги
-            </h1>
+      <section className="px-5 pb-14 pt-10 sm:px-8 lg:px-10 lg:pb-20 lg:pt-14">
+        <div className="w-full min-w-0">
+          <p className="mb-7 text-sm font-semibold uppercase tracking-[0.12em] text-[#6D4AFF]">
+            Аудит процессов и автоматизации
+          </p>
+          <h1 className="break-words text-[clamp(2.55rem,6.4vw,7rem)] font-semibold leading-[0.94] tracking-normal text-[#121212]">
+            Проведём бесплатный аудит процессов и покажем, где вы теряете заявки,
+            время сотрудников и деньги
+          </h1>
+
+          <div className="mt-8 max-w-4xl">
+            <p className="text-base leading-7 text-[#3F3F3F] sm:text-lg sm:leading-8">
+              За 20 минут разберём, как у вас обрабатываются заявки, клиентские вопросы,
+              документы, CRM и повторяющиеся задачи. После аудита отправим таблицу с выводами:
+              где слабые места, что конкретно можно улучшить и какой участок стоит проверить первым.
+            </p>
           </div>
 
-          <div className="grid min-w-0 gap-8 lg:grid-cols-[minmax(0,0.95fr)_minmax(360px,0.58fr)] lg:items-end">
-            <div className="min-w-0">
-              <p className="max-w-4xl text-base leading-7 text-[#3F3F3F] sm:text-lg sm:leading-8">
-                За 20 минут разберём, как у вас обрабатываются заявки, клиентские вопросы,
-                документы, CRM и повторяющиеся задачи. После аудита отправим таблицу с выводами:
-                где слабые места - их приоритетизация, что конкретно и как стоит улучшить, какая выгода от этого будет в цифрах.
-              </p>
-              <div className="mt-7 flex flex-col gap-4 sm:flex-row sm:items-center">
-                <a
-                  href="#audit-form"
-                  className="inline-flex min-h-14 w-full min-w-0 items-center justify-center rounded-[999px] bg-[#18181B] px-7 text-center text-base font-semibold leading-6 text-white shadow-[0_18px_45px_rgba(24,24,27,0.25)] transition hover:bg-[#2B2B31] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#6D4AFF] sm:w-auto"
-                >
-                  <span className="min-w-0 max-w-full whitespace-normal break-words">
-                    Записаться на бесплатный аудит
-                  </span>
-                </a>
-                <p className="max-w-xl text-sm leading-6 text-[#6B6B6B] sm:text-base">
-                  20 минут общения. Таблица с выводами — в течение 2 дней.
-                </p>
-              </div>
-            </div>
+          <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center">
+            <a
+              href="#audit-form"
+              className="inline-flex min-h-14 w-full min-w-0 items-center justify-center rounded-[18px] bg-[#18181B] px-7 text-center text-base font-semibold leading-6 text-white shadow-[0_18px_45px_rgba(24,24,27,0.22)] transition hover:bg-[#2B2B31] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#6D4AFF] sm:w-auto"
+            >
+              <span className="min-w-0 max-w-full whitespace-normal break-words">
+                Записаться на бесплатный аудит
+              </span>
+            </a>
+            <p className="max-w-xl text-sm leading-6 text-[#6B6B6B] sm:text-base">
+              20 минут общения. Таблица с выводами — в течение 2 дней.
+            </p>
+          </div>
 
-            <div className="min-w-0 rounded-[28px] border border-[#E6E0D8] bg-white p-3 shadow-[0_24px_70px_rgba(72,57,41,0.13)]">
-              <div className="min-w-0 rounded-[24px] bg-[#121212] p-4 text-white sm:p-5">
-                <div className="mb-5 flex items-center justify-between gap-4">
-                  <p className="min-w-0 text-sm font-semibold text-white">
-                    Фрагмент таблицы после аудита
-                  </p>
-                  <span className="shrink-0 rounded-full bg-[#B8FF5C] px-3 py-1.5 text-xs font-bold text-[#121212]">
-                    2 дня
+          <div className="mt-12 grid gap-3 sm:grid-cols-3">
+            {["заявки и CRM", "документы и КП", "повторяющаяся рутина"].map((item) => (
+              <div
+                key={item}
+                className="rounded-[22px] border border-[#E6E0D8] bg-white px-5 py-4 text-sm font-semibold leading-5 text-[#4B4B4B] shadow-[0_12px_34px_rgba(72,57,41,0.045)]"
+              >
+                {item}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="px-5 py-10 sm:px-8 lg:px-10" aria-label="Краткий результат аудита">
+        <div className="grid gap-4 rounded-[30px] border border-[#E6E0D8] bg-white p-5 shadow-[0_16px_46px_rgba(72,57,41,0.055)] lg:grid-cols-[0.34fr_0.66fr] lg:p-7">
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-[0.12em] text-[#6D4AFF]">
+              На выходе
+            </p>
+            <h2 className="mt-5 text-[clamp(2rem,3vw,3.4rem)] font-semibold leading-[1.05]">
+              Короткая таблица, а не презентация
+            </h2>
+          </div>
+          <div className="grid gap-3 md:grid-cols-3">
+            {auditRows.map((row) => (
+              <article key={row.process} className="rounded-[22px] bg-[#F6F3EE] p-4">
+                <div className="flex items-start justify-between gap-3">
+                  <h3 className="text-lg font-semibold">{row.process}</h3>
+                  <span className="rounded-full bg-white px-3 py-1 text-xs font-semibold text-[#6D4AFF]">
+                    {row.priority}
                   </span>
                 </div>
-                <div className="grid gap-3">
-                  {auditRows.map((row) => (
-                    <div
-                      key={row.process}
-                      className="min-w-0 rounded-[18px] border border-white/10 bg-white/[0.06] p-3"
-                    >
-                      <div className="flex items-center justify-between gap-3">
-                        <p className="min-w-0 text-sm font-semibold">{row.process}</p>
-                        <span className="w-fit shrink-0 rounded-full bg-white px-3 py-1 text-xs font-semibold text-[#121212]">
-                          {row.priority}
-                        </span>
-                      </div>
-                      <p className="mt-1 min-w-0 break-words text-sm leading-6 text-white/70">
-                        {row.ai}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
+                <p className="mt-3 text-sm leading-6 text-[#6B6B6B]">{row.ai}</p>
+              </article>
+            ))}
           </div>
         </div>
       </section>
 
       <section
-        className="bg-[#EFE9DF] px-5 py-16 sm:px-8 lg:px-10 lg:py-20"
+        className="px-5 py-16 sm:px-8 lg:px-10 lg:py-20"
         aria-labelledby="fit-heading"
       >
         <div className="grid w-full min-w-0 gap-10">
@@ -225,7 +234,7 @@ export default function AiAuditPage() {
             {fitCards.map((item, index) => (
               <article
                 key={item.title}
-                className="rounded-[26px] border border-[#DCD3C8] bg-white p-5 shadow-[0_16px_50px_rgba(72,57,41,0.08)]"
+                className="rounded-[26px] border border-[#DCD3C8] bg-white p-5 shadow-[0_12px_34px_rgba(72,57,41,0.05)]"
               >
                 <p className="text-sm font-semibold text-[#6D4AFF]">
                   {String(index + 1).padStart(2, "0")}
@@ -243,7 +252,7 @@ export default function AiAuditPage() {
       <BusinessPainSection />
 
       <section
-        className="bg-[#EFE9DF] px-5 py-16 sm:px-8 lg:px-10 lg:py-24"
+        className="px-5 py-16 sm:px-8 lg:px-10 lg:py-24"
         aria-labelledby="includes-heading"
       >
         <div className="grid w-full min-w-0 gap-10">
@@ -269,20 +278,18 @@ export default function AiAuditPage() {
             {auditSteps.map((item, index) => (
               <li
                 key={item.title}
-                className="relative overflow-hidden rounded-[30px] border border-[#DCD3C8] bg-white p-6 shadow-[0_22px_70px_rgba(72,57,41,0.09)]"
+                className="rounded-[30px] border border-[#DCD3C8] bg-white p-6 shadow-[0_12px_36px_rgba(72,57,41,0.055)]"
               >
-                <p className="absolute -right-2 -top-4 text-[7rem] font-semibold leading-none text-[#F6F3EE]">
-                  0{index + 1}
-                </p>
-                <div className="relative">
-                  <span className="inline-flex rounded-full bg-[#18181B] px-4 py-2 text-sm font-semibold text-white">
-                    {item.badge}
+                <div className="flex items-center justify-between gap-4">
+                  <span className="text-sm font-semibold text-[#6D4AFF]">
+                    {String(index + 1).padStart(2, "0")}
                   </span>
-                  <h3 className="mt-10 text-3xl font-semibold leading-9 text-[#121212]">
-                    {item.title}
-                  </h3>
-                  <p className="mt-4 text-base leading-7 text-[#4B4B4B]">{item.text}</p>
+                  <span className="text-sm font-semibold text-[#6B6B6B]">{item.badge}</span>
                 </div>
+                <h3 className="mt-10 text-3xl font-semibold leading-9 text-[#121212]">
+                  {item.title}
+                </h3>
+                <p className="mt-4 text-base leading-7 text-[#4B4B4B]">{item.text}</p>
               </li>
             ))}
           </ol>
@@ -305,7 +312,7 @@ export default function AiAuditPage() {
             </div>
           </div>
 
-          <div className="mt-10 overflow-hidden rounded-[32px] border border-[#E6E0D8] bg-white shadow-[0_24px_80px_rgba(72,57,41,0.12)]">
+          <div className="mt-10 overflow-hidden rounded-[32px] border border-[#E6E0D8] bg-white shadow-[0_16px_48px_rgba(72,57,41,0.07)]">
             <div className="flex flex-col gap-4 border-b border-[#E6E0D8] bg-[#18181B] p-5 text-white sm:flex-row sm:items-center sm:justify-between sm:p-6">
               <div>
                 <p className="mt-2 text-2xl font-semibold">Быстро видно, где болит процесс</p>
@@ -386,7 +393,7 @@ export default function AiAuditPage() {
       </section>
 
       <section
-        className="bg-white px-5 py-16 sm:px-8 lg:px-10 lg:py-24"
+        className="px-5 py-16 sm:px-8 lg:px-10 lg:py-24"
         aria-labelledby="process-heading"
       >
         <div className="grid w-full min-w-0 gap-10">
@@ -409,7 +416,7 @@ export default function AiAuditPage() {
           </div>
 
           <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-            <div className="rounded-[28px] bg-[#18181B] p-6 text-white shadow-[0_20px_60px_rgba(24,24,27,0.18)] xl:col-span-1">
+            <div className="rounded-[28px] bg-[#18181B] p-6 text-white shadow-[0_16px_46px_rgba(24,24,27,0.14)] xl:col-span-1">
               <p className="text-sm font-semibold uppercase tracking-[0.12em] text-[#B8FF5C]">
                 критерий
               </p>
@@ -440,24 +447,24 @@ export default function AiAuditPage() {
         className="px-5 pb-24 pt-16 sm:px-8 lg:px-10 lg:pb-32 lg:pt-24"
         aria-labelledby="form-heading"
       >
-        <div className="flex w-full min-w-0 flex-col gap-10 rounded-[34px] border border-[#DCD3C8] bg-[#18181B] p-5 text-white shadow-[0_34px_100px_rgba(24,24,27,0.2)] sm:p-8 lg:flex-row lg:items-stretch lg:gap-12 lg:p-10">
-          <div className="flex min-w-0 flex-1 flex-col justify-between gap-10 lg:basis-[44%]">
+        <div className="grid w-full min-w-0 gap-8 rounded-[34px] border border-[#DCD3C8] bg-white p-5 shadow-[0_24px_70px_rgba(72,57,41,0.08)] sm:p-8 lg:grid-cols-[0.42fr_0.58fr] lg:items-start lg:p-10">
+          <div className="min-w-0">
             <div>
-              <p className="mb-5 text-sm font-semibold uppercase tracking-[0.12em] text-[#B8FF5C]">
+              <p className="mb-5 text-sm font-semibold uppercase tracking-[0.12em] text-[#6D4AFF]">
                 Финальный шаг
               </p>
               <h2
                 id="form-heading"
-                className="text-[clamp(2.35rem,5vw,5rem)] font-semibold leading-[0.98] tracking-normal text-white"
+                className="text-[clamp(2.35rem,5vw,5rem)] font-semibold leading-[0.98] tracking-normal text-[#121212]"
               >
-              Записаться на бесплатный аудит
+                Записаться на бесплатный аудит
               </h2>
-              <p className="mt-6 max-w-xl text-lg leading-8 text-white/68">
+              <p className="mt-6 max-w-xl text-lg leading-8 text-[#4B4B4B]">
                 Заполните форму — мы свяжемся с вами в течение 2 часов, чтобы уточнить дату созвона.
               </p>
             </div>
           </div>
-          <div className="min-w-0 flex-1 lg:basis-[56%]">
+          <div className="min-w-0">
             <AiAuditForm />
           </div>
         </div>

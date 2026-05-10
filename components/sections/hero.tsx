@@ -64,19 +64,8 @@ export function Hero() {
           id="hero-heading"
           className="text-heading-h1 text-fonts-black"
         >
-          Сайты, веб-сервисы и автоматизация{" "}
-          <span className="mx-0.5 inline-block align-middle sm:mx-1">
-            {/* Source: https://nextjs.org/docs/app/getting-started/images */}
-            <Image
-              src="/3dimage.png"
-              alt=""
-              width={72}
-              height={72}
-              className="inline-block h-[0.85em] w-[0.85em] object-contain align-middle md:h-[0.9em] md:w-[0.9em]"
-              priority
-            />
-          </span>{" "}
-          для задач бизнеса, где важны заявки, данные и контроль.
+          Сайты, веб-сервисы и автоматизация для задач бизнеса, где важны заявки,
+          данные и контроль.
         </h1>
         <p className="max-w-[80%] text-heading-subtitle2 text-fonts-black">
           Проектируем сайты, личные кабинеты, Telegram-боты, CRM-интеграции и

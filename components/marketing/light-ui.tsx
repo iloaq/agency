@@ -41,7 +41,7 @@ export function SectionHeader({
     <div
       className={[
         "mb-10 grid gap-5 lg:mb-12",
-        center ? "mx-auto max-w-4xl text-center" : "lg:grid-cols-[0.9fr_1.1fr] lg:items-end",
+        center ? "text-center" : "lg:grid-cols-[0.9fr_1.1fr] lg:items-end",
       ].join(" ")}
     >
       <div>
@@ -75,7 +75,7 @@ export function ButtonLink({
 }) {
   const className =
     variant === "primary"
-      ? "bg-[#18181B] text-white shadow-[0_18px_45px_rgba(24,24,27,0.22)] hover:bg-[#2B2B31]"
+      ? "bg-[#18181B] text-white shadow-[0_14px_34px_rgba(24,24,27,0.18)] hover:bg-[#2B2B31]"
       : "border border-[#E6E0D8] bg-white text-[#121212] hover:border-[#6D4AFF]/45 hover:text-[#6D4AFF]";
 
   return (
@@ -97,7 +97,7 @@ export function SurfaceCard({
 }) {
   return (
     <div
-      className={`rounded-[28px] border border-[#E6E0D8] bg-white shadow-[0_18px_55px_rgba(72,57,41,0.07)] ${className}`}
+      className={`rounded-[28px] border border-[#E6E0D8] bg-white shadow-[0_12px_36px_rgba(72,57,41,0.05)] ${className}`}
     >
       {children}
     </div>
@@ -196,7 +196,7 @@ export function IntegrationVisual() {
             </div>
           ))}
         </div>
-        <div className="rounded-[24px] border border-[#E6E0D8] bg-white p-5 text-center shadow-[0_14px_40px_rgba(72,57,41,0.07)]">
+        <div className="rounded-[24px] border border-[#E6E0D8] bg-white p-5 text-center shadow-[0_10px_28px_rgba(72,57,41,0.05)]">
           <p className="text-xs font-bold uppercase tracking-[0.12em] text-[#6D4AFF]">Skybric</p>
           <p className="mt-2 text-2xl font-bold leading-7 text-[#121212]">логика решения</p>
         </div>
@@ -218,11 +218,11 @@ export function FAQAccordion({
   items: { question: string; answer: string }[];
 }) {
   return (
-    <div className="mx-auto grid max-w-5xl gap-3">
+    <div className="grid w-full gap-3">
       {items.map((item) => (
         <details
           key={item.question}
-          className="group rounded-[24px] border border-[#E6E0D8] bg-white p-5 shadow-[0_12px_40px_rgba(72,57,41,0.05)]"
+          className="group rounded-[24px] border border-[#E6E0D8] bg-white p-5 shadow-[0_10px_28px_rgba(72,57,41,0.04)]"
         >
           <summary className="flex cursor-pointer list-none items-center justify-between gap-5 text-lg font-bold text-[#121212] marker:hidden">
             {item.question}
@@ -248,7 +248,7 @@ export function ContactCTA({
 }) {
   return (
     <section className="px-5 pb-24 pt-16 sm:px-8 lg:px-10 lg:pb-32 lg:pt-24">
-      <div className="grid gap-8 rounded-[34px] border border-[#2B2B31] bg-[#18181B] p-5 text-white shadow-[0_34px_100px_rgba(24,24,27,0.2)] sm:p-8 lg:grid-cols-[0.82fr_1.18fr] lg:p-10">
+      <div className="grid w-full gap-8 rounded-[34px] border border-[#2B2B31] bg-[#18181B] p-5 text-white shadow-[0_24px_70px_rgba(24,24,27,0.16)] sm:p-8 lg:grid-cols-[0.74fr_1.26fr] lg:p-10">
         <div className="flex flex-col justify-between gap-10">
           <div>
             <h2 className="text-[clamp(2.35rem,5vw,5rem)] font-semibold leading-[0.98] tracking-normal text-white">

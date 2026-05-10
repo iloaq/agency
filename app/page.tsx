@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import type { ReactNode } from "react";
 import { ServiceLeadForm } from "@/components/services/service-lead-form";
-import { resolveServiceList } from "@/lib/services/resolve-services";
+import { SITE_CONTACTS_FALLBACK } from "@/lib/site/site-contacts-model";
 import { siteUrl } from "@/lib/site-url";
+import { serviceList } from "@/lib/services/services-data";
 
 export const metadata: Metadata = {
   title: {
@@ -15,54 +17,41 @@ export const metadata: Metadata = {
   },
 };
 
-const outputItems = [
+const approachItems = [
+  "Архитектура перед дизайном и кодом",
+  "Сайт, CRM и интеграции в одном контуре",
+  "Доработки после запуска по фактическим данным",
+] as const;
+
+const resultItems = [
   {
-    title: "Понятный путь до заявки",
-    text: "Сайт, форма, Telegram или кабинет не живут отдельно: пользователь видит следующий шаг, а команда получает контекст.",
+    title: "Заявки",
+    text: "Маршрут от сайта, Telegram или формы до CRM становится понятнее для команды.",
   },
   {
-    title: "Меньше ручного переноса",
-    text: "Связываем формы, CRM, уведомления, документы и внутренние системы там, где команда сейчас копирует данные руками.",
+    title: "Рутина",
+    text: "Повторяющиеся действия можно связать через backend, интеграции и сценарии.",
   },
   {
-    title: "Больше контроля по процессу",
-    text: "Фиксируем статусы, ответственных, историю действий и точки, где заявка или задача теряет скорость.",
-  },
-  {
-    title: "SEO как часть системы",
-    text: "Строим структуру money-pages, метаданные, связность и техническую базу, а не отдельный поток статей без роли в продажах.",
+    title: "Контроль",
+    text: "Руководитель видит статусы, источники, ответственных и следующий шаг.",
   },
 ] as const;
 
-const taskAnalyses = [
-  {
-    title: "Заявки приходят из сайта, Telegram и звонков",
-    problem: "Часть обращений остаётся в переписках, статус не попадает в CRM, follow-up зависит от менеджера.",
-    solution: "Собрать маршрут: форма или бот → CRM → ответственный → задача → напоминание.",
-    systems: "сайт, Telegram, CRM, уведомления",
-    easier: "команде проще видеть источник, статус и следующий шаг по каждому обращению.",
-  },
-  {
-    title: "Нужен личный кабинет или внутренний портал",
-    problem: "Статусы, документы и комментарии живут в таблицах, чатах и ручных пересылках.",
-    solution: "Собрать кабинет с ролями, документами, историей действий и backend-логикой.",
-    systems: "frontend, backend, CRM, документы, роли",
-    easier: "клиент и команда видят один рабочий контур вместо набора разрозненных файлов.",
-  },
-  {
-    title: "SEO не связано с коммерческими страницами",
-    problem: "Контент публикуется отдельно, услуги описаны слишком общо, внутренние ссылки не поддерживают money-pages.",
-    solution: "Собрать карту спроса: услуги, семантика, контентные кластеры, перелинковка и technical SEO.",
-    systems: "сайт, CMS, sitemap, metadata, analytics",
-    easier: "маркетинг понимает, какие страницы и материалы работают на коммерческий intent.",
-  },
+const processSteps = [
+  ["01", "Погружаемся и анализируем", "Изучаем задачу, систему, аудиторию, ограничения и цель."],
+  ["02", "Проектируем решение", "Создаём архитектуру, прототипы и план реализации."],
+  ["03", "Разрабатываем и интегрируем", "Пишем код, настраиваем backend, CRM, API и сценарии."],
+  ["04", "Запускаем и обучаем", "Проверяем решение, передаём доступы и объясняем логику."],
+  ["05", "Поддерживаем и развиваем", "Анализируем результат и улучшаем продукт вместе с вами."],
 ] as const;
 
-const processPreview = [
-  ["01", "Разбираем процесс", "Смотрим, где теряются заявки, время, данные и контроль."],
-  ["02", "Проектируем архитектуру", "Описываем страницы, роли, интеграции, данные и MVP-объём."],
-  ["03", "Собираем и связываем", "Делаем frontend, backend, CRM, Telegram, SEO-базу или AI-слой."],
-  ["04", "Запускаем и улучшаем", "Проверяем на реальных сценариях и дорабатываем по фактам."],
+const teamRoles = [
+  ["Стратегия", "архитектура продукта"],
+  ["Дизайн", "UX/UI и прототипы"],
+  ["Разработка", "frontend и backend"],
+  ["Интеграции", "CRM, API, Telegram"],
+  ["Маркетинг", "SEO и контент"],
 ] as const;
 
 function JsonLd() {
@@ -71,7 +60,7 @@ function JsonLd() {
     "@type": "Organization",
     name: "Skybric",
     url: siteUrl,
-    email: "hello@skybric.kz",
+    email: SITE_CONTACTS_FALLBACK.email,
     areaServed: ["Kazakhstan", "Worldwide"],
     knowsAbout: [
       "web development",
@@ -109,162 +98,125 @@ function JsonLd() {
   );
 }
 
-function HeroSystemCard() {
-  const rows = [
-    ["Сайт / лендинг", "объясняет продукт и собирает заявку"],
-    ["Telegram / форма", "принимает данные и передаёт контекст"],
-    ["CRM / backend", "фиксирует статус, ответственного и следующий шаг"],
-    ["SEO / аналитика", "поддерживает спрос и измерение"],
+function ArrowBadge({ dark = false }: { dark?: boolean }) {
+  return (
+    <span
+      aria-hidden
+      className={[
+        "inline-flex h-9 w-9 items-center justify-center rounded-full border text-lg transition",
+        dark
+          ? "border-white/18 bg-white/10 text-white"
+          : "border-[#DCD3C8] bg-white text-[#121212]",
+      ].join(" ")}
+    >
+      ↗
+    </span>
+  );
+}
+
+function SectionLabel({ children }: { children: ReactNode }) {
+  return (
+    <span className="inline-flex w-fit text-sm font-semibold uppercase tracking-[0.12em] text-[#6D4AFF]">
+      {children}
+    </span>
+  );
+}
+
+function ServiceIcon() {
+  return (
+    <div className="grid h-11 w-11 place-items-center rounded-full border border-[#E6E0D8] bg-[#F6F3EE] text-lg font-semibold text-[#6D4AFF]">
+      +
+    </div>
+  );
+}
+
+function SystemMap() {
+  const lanes = [
+    ["Вход", "Сайт", "Telegram", "SEO"],
+    ["Логика", "Формы", "CRM", "Backend"],
+    ["Контроль", "Статусы", "Задачи", "Отчёты"],
   ] as const;
 
   return (
-    <aside className="rounded-[30px] border border-[#E6E0D8] bg-white p-5 shadow-[0_24px_70px_rgba(72,57,41,0.1)] lg:p-7">
-      <h2 className="text-3xl font-semibold leading-9 text-[#121212]">
-        Цифровой контур под задачу бизнеса
-      </h2>
-      <div className="mt-7 grid gap-3">
-        {rows.map(([title, text], index) => (
-          <div
-            key={title}
-            className="grid gap-3 rounded-[22px] border border-[#E6E0D8] bg-[#F6F3EE] p-4 sm:grid-cols-[3rem_minmax(0,1fr)]"
-          >
-            <span className="flex h-11 w-11 items-center justify-center rounded-full bg-white text-sm font-bold text-[#6D4AFF] ring-1 ring-[#E6E0D8]">
+    <div className="grid min-h-[360px] content-between rounded-[32px] bg-[#111113] p-5 lg:min-h-[430px] lg:p-7">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <div>
+          <p className="text-sm font-semibold uppercase tracking-[0.12em] text-[#B8FF5C]">
+            единый контур
+          </p>
+          <p className="mt-4 max-w-md text-3xl font-semibold leading-[1.08] text-white">
+            Маршрут заявки и данных без разрыва между каналами
+          </p>
+        </div>
+        <div className="rounded-full border border-white/12 px-4 py-2 text-sm font-semibold text-white/74">
+          от входа до follow-up
+        </div>
+      </div>
+
+      <div className="mt-10 grid gap-4 lg:grid-cols-3">
+        {lanes.map(([title, ...items], index) => (
+          <div key={title} className="rounded-[24px] border border-white/10 bg-white/[0.06] p-5">
+            <p className="text-sm font-semibold text-[#B8FF5C]">
               {String(index + 1).padStart(2, "0")}
-            </span>
-            <div>
-              <p className="text-base font-semibold leading-6">{title}</p>
-              <p className="mt-1 text-sm leading-6 text-[#6B6B6B]">{text}</p>
+            </p>
+            <h3 className="mt-5 text-2xl font-semibold text-white">{title}</h3>
+            <div className="mt-5 grid gap-2">
+              {items.map((item) => (
+                <div
+                  key={item}
+                  className="rounded-[16px] border border-white/10 bg-[#151519] px-4 py-3 text-sm font-semibold text-white/78"
+                >
+                  {item}
+                </div>
+              ))}
             </div>
           </div>
         ))}
       </div>
-    </aside>
+    </div>
   );
 }
 
-export default async function Home() {
-  const serviceList = await resolveServiceList();
+export default function Home() {
   return (
     <main className="isolate min-h-screen overflow-hidden bg-[#F6F3EE] text-[#121212]">
       <JsonLd />
 
-      <section className="grid gap-10 px-5 pb-16 pt-12 sm:px-8 lg:grid-cols-[minmax(0,1fr)_minmax(360px,0.46fr)] lg:items-end lg:px-10 lg:pb-24 lg:pt-20">
-        <div className="min-w-0">
-          <h1 className="max-w-6xl text-[clamp(2.55rem,6.6vw,5.9rem)] font-semibold leading-[1.01] tracking-normal">
-            Сайты, веб-сервисы и автоматизация, которые двигают продажи и операционку
+      <section className="px-5 pb-14 pt-10 sm:px-8 lg:px-10 lg:pb-20 lg:pt-14">
+        <div className="w-full min-w-0">
+          <SectionLabel>Технологический партнёр</SectionLabel>
+          <h1 className="mt-7 text-[clamp(2.55rem,6.4vw,7rem)] font-semibold leading-[0.94] tracking-normal">
+            Цифровые системы, которые <span className="text-[#6D4AFF]">масштабируют</span> ваш бизнес
           </h1>
-          <p className="mt-7 max-w-4xl text-base leading-7 text-[#3F3F3F] sm:text-xl sm:leading-9">
-            Skybric проектирует цифровые системы для B2B и fintech: от продающих сайтов
-            и личных кабинетов до Telegram-ботов, CRM-интеграций и SEO-роста. AI
-            подключаем там, где он реально сокращает ручную работу, ускоряет команду и
-            даёт больше контроля.
-          </p>
-          <p className="mt-5 max-w-3xl text-base font-semibold leading-7 text-[#121212]">
-            Web-разработка • Telegram • CRM • SEO • AI-automation • B2B / fintech
-          </p>
+
+          <div className="mt-8 max-w-3xl">
+            <p className="text-base leading-7 text-[#4B4B4B] sm:text-lg sm:leading-8">
+              Создаём сайты, сервисы и автоматизацию, которые увеличивают управляемость
+              процессов, сокращают ручную работу и помогают команде быстрее доводить
+              клиента до следующего шага.
+            </p>
+          </div>
+
           <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center">
             <Link
               href="/contact"
-              className="inline-flex min-h-14 items-center justify-center rounded-full bg-[#18181B] px-7 text-center text-base font-semibold text-white shadow-[0_18px_45px_rgba(24,24,27,0.25)] transition hover:bg-[#2B2B31] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#6D4AFF]"
+              className="inline-flex min-h-14 items-center justify-center rounded-2xl bg-[#6D4AFF] px-7 text-center text-base font-semibold text-white shadow-[0_20px_48px_rgba(109,74,255,0.25)] transition hover:bg-[#5D3EE4] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#6D4AFF]"
             >
-              Обсудить архитектуру проекта
+              Обсудить проект ↗
             </Link>
             <Link
               href="/cases"
-              className="inline-flex min-h-14 items-center justify-center rounded-full border border-[#E6E0D8] bg-white px-7 text-center text-base font-semibold text-[#121212] transition hover:border-[#6D4AFF]/45 hover:text-[#6D4AFF] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#6D4AFF]"
+              className="inline-flex min-h-14 items-center justify-center gap-3 rounded-2xl border border-[#E6E0D8] bg-white px-7 text-center text-base font-semibold text-[#121212] transition hover:border-[#6D4AFF]/45 hover:text-[#6D4AFF] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#6D4AFF]"
             >
-              Посмотреть разборы задач
+              Смотреть кейсы <ArrowBadge />
             </Link>
           </div>
-        </div>
-        <HeroSystemCard />
-      </section>
 
-      <section id="services" className="bg-white px-5 py-16 sm:px-8 lg:px-10 lg:py-24">
-        <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
-          <h2 className="max-w-4xl text-[clamp(2.25rem,4.5vw,4.6rem)] font-semibold leading-[1]">
-            Что мы собираем для бизнеса
-          </h2>
-          <p className="max-w-3xl text-base leading-7 text-[#4B4B4B] sm:text-lg sm:leading-8 lg:justify-self-end">
-            Каждое направление связано с конкретным процессом: привлечь заявку,
-            объяснить продукт, связать CRM, убрать ручной перенос данных или построить
-            органический спрос.
-          </p>
-        </div>
-
-        <div className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-          {serviceList.map((service) => (
-            <article
-              key={service.slug}
-              className="flex min-h-full flex-col rounded-[28px] border border-[#E6E0D8] bg-[#F6F3EE] p-6 transition hover:bg-white hover:shadow-[0_22px_70px_rgba(72,57,41,0.1)]"
-            >
-              <h3 className="text-2xl font-semibold leading-8">{service.title}</h3>
-              <p className="mt-4 flex-1 text-base leading-7 text-[#4B4B4B]">
-                {service.shortDescription}
-              </p>
-              <ul className="mt-6 grid gap-2 border-t border-[#E6E0D8] pt-5">
-                {service.valuePoints.map((point) => (
-                  <li key={point} className="text-sm font-semibold leading-6 text-[#121212]">
-                    {point}
-                  </li>
-                ))}
-              </ul>
-              <Link
-                href={service.path}
-                className="mt-7 inline-flex min-h-12 w-fit items-center justify-center rounded-full bg-[#18181B] px-5 text-sm font-semibold text-white transition hover:bg-[#2B2B31] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#6D4AFF]"
-              >
-                Подробнее
-              </Link>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="px-5 py-16 sm:px-8 lg:px-10 lg:py-24">
-        <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
-          <h2 className="max-w-4xl text-[clamp(2.25rem,4.5vw,4.6rem)] font-semibold leading-[1]">
-            Что получает бизнес на выходе
-          </h2>
-          <p className="max-w-3xl text-base leading-7 text-[#4B4B4B] sm:text-lg sm:leading-8 lg:justify-self-end">
-            Мы не отделяем дизайн от процесса. Смотрим, как заявка, пользователь,
-            менеджер, CRM, контент и данные проходят через систему.
-          </p>
-        </div>
-        <div className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-          {outputItems.map((item) => (
-            <article
-              key={item.title}
-              className="rounded-[28px] border border-[#E6E0D8] bg-white p-6 shadow-[0_18px_55px_rgba(72,57,41,0.07)]"
-            >
-              <h3 className="text-2xl font-semibold leading-8">{item.title}</h3>
-              <p className="mt-4 text-base leading-7 text-[#4B4B4B]">{item.text}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="bg-[#EFE9DF] px-5 py-16 sm:px-8 lg:px-10 lg:py-24">
-        <div className="grid gap-8 rounded-[34px] border border-[#DCD3C8] bg-white p-6 shadow-[0_24px_75px_rgba(72,57,41,0.09)] sm:p-8 lg:grid-cols-[0.82fr_1.18fr] lg:p-10">
-          <div>
-            <h2 className="text-[clamp(2.2rem,4.4vw,4.4rem)] font-semibold leading-[1]">
-              Компактная senior-команда, которая ведёт проект руками
-            </h2>
-            <p className="mt-5 text-base leading-7 text-[#4B4B4B] sm:text-lg sm:leading-8">
-              Skybric — небольшая технологическая команда из 5 специалистов. Мы не
-              раздуваем процесс и не передаём клиента между отделами. Тот, кто
-              проектирует архитектуру, остаётся в проекте до запуска и доработок.
-            </p>
-          </div>
-          <div className="grid gap-4 md:grid-cols-2">
-            {[
-              "проектирование архитектуры",
-              "frontend и backend",
-              "интеграции и автоматизация",
-              "контент, SEO и запуск",
-            ].map((item) => (
+          <div className="mt-12 grid gap-3 sm:grid-cols-3">
+            {approachItems.map((item) => (
               <div
                 key={item}
-                className="rounded-[24px] border border-[#E6E0D8] bg-[#F6F3EE] p-5 text-lg font-semibold leading-7"
+                className="rounded-[22px] border border-[#E6E0D8] bg-white px-5 py-4 text-sm font-semibold leading-5 text-[#4B4B4B] shadow-[0_12px_34px_rgba(72,57,41,0.045)]"
               >
                 {item}
               </div>
@@ -273,93 +225,242 @@ export default async function Home() {
         </div>
       </section>
 
-      <section id="cases" className="px-5 py-16 sm:px-8 lg:px-10 lg:py-24">
-        <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
-          <h2 className="max-w-4xl text-[clamp(2.25rem,4.5vw,4.6rem)] font-semibold leading-[1]">
-            Разборы задач вместо выдуманных кейсов
-          </h2>
-          <p className="max-w-3xl text-base leading-7 text-[#4B4B4B] sm:text-lg sm:leading-8 lg:justify-self-end">
-            Не используем неподтверждённые проценты, логотипы и истории. Показываем
-            рабочую логику: что ломалось, что можно собрать и какие системы связать.
-          </p>
-        </div>
-        <div className="mt-10 grid gap-4 lg:grid-cols-3">
-          {taskAnalyses.map((item) => (
-            <article key={item.title} className="rounded-[28px] border border-[#E6E0D8] bg-white p-6">
-              <h3 className="text-2xl font-semibold leading-8">{item.title}</h3>
-              <div className="mt-6 grid gap-4">
-                <div className="border-t border-[#E6E0D8] pt-4">
-                  <p className="text-sm font-semibold uppercase tracking-[0.08em] text-[#6B6B6B]">
-                    Где терялся контроль
-                  </p>
-                  <p className="mt-2 text-base leading-7 text-[#4B4B4B]">{item.problem}</p>
-                </div>
-                <div className="rounded-[20px] bg-[#F6F3EE] p-4">
-                  <p className="text-sm font-semibold uppercase tracking-[0.08em] text-[#6D4AFF]">
-                    Что можно собрать
-                  </p>
-                  <p className="mt-2 text-base font-semibold leading-7">{item.solution}</p>
-                </div>
-                <p className="text-sm leading-6 text-[#6B6B6B]">
-                  Системы: {item.systems}. После запуска: {item.easier}
+      <section id="services" className="px-5 py-12 sm:px-8 lg:px-10 lg:py-16">
+        <div className="w-full min-w-0">
+          <div className="mb-8 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <SectionLabel>Что мы делаем</SectionLabel>
+              <h2 className="mt-5 max-w-xl text-[clamp(2.05rem,3.4vw,3.6rem)] font-semibold leading-[1.05]">
+                Системы, которые закрывают конкретные задачи
+              </h2>
+            </div>
+            <Link href="/services" className="w-fit text-sm font-semibold underline underline-offset-4">
+              Все услуги ↗
+            </Link>
+          </div>
+
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {serviceList.map((service) => (
+              <Link
+                key={service.slug}
+                href={service.path}
+                className="group flex min-h-[220px] flex-col rounded-[24px] border border-[#E6E0D8] bg-white p-5 shadow-[0_12px_34px_rgba(72,57,41,0.045)] transition hover:-translate-y-0.5 hover:border-[#6D4AFF]/30 hover:shadow-[0_18px_52px_rgba(72,57,41,0.08)] motion-reduce:transition-none motion-reduce:hover:translate-y-0"
+              >
+                <ServiceIcon />
+                <h3 className="mt-6 text-lg font-semibold leading-6">{service.title}</h3>
+                <p className="mt-3 flex-1 text-sm leading-6 text-[#6B6B6B]">
+                  {service.valuePoints[0]}
                 </p>
-              </div>
-            </article>
-          ))}
+                <ArrowBadge />
+              </Link>
+            ))}
+          </div>
         </div>
-        <Link
-          href="/cases"
-          className="mt-8 inline-flex min-h-12 items-center justify-center rounded-full border border-[#DCD3C8] bg-white px-6 text-sm font-semibold text-[#121212] transition hover:border-[#6D4AFF]/45 hover:text-[#6D4AFF] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#6D4AFF]"
-        >
-          Посмотреть все разборы
-        </Link>
       </section>
 
-      <section className="bg-white px-5 py-16 sm:px-8 lg:px-10 lg:py-24">
-        <div className="grid gap-8 rounded-[34px] border border-[#E6E0D8] bg-[#F6F3EE] p-6 sm:p-8 lg:grid-cols-[0.75fr_1.25fr] lg:p-10">
-          <h2 className="text-[clamp(2.15rem,4.2vw,4.1rem)] font-semibold leading-[1]">
-            Как мы переводим задачу в рабочую систему
-          </h2>
-          <div className="grid gap-4 md:grid-cols-2">
-            {processPreview.map(([number, title, text]) => (
-              <article key={title} className="border-t border-[#DCD3C8] pt-5">
-                <p className="text-sm font-semibold text-[#6D4AFF]">{number}</p>
-                <h3 className="mt-4 text-xl font-semibold leading-7">{title}</h3>
-                <p className="mt-3 text-base leading-7 text-[#4B4B4B]">{text}</p>
+      <section className="px-5 py-8 sm:px-8 lg:px-10 lg:py-12">
+        <div className="w-full rounded-[34px] bg-[#18181B] p-6 text-white shadow-[0_24px_70px_rgba(24,24,27,0.16)] sm:p-8 lg:p-12">
+          <div className="grid gap-10 lg:grid-cols-[0.34fr_0.66fr] lg:items-center">
+            <div>
+              <h2 className="text-[clamp(2.2rem,4vw,4.2rem)] font-semibold leading-[1.02]">
+                Не набор услуг, а единая система роста
+              </h2>
+              <p className="mt-5 max-w-md text-base leading-7 text-white/68">
+                Объединяем технологии, аналитику и автоматизацию, чтобы сайт, CRM,
+                Telegram, SEO и внутренние процессы работали на общую цель.
+              </p>
+              <Link
+                href="/contact"
+                className="mt-8 inline-flex min-h-13 items-center justify-center rounded-2xl bg-[#6D4AFF] px-6 text-base font-semibold text-white transition hover:bg-[#5D3EE4]"
+              >
+                Обсудить архитектуру ↗
+              </Link>
+            </div>
+            <SystemMap />
+          </div>
+        </div>
+      </section>
+
+      <section className="px-5 py-12 sm:px-8 lg:px-10 lg:py-16">
+        <div className="grid w-full gap-5 rounded-[30px] border border-[#E6E0D8] bg-white p-6 shadow-[0_16px_46px_rgba(72,57,41,0.055)] lg:grid-cols-[0.36fr_0.64fr] lg:p-8">
+          <div>
+              <SectionLabel>Результаты</SectionLabel>
+              <h2 className="mt-5 text-[clamp(2rem,3vw,3.2rem)] font-semibold leading-[1.04]">
+              Технологии, которые дают измеримый результат
+            </h2>
+            <p className="mt-4 text-base leading-7 text-[#6B6B6B]">
+              Мы не ставим неподтверждённые проценты. Результат фиксируем в процессах:
+              скорость реакции, меньше ручной работы, чище данные и понятнее контроль.
+            </p>
+          </div>
+          <div className="grid gap-4 md:grid-cols-3">
+            {resultItems.map((item) => (
+              <article key={item.title} className="rounded-[24px] border border-[#E6E0D8] bg-[#F6F3EE] p-5">
+                <ServiceIcon />
+                <h3 className="mt-6 text-3xl font-semibold text-[#121212]">{item.title}</h3>
+                <p className="mt-3 text-sm leading-6 text-[#6B6B6B]">{item.text}</p>
               </article>
             ))}
           </div>
         </div>
       </section>
 
-      <section id="contact" className="px-5 pb-24 pt-16 sm:px-8 lg:px-10 lg:pb-32 lg:pt-24">
-        <div className="grid gap-10 rounded-[34px] border border-[#2B2B31] bg-[#18181B] p-5 text-white shadow-[0_34px_100px_rgba(24,24,27,0.2)] sm:p-8 lg:grid-cols-[0.82fr_1.18fr] lg:p-10">
-          <div>
-            <h2 className="text-[clamp(2.35rem,5vw,5rem)] font-semibold leading-[0.98]">
-              Есть задача, где сайт, CRM, Telegram или SEO должны работать как система?
-            </h2>
-            <p className="mt-6 max-w-xl text-lg leading-8 text-white/68">
-              Опишите задачу — посмотрим, какой формат решения подойдёт, что стоит
-              собрать первым и какие интеграции нужны для запуска.
-            </p>
-            <Link
-              href="/ai-audit"
-              className="mt-8 inline-flex min-h-12 items-center justify-center rounded-full border border-white/15 px-5 text-sm font-semibold text-white/82 transition hover:border-white/35 hover:text-white"
-            >
-              Аудит процессов и автоматизации
+      <section id="process" className="px-5 py-12 sm:px-8 lg:px-10 lg:py-16">
+        <div className="w-full min-w-0">
+          <div className="mb-8 flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+            <div>
+              <SectionLabel>Как мы работаем</SectionLabel>
+              <h2 className="mt-5 max-w-xl text-[clamp(2.05rem,3.4vw,3.6rem)] font-semibold leading-[1.05]">
+                Прозрачный процесс — понятный результат
+              </h2>
+            </div>
+            <Link href="/process" className="w-fit text-sm font-semibold underline underline-offset-4">
+              Подробнее о подходе ↗
             </Link>
           </div>
-          <ServiceLeadForm serviceSlug="homepage" serviceTitle="Главная страница Skybric" />
+          <ol className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
+            {processSteps.map(([number, title, text]) => (
+              <li key={title} className="rounded-[26px] border border-[#E6E0D8] bg-white p-6 shadow-[0_12px_34px_rgba(72,57,41,0.045)]">
+                <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#6D4AFF]/10 text-sm font-semibold text-[#6D4AFF]">
+                  {number}
+                </span>
+                <h3 className="mt-12 text-xl font-semibold leading-7">{title}</h3>
+                <p className="mt-3 text-sm leading-6 text-[#6B6B6B]">{text}</p>
+              </li>
+            ))}
+          </ol>
         </div>
       </section>
-      {/* Публичный UI: ссылка /admin только в development; в prod откройте /admin/login вручную. */}
-      {process.env.NODE_ENV === "development" ? (
-        <p className="px-5 pb-8 text-center text-xs text-[#6B6B6B] sm:px-8">
-          <Link href="/admin" className="underline underline-offset-2 hover:text-[#121212]">
-            Админка (dev)
+
+      <section id="team" className="px-5 py-12 sm:px-8 lg:px-10 lg:py-16">
+        <div className="w-full min-w-0">
+          <div className="mb-8 grid gap-6 lg:grid-cols-[0.58fr_0.42fr] lg:items-end">
+            <div>
+              <SectionLabel>Команда</SectionLabel>
+              <h2 className="mt-5 max-w-2xl text-[clamp(2.05rem,3.4vw,3.6rem)] font-semibold leading-[1.05]">
+                Эксперты, которые думают как партнёры
+              </h2>
+            </div>
+            <p className="text-base leading-7 text-[#6B6B6B]">
+              Стратегия, дизайн, разработка, интеграции и SEO работают вместе, чтобы
+              решение не распалось на отдельные куски.
+            </p>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+            {teamRoles.map(([title, text]) => (
+              <article key={title} className="rounded-[24px] border border-[#E6E0D8] bg-white p-5">
+                <p className="text-sm font-semibold uppercase tracking-[0.12em] text-[#6D4AFF]">
+                  роль
+                </p>
+                <div className="mt-12 flex items-end justify-between gap-4 border-t border-[#E6E0D8] pt-5">
+                  <div>
+                    <h3 className="text-lg font-semibold">{title}</h3>
+                    <p className="mt-1 text-sm text-[#6B6B6B]">{text}</p>
+                  </div>
+                  <ArrowBadge />
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="cases" className="px-5 py-12 sm:px-8 lg:px-10 lg:py-16">
+        <div className="grid w-full overflow-hidden rounded-[30px] border border-[#E6E0D8] bg-white shadow-[0_16px_46px_rgba(72,57,41,0.055)] lg:grid-cols-[0.38fr_0.62fr]">
+          <div className="p-6 lg:p-8">
+            <SectionLabel>Кейс</SectionLabel>
+            <h2 className="mt-5 text-3xl font-semibold leading-[1.1]">
+              Разбор задачи: финансовый сервис
+            </h2>
+            <p className="mt-4 text-base leading-7 text-[#6B6B6B]">
+              Разбор задачи: личный кабинет, заявки, документы, интеграции и контроль
+              процесса без разрозненных таблиц.
+            </p>
+            <div className="mt-8 grid gap-3 sm:grid-cols-3">
+              {["личный кабинет", "интеграции", "контроль заявок"].map((item) => (
+                <div key={item} className="rounded-[18px] bg-[#F6F3EE] p-4 text-sm font-semibold">
+                  {item}
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="grid min-h-[300px] content-between bg-[#18181B] p-6 text-white lg:p-8">
+            <div className="grid gap-3 sm:grid-cols-3">
+              {[
+                ["Вход", "форма и заявки"],
+                ["Логика", "статусы и документы"],
+                ["Контроль", "ответственные и сроки"],
+              ].map(([title, text]) => (
+                <div
+                  key={title}
+                  className="rounded-[22px] border border-white/10 bg-white/[0.06] p-4"
+                >
+                  <p className="text-sm font-semibold text-[#B8FF5C]">{title}</p>
+                  <p className="mt-3 text-base font-semibold leading-6 text-white/88">{text}</p>
+                </div>
+              ))}
+            </div>
+            <div className="mt-10 max-w-xl">
+              <p className="text-[clamp(2rem,3vw,3.4rem)] font-semibold leading-[1.02]">
+                Из разрозненного процесса в управляемый сервис
+              </p>
+              <p className="mt-4 text-base leading-7 text-white/62">
+                Показываем задачу через архитектуру: какие точки входа связать, где
+                хранить данные и как команде видеть следующий шаг.
+              </p>
+            </div>
+            <Link
+              href="/cases"
+              className="mt-8 inline-flex min-h-13 w-fit items-center justify-center rounded-2xl bg-white px-6 text-sm font-semibold text-[#121212] shadow-[0_16px_40px_rgba(24,24,27,0.16)]"
+            >
+              Смотреть кейс ↗
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <section id="contact" className="px-5 pb-10 pt-8 sm:px-8 lg:px-10">
+        <div className="grid w-full gap-8 rounded-[30px] bg-[#18181B] p-6 text-white shadow-[0_24px_70px_rgba(24,24,27,0.16)] lg:grid-cols-[0.42fr_0.58fr] lg:p-8">
+          <div>
+            <h2 className="text-[clamp(2rem,3vw,3.2rem)] font-semibold leading-[1.05]">
+              Готовы обсудить ваш проект?
+            </h2>
+            <p className="mt-4 text-base leading-7 text-white/64">
+              Оставьте заявку — мы свяжемся в ближайшее время и предложим решение под
+              вашу задачу.
+            </p>
+            <div className="mt-10 grid gap-6 text-white/72">
+              <div>
+                <p className="font-semibold text-white">Contact Us</p>
+                <a href={`mailto:${SITE_CONTACTS_FALLBACK.email}`} className="mt-3 block hover:text-white">
+                  {SITE_CONTACTS_FALLBACK.email}
+                </a>
+                <a href={SITE_CONTACTS_FALLBACK.phoneHref} className="mt-2 block hover:text-white">
+                  {SITE_CONTACTS_FALLBACK.phoneDisplay}
+                </a>
+              </div>
+              <div>
+                <p className="font-semibold text-white">Channels</p>
+                <div className="mt-3 flex flex-wrap gap-3">
+                  <span>Telegram</span>
+                  <span>WhatsApp</span>
+                </div>
+              </div>
+            </div>
+            <p className="mt-16 text-3xl font-bold">SKYBRIC</p>
+          </div>
+          <div className="min-w-0">
+            <ServiceLeadForm serviceSlug="homepage" serviceTitle="Главная страница Skybric" />
+          </div>
+        </div>
+        <footer className="flex w-full flex-col gap-4 px-4 py-5 text-sm text-[#6B6B6B] sm:flex-row sm:items-center sm:justify-between">
+          <p className="font-semibold text-[#121212]">SKYBRIC</p>
+          <p>© 2026 Skybric. Все права защищены.</p>
+          <Link href="/contact" className="hover:text-[#6D4AFF]">
+            Контакты
           </Link>
-        </p>
-      ) : null}
+        </footer>
+      </section>
     </main>
   );
 }

@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { siteGutterX } from "@/lib/site-gutters";
 import { SiteLogoLink } from "@/components/site/site-logo-link";
 import { buildOverlayColumns, overlayPrimary } from "@/components/site/site-header-nav-data";
-import type { SiteContacts } from "@/lib/site/site-contacts";
+import type { SiteContacts } from "@/lib/site/site-contacts-model";
 
 export type SiteHeaderMenuOverlayProps = {
   panelId: string;

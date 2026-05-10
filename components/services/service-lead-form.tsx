@@ -34,6 +34,10 @@ const budgetBandOptions = [
   "3+ млн ₸",
 ] as const;
 
+const labelClass = "grid min-w-0 gap-2 text-sm font-semibold text-[#121212]";
+const fieldClass =
+  "min-h-14 w-full min-w-0 rounded-[18px] border border-[#E6E0D8] bg-white px-4 text-base text-[#121212] outline-none transition placeholder:text-[#8B8B8B] focus:border-[#6D4AFF] focus:ring-4 focus:ring-[#6D4AFF]/10";
+
 export function ServiceLeadForm({
   serviceSlug,
   serviceTitle,
@@ -47,7 +51,7 @@ export function ServiceLeadForm({
 
   return (
     <form
-      className="grid gap-4 rounded-[28px] border border-[#E6E0D8] bg-white p-5 text-[#121212] shadow-[0_18px_55px_rgba(72,57,41,0.10)] sm:p-6 lg:p-8"
+      className="grid min-w-0 gap-4 rounded-[28px] border border-[#E6E0D8] bg-[#FDFCF9] p-5 text-[#121212] shadow-[0_14px_42px_rgba(72,57,41,0.06)] sm:p-6 lg:p-8"
       onSubmit={async (event) => {
         event.preventDefault();
 
@@ -110,58 +114,58 @@ export function ServiceLeadForm({
         <input name="website" tabIndex={-1} autoComplete="off" />
       </label>
 
-      <div className="grid gap-4 sm:grid-cols-2">
-        <label className="grid gap-2 text-sm font-semibold">
+      <div className="grid gap-4 md:grid-cols-2">
+        <label className={labelClass}>
           Имя
           <input
             name="name"
             autoComplete="name"
-            className="min-h-13 rounded-[18px] border border-[#E6E0D8] bg-[#F6F3EE] px-4 text-base outline-none transition focus:border-[#6D4AFF] focus:bg-white focus:ring-4 focus:ring-[#6D4AFF]/10"
+            className={fieldClass}
           />
         </label>
-        <label className="grid gap-2 text-sm font-semibold">
+        <label className={labelClass}>
           Телефон
           <input
             name="phone"
             autoComplete="tel"
-            className="min-h-13 rounded-[18px] border border-[#E6E0D8] bg-[#F6F3EE] px-4 text-base outline-none transition focus:border-[#6D4AFF] focus:bg-white focus:ring-4 focus:ring-[#6D4AFF]/10"
+            className={fieldClass}
           />
         </label>
-        <label className="grid gap-2 text-sm font-semibold">
+        <label className={labelClass}>
           Telegram
           <input
             name="telegram"
             autoComplete="username"
             placeholder="@username"
-            className="min-h-13 rounded-[18px] border border-[#E6E0D8] bg-[#F6F3EE] px-4 text-base outline-none transition focus:border-[#6D4AFF] focus:bg-white focus:ring-4 focus:ring-[#6D4AFF]/10"
+            className={fieldClass}
           />
         </label>
-        <label className="grid gap-2 text-sm font-semibold">
+        <label className={labelClass}>
           Email
           <input
             name="email"
             type="email"
             autoComplete="email"
-            className="min-h-13 rounded-[18px] border border-[#E6E0D8] bg-[#F6F3EE] px-4 text-base outline-none transition focus:border-[#6D4AFF] focus:bg-white focus:ring-4 focus:ring-[#6D4AFF]/10"
+            className={fieldClass}
           />
         </label>
       </div>
 
-      <label className="grid gap-2 text-sm font-semibold">
+      <label className={labelClass}>
         Компания
         <input
           name="company"
           autoComplete="organization"
-          className="min-h-13 rounded-[18px] border border-[#E6E0D8] bg-[#F6F3EE] px-4 text-base outline-none transition focus:border-[#6D4AFF] focus:bg-white focus:ring-4 focus:ring-[#6D4AFF]/10"
+          className={fieldClass}
         />
       </label>
 
-      <div className="grid gap-4 sm:grid-cols-3">
-        <label className="grid min-w-0 gap-2 text-sm font-semibold">
+      <div className="grid gap-4 md:grid-cols-2">
+        <label className={labelClass}>
           Интересует услуга
           <select
             name="service_interest"
-            className="min-h-13 w-full min-w-0 rounded-[18px] border border-[#E6E0D8] bg-[#F6F3EE] px-4 text-base outline-none transition focus:border-[#6D4AFF] focus:bg-white focus:ring-4 focus:ring-[#6D4AFF]/10"
+            className={fieldClass}
           >
             <option value="">Выберите, если понятно</option>
             {serviceInterestOptions.map((option) => (
@@ -171,11 +175,11 @@ export function ServiceLeadForm({
             ))}
           </select>
         </label>
-        <label className="grid min-w-0 gap-2 text-sm font-semibold">
+        <label className={labelClass}>
           Стадия проекта
           <select
             name="project_stage"
-            className="min-h-13 w-full min-w-0 rounded-[18px] border border-[#E6E0D8] bg-[#F6F3EE] px-4 text-base outline-none transition focus:border-[#6D4AFF] focus:bg-white focus:ring-4 focus:ring-[#6D4AFF]/10"
+            className={fieldClass}
           >
             <option value="">Выберите, если понятно</option>
             {projectStageOptions.map((option) => (
@@ -185,11 +189,11 @@ export function ServiceLeadForm({
             ))}
           </select>
         </label>
-        <label className="grid min-w-0 gap-2 text-sm font-semibold">
+        <label className={labelClass}>
           Бюджетный диапазон
           <select
             name="budget_band"
-            className="min-h-13 w-full min-w-0 rounded-[18px] border border-[#E6E0D8] bg-[#F6F3EE] px-4 text-base outline-none transition focus:border-[#6D4AFF] focus:bg-white focus:ring-4 focus:ring-[#6D4AFF]/10"
+            className={fieldClass}
           >
             <option value="">Можно не указывать</option>
             {budgetBandOptions.map((option) => (
@@ -201,21 +205,21 @@ export function ServiceLeadForm({
         </label>
       </div>
 
-      <label className="grid gap-2 text-sm font-semibold">
+      <label className={labelClass}>
         Сообщение
         <textarea
           name="message"
           minLength={10}
           rows={5}
           placeholder="Опишите задачу: что хотите автоматизировать, какая CRM или система уже есть, где сейчас теряется время."
-          className="min-h-36 resize-y rounded-[20px] border border-[#E6E0D8] bg-[#F6F3EE] px-4 py-4 text-base outline-none transition focus:border-[#6D4AFF] focus:bg-white focus:ring-4 focus:ring-[#6D4AFF]/10"
+          className={`${fieldClass} min-h-36 resize-y py-4`}
         />
       </label>
 
       <button
         type="submit"
         disabled={state === "loading" || state === "success"}
-        className="mt-2 inline-flex min-h-14 w-full items-center justify-center rounded-full bg-[#18181B] px-6 text-base font-bold text-white shadow-[0_18px_45px_rgba(24,24,27,0.22)] transition hover:bg-[#2B2B31] disabled:cursor-not-allowed disabled:opacity-60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#6D4AFF]"
+        className="mt-2 inline-flex min-h-14 w-full items-center justify-center rounded-[18px] bg-[#18181B] px-6 text-base font-bold text-white shadow-[0_14px_34px_rgba(24,24,27,0.18)] transition hover:bg-[#2B2B31] disabled:cursor-not-allowed disabled:opacity-60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#6D4AFF]"
       >
         {state === "loading" ? "Отправляем..." : "Отправить заявку"}
       </button>

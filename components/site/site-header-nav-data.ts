@@ -1,18 +1,18 @@
-import type { SiteContacts } from "@/lib/site/site-contacts";
+import type { SiteContacts } from "@/lib/site/site-contacts-model";
 
 export const mainNav = [
   { href: "/services", label: "Услуги" },
-  { href: "/cases", label: "Кейсы" },
-  { href: "/process", label: "Процесс" },
-  { href: "/about", label: "О нас" },
+  { href: "/cases", label: "Проекты" },
+  { href: "/process", label: "Подход" },
+  { href: "/about", label: "Команда" },
   { href: "/contact", label: "Контакты" },
 ] as const;
 
 export const overlayPrimary = [
   { href: "/services", label: "Услуги" },
-  { href: "/cases", label: "Кейсы" },
-  { href: "/process", label: "Процесс" },
-  { href: "/about", label: "О нас" },
+  { href: "/cases", label: "Проекты" },
+  { href: "/process", label: "Подход" },
+  { href: "/about", label: "Команда" },
   { href: "/contact", label: "Контакты" },
 ] as const;
 

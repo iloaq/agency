@@ -7,8 +7,8 @@ import { Suspense, useCallback, useEffect, useId, useRef, useState } from "react
 import { Button } from "@/components/ui/button";
 import { mainNav } from "@/components/site/site-header-nav-data";
 import { SiteLogoLink } from "@/components/site/site-logo-link";
-import type { SiteContacts } from "@/lib/site/site-contacts";
-import { SITE_CONTACTS_FALLBACK } from "@/lib/site/site-contacts";
+import type { SiteContacts } from "@/lib/site/site-contacts-model";
+import { SITE_CONTACTS_FALLBACK } from "@/lib/site/site-contacts-model";
 import { siteGutterX } from "@/lib/site-gutters";
 
 /* Тяжёлое меню (MUI + GSAP) — только после открытия. https://nextjs.org/docs/app/building-your-application/optimizing/lazy-loading */
@@ -49,8 +49,8 @@ export function SiteHeader({ contacts = SITE_CONTACTS_FALLBACK }: { contacts?: S
 
   return (
     <>
-      <header className="sticky top-0 z-50 border-b border-[#E6E0D8]/80 bg-[#F6F3EE]/92 backdrop-blur">
-        <div className={`flex h-16 items-center justify-between gap-4 ${siteGutterX}`}>
+      <header className="sticky top-0 z-50 bg-[#F6F3EE]/88 backdrop-blur">
+        <div className={`flex h-[72px] items-center justify-between gap-4 ${siteGutterX}`}>
           <SiteLogoLink />
 
           <nav
@@ -67,9 +67,9 @@ export function SiteHeader({ contacts = SITE_CONTACTS_FALLBACK }: { contacts?: S
           <div className="ml-auto flex items-center gap-3 lg:ml-0">
             <Link
               href="/contact"
-              className="hidden min-h-10 items-center justify-center rounded-full bg-[#18181B] px-5 text-sm font-semibold text-white transition hover:bg-[#2B2B31] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#6D4AFF] lg:inline-flex"
+              className="hidden min-h-12 items-center justify-center rounded-2xl bg-[#18181B] px-6 text-sm font-semibold text-white transition hover:bg-[#2B2B31] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#6D4AFF] lg:inline-flex"
             >
-              Обсудить проект
+              Обсудить проект ↗
             </Link>
             <Button
               type="button"

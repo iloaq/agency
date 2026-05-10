@@ -9,11 +9,11 @@ import {
 } from "@/components/marketing/light-ui";
 import { ServiceLeadForm } from "./service-lead-form";
 
-const sectionClass = "px-5 py-16 sm:px-8 lg:px-10 lg:py-24";
+const sectionClass = "w-full px-5 py-16 sm:px-8 lg:px-10 lg:py-24";
 
 function CommercialSummary({ service }: { service: ServiceData }) {
   return (
-    <aside className="rounded-[30px] border border-[#E6E0D8] bg-white p-6 shadow-[0_24px_70px_rgba(72,57,41,0.1)] lg:p-7">
+    <aside className="rounded-[30px] border border-[#E6E0D8] bg-white p-6 shadow-[0_14px_42px_rgba(72,57,41,0.055)] lg:p-7">
       <h2 className="text-3xl font-semibold leading-9">Что разбираем в проекте</h2>
       <div className="mt-7 grid gap-5">
         <div className="border-t border-[#E6E0D8] pt-4">
@@ -41,24 +41,29 @@ function CommercialSummary({ service }: { service: ServiceData }) {
 
 export function ServiceHero({ service }: { service: ServiceData }) {
   return (
-    <section className="grid gap-10 px-5 pb-16 pt-12 sm:px-8 lg:grid-cols-[minmax(0,1fr)_minmax(360px,0.46fr)] lg:items-end lg:px-10 lg:pb-24 lg:pt-20">
-      <div className="min-w-0">
-        <h1 className="max-w-6xl text-[clamp(2.55rem,6.4vw,5.7rem)] font-semibold leading-[1.01] tracking-normal text-[#121212]">
+    <section className="px-5 pb-16 pt-10 sm:px-8 lg:px-10 lg:pb-24 lg:pt-14">
+      <div className="w-full min-w-0">
+        <h1 className="text-[clamp(2.55rem,6.4vw,7rem)] font-semibold leading-[0.94] tracking-normal text-[#121212]">
           {service.heroTitle}
         </h1>
-        <p className="mt-7 max-w-4xl text-lg leading-8 text-[#4B4B4B] sm:text-xl sm:leading-9">
-          {service.heroSubtitle}
-        </p>
 
-        <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center">
-          <ButtonLink href="#service-lead-form">{service.ctaPrimary}</ButtonLink>
-          <ButtonLink href="#solutions" variant="secondary">
-            {service.ctaSecondary}
-          </ButtonLink>
+        <div className="mt-8 grid gap-8 lg:grid-cols-[0.54fr_0.46fr] lg:items-end">
+          <div className="min-w-0 lg:pb-4">
+            <p className="max-w-3xl text-lg leading-8 text-[#4B4B4B] sm:text-xl sm:leading-9">
+              {service.heroSubtitle}
+            </p>
+
+            <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center">
+              <ButtonLink href="#service-lead-form">{service.ctaPrimary}</ButtonLink>
+              <ButtonLink href="#solutions" variant="secondary">
+                {service.ctaSecondary}
+              </ButtonLink>
+            </div>
+          </div>
+
+          <CommercialSummary service={service} />
         </div>
       </div>
-
-      <CommercialSummary service={service} />
     </section>
   );
 }
@@ -100,7 +105,7 @@ export function PainCards({ service }: { service: ServiceData }) {
 
 export function SolutionList({ service }: { service: ServiceData }) {
   return (
-    <section id="solutions" className={`${sectionClass} bg-white`} aria-labelledby="solutions-heading">
+    <section id="solutions" className={sectionClass} aria-labelledby="solutions-heading">
       <SectionHeader
         eyebrow="Решения"
         title="Что внедряем"
@@ -130,7 +135,7 @@ export function ProcessSteps({ service }: { service: ServiceData }) {
       />
       <ol className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
         {service.processSteps.map((step, index) => (
-          <li key={step} className="rounded-[26px] border border-[#E6E0D8] bg-white p-5 shadow-[0_14px_45px_rgba(72,57,41,0.07)]">
+          <li key={step} className="rounded-[26px] border border-[#E6E0D8] bg-white p-5 shadow-[0_12px_34px_rgba(72,57,41,0.045)]">
             <p className="text-sm font-semibold text-[#6D4AFF]">
               {String(index + 1).padStart(2, "0")}
             </p>
@@ -144,7 +149,7 @@ export function ProcessSteps({ service }: { service: ServiceData }) {
 
 export function BusinessResult({ service }: { service: ServiceData }) {
   return (
-    <section className={`${sectionClass} bg-[#EFE9DF]`} aria-labelledby="result-heading">
+    <section className={sectionClass} aria-labelledby="result-heading">
       <SectionHeader
         eyebrow="Результат"
         title="Результат для бизнеса"
@@ -188,7 +193,7 @@ export function UseCases({ service }: { service: ServiceData }) {
 
 export function Deliverables({ service }: { service: ServiceData }) {
   return (
-    <section className={`${sectionClass} bg-white`} aria-labelledby="deliverables-heading">
+    <section className={sectionClass} aria-labelledby="deliverables-heading">
       <SectionHeader
         eyebrow="Состав работ"
         title="Что входит в работу"
@@ -211,7 +216,7 @@ export function Deliverables({ service }: { service: ServiceData }) {
 export function WhyCustomSolution({ service }: { service: ServiceData }) {
   return (
     <section className={sectionClass} aria-labelledby="why-custom-heading">
-      <div className="grid gap-8 rounded-[34px] border border-[#E6E0D8] bg-white p-6 shadow-[0_24px_80px_rgba(72,57,41,0.1)] sm:p-8 lg:grid-cols-[0.8fr_1.2fr] lg:p-10">
+      <div className="grid gap-8 rounded-[34px] border border-[#E6E0D8] bg-white p-6 shadow-[0_16px_50px_rgba(72,57,41,0.06)] sm:p-8 lg:grid-cols-[0.8fr_1.2fr] lg:p-10">
         <div>
           <h2 id="why-custom-heading" className="text-[clamp(2.3rem,4.6vw,4.5rem)] font-semibold leading-[0.98] text-[#121212]">
             Почему не готовое решение
@@ -234,7 +239,7 @@ export function WhyCustomSolution({ service }: { service: ServiceData }) {
 
 export function ServiceFAQ({ service }: { service: ServiceData }) {
   return (
-    <section className={`${sectionClass} bg-white`} aria-labelledby="faq-heading">
+    <section className={sectionClass} aria-labelledby="faq-heading">
       <SectionHeader eyebrow="FAQ" title="Частые вопросы" center />
       <FAQAccordion items={service.faq} />
     </section>

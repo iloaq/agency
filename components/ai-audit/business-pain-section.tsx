@@ -68,12 +68,9 @@ const businessPains = [
 ] as const;
 
 function PainCard({ pain }: { pain: (typeof businessPains)[number] }) {
-  const spanClass =
-    "gridSpan" in pain && typeof pain.gridSpan === "string" ? pain.gridSpan : "";
-
   return (
     <article
-      className={`group flex h-full min-w-0 flex-col rounded-[28px] border border-[#E6E0D8] bg-white p-6 shadow-[0_18px_55px_rgba(72,57,41,0.07)] transition duration-200 hover:-translate-y-0.5 hover:border-[#6D4AFF]/35 hover:shadow-[0_22px_70px_rgba(72,57,41,0.11)] motion-reduce:transition-none motion-reduce:hover:translate-y-0 ${spanClass}`}
+      className="group flex h-full min-w-0 flex-col rounded-[28px] border border-[#E6E0D8] bg-white p-6 shadow-[0_12px_36px_rgba(72,57,41,0.05)] transition duration-200 hover:-translate-y-0.5 hover:border-[#6D4AFF]/35 hover:shadow-[0_18px_52px_rgba(72,57,41,0.08)] motion-reduce:transition-none motion-reduce:hover:translate-y-0"
     >
       <div className="mb-7 flex items-start justify-between gap-4">
         <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#F1EAFF] text-sm font-bold text-[#6D4AFF] ring-1 ring-[#D8CCFF]">
@@ -112,7 +109,7 @@ function PainCard({ pain }: { pain: (typeof businessPains)[number] }) {
 export function BusinessPainSection() {
   return (
     <section
-      className="bg-[#F6F3EE] px-5 py-16 sm:px-8 lg:px-10 lg:py-24"
+      className="px-5 py-16 sm:px-8 lg:px-10 lg:py-24"
       aria-labelledby="business-pain-heading"
     >
       <div className="grid w-full min-w-0 gap-10 lg:gap-12">

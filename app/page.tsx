@@ -18,12 +18,6 @@ export const metadata: Metadata = {
   },
 };
 
-const approachItems = [
-  "Архитектура перед дизайном и кодом",
-  "Сайт, CRM и интеграции в одном контуре",
-  "Доработки после запуска по фактическим данным",
-] as const;
-
 const resultItems = [
   {
     title: "Заявки",
@@ -211,17 +205,6 @@ export default function Home() {
             >
               Все услуги <ArrowBadge />
             </Link>
-          </div>
-
-          <div className="mt-12 grid gap-3 sm:grid-cols-3">
-            {approachItems.map((item) => (
-              <div
-                key={item}
-                className="rounded-[22px] border border-[#E6E0D8] bg-white px-5 py-4 text-sm font-semibold leading-5 text-[#4B4B4B] shadow-[0_12px_34px_rgba(72,57,41,0.045)]"
-              >
-                {item}
-              </div>
-            ))}
           </div>
         </div>
       </section>

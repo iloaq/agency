@@ -53,16 +53,6 @@ export default async function ServicesPage() {
               Как мы работаем
             </Link>
           </div>
-          <div className="mt-12 grid gap-3 sm:grid-cols-3">
-            {["web + CRM", "Telegram + заявки", "SEO + автоматизация"].map((item) => (
-              <div
-                key={item}
-                className="rounded-[22px] border border-[#E6E0D8] bg-white px-5 py-4 text-sm font-semibold text-[#4B4B4B] shadow-[0_12px_34px_rgba(72,57,41,0.045)]"
-              >
-                {item}
-              </div>
-            ))}
-          </div>
         </div>
       </section>
 

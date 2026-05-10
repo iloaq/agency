@@ -138,9 +138,6 @@ export default function AiAuditPage() {
 
       <section className="px-5 pb-14 pt-10 sm:px-8 lg:px-10 lg:pb-20 lg:pt-14">
         <div className="w-full min-w-0">
-          <p className="mb-7 text-sm font-semibold uppercase tracking-[0.12em] text-[#6D4AFF]">
-            Аудит процессов и автоматизации
-          </p>
           <h1 className="break-words text-[clamp(2.55rem,6.4vw,7rem)] font-semibold leading-[0.94] tracking-normal text-[#121212]">
             Проведём бесплатный аудит процессов и покажем, где вы теряете заявки,
             время сотрудников и деньги
@@ -167,30 +164,11 @@ export default function AiAuditPage() {
               20 минут общения. Таблица с выводами — в течение 2 дней.
             </p>
           </div>
-
-          <div className="mt-12 grid gap-3 sm:grid-cols-3">
-            {["заявки и CRM", "документы и КП", "повторяющаяся рутина"].map((item) => (
-              <div
-                key={item}
-                className="rounded-[22px] border border-[#E6E0D8] bg-white px-5 py-4 text-sm font-semibold leading-5 text-[#4B4B4B] shadow-[0_12px_34px_rgba(72,57,41,0.045)]"
-              >
-                {item}
-              </div>
-            ))}
-          </div>
         </div>
       </section>
 
       <section className="px-5 py-10 sm:px-8 lg:px-10" aria-label="Краткий результат аудита">
-        <div className="grid gap-4 rounded-[30px] border border-[#E6E0D8] bg-white p-5 shadow-[0_16px_46px_rgba(72,57,41,0.055)] lg:grid-cols-[0.34fr_0.66fr] lg:p-7">
-          <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.12em] text-[#6D4AFF]">
-              На выходе
-            </p>
-            <h2 className="mt-5 text-[clamp(2rem,3vw,3.4rem)] font-semibold leading-[1.05]">
-              Короткая таблица, а не презентация
-            </h2>
-          </div>
+        <div className="rounded-[30px] border border-[#E6E0D8] bg-white p-5 shadow-[0_16px_46px_rgba(72,57,41,0.055)] lg:p-7">
           <div className="grid gap-3 md:grid-cols-3">
             {auditRows.map((row) => (
               <article key={row.process} className="rounded-[22px] bg-[#F6F3EE] p-4">
@@ -214,9 +192,6 @@ export default function AiAuditPage() {
         <div className="grid w-full min-w-0 gap-10">
           <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
             <div>
-              <p className="mb-5 text-sm font-semibold uppercase tracking-[0.12em] text-[#6D4AFF]">
-                Для кого
-              </p>
               <h2
                 id="fit-heading"
                 className="max-w-4xl text-[clamp(2.3rem,4.6vw,4.5rem)] font-semibold leading-[0.98] tracking-normal text-[#121212]"
@@ -258,9 +233,6 @@ export default function AiAuditPage() {
         <div className="grid w-full min-w-0 gap-10">
           <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
             <div>
-              <p className="mb-5 text-sm font-semibold uppercase tracking-[0.12em] text-[#6D4AFF]">
-                Процесс работы
-              </p>
             <h2
               id="includes-heading"
               className="max-w-4xl text-[clamp(2.4rem,4.8vw,4.8rem)] font-semibold leading-[0.98] tracking-normal text-[#121212]"
@@ -300,12 +272,9 @@ export default function AiAuditPage() {
         <div className="flex w-full min-w-0 flex-col">
           <div className="grid gap-8 lg:items-end">
             <div>
-              <p className="mb-5 text-sm font-semibold uppercase tracking-[0.12em] text-[#6D4AFF]">
-                Таблица результата
-              </p>
               <h2
                 id="table-heading"
-                className=" text-[clamp(2.4rem,4.8vw,4.8rem)] font-semibold leading-[0.98] tracking-normal text-[#121212]"
+                className="text-[clamp(2.4rem,4.8vw,4.8rem)] font-semibold leading-[0.98] tracking-normal text-[#121212]"
               >
                 Фрагмент таблицы после аудита
               </h2>
@@ -399,9 +368,6 @@ export default function AiAuditPage() {
         <div className="grid w-full min-w-0 gap-10">
           <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
             <div>
-              <p className="mb-5 text-sm font-semibold uppercase tracking-[0.12em] text-[#6D4AFF]">
-                Процессы
-              </p>
               <h2
                 id="process-heading"
                 className="max-w-4xl text-[clamp(2.4rem,4.8vw,4.8rem)] font-semibold leading-[0.98] tracking-normal text-[#121212]"
@@ -450,9 +416,6 @@ export default function AiAuditPage() {
         <div className="grid w-full min-w-0 gap-8 rounded-[34px] border border-[#DCD3C8] bg-white p-5 shadow-[0_24px_70px_rgba(72,57,41,0.08)] sm:p-8 lg:grid-cols-[0.42fr_0.58fr] lg:items-start lg:p-10">
           <div className="min-w-0">
             <div>
-              <p className="mb-5 text-sm font-semibold uppercase tracking-[0.12em] text-[#6D4AFF]">
-                Финальный шаг
-              </p>
               <h2
                 id="form-heading"
                 className="text-[clamp(2.35rem,5vw,5rem)] font-semibold leading-[0.98] tracking-normal text-[#121212]"

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { LogoMark, LogoText } from "@/components/site/logo";
+import { LogoText } from "@/components/site/logo";
 
 /* Next.js Image: https://nextjs.org/docs/app/getting-started/images */
 
@@ -15,12 +15,6 @@ export function SiteLogoLink({ className }: { className?: string }) {
         .filter(Boolean)
         .join(" ")}
     >
-      <LogoMark
-        alt=""
-        width={36}
-        height={36}
-        className="!h-9 !w-9 max-w-none shrink-0"
-      />
       <LogoText
         alt=""
         width={138}

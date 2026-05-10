@@ -115,9 +115,6 @@ export function BusinessPainSection() {
       <div className="grid w-full min-w-0 gap-10 lg:gap-12">
         <div className="grid gap-6 lg:grid-cols-12 lg:items-end">
           <div className="lg:col-span-7">
-            <p className="mb-5 text-sm font-semibold uppercase tracking-[0.12em] text-[#6D4AFF]">
-              БОЛИ БИЗНЕСА
-            </p>
             <h2
               id="business-pain-heading"
               className="max-w-4xl text-[clamp(2.4rem,4.8vw,4.8rem)] font-semibold leading-[0.98] tracking-normal text-[#121212]"

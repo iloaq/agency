@@ -1,12 +1,17 @@
 import type { MetadataRoute } from "next";
-import { absoluteUrl } from "@/lib/site-url";
+import { absoluteUrl, siteUrl } from "@/lib/site-url";
 
+// Генерация /robots.txt: https://nextjs.org/docs/app/api-reference/file-conventions/metadata/robots
 export default function robots(): MetadataRoute.Robots {
   return {
-    rules: {
-      userAgent: "*",
-      allow: "/",
-    },
+    rules: [
+      {
+        userAgent: "*",
+        allow: "/",
+        disallow: ["/admin/"],
+      },
+    ],
     sitemap: absoluteUrl("/sitemap.xml"),
+    host: siteUrl,
   };
 }

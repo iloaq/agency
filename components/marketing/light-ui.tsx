@@ -249,8 +249,9 @@ export function ContactCTA({
   text: string;
   children: ReactNode;
 }) {
+  // pb до футера: было pb-24 / lg:pb-32 — лишняя полоса под тёмным блоком (https://tailwindcss.com/docs/padding)
   return (
-    <section className="px-5 pb-24 pt-16 sm:px-8 lg:px-10 lg:pb-32 lg:pt-24">
+    <section className="px-5 pb-10 pt-16 sm:px-8 lg:px-10 lg:pb-12 lg:pt-24">
       <div className="grid w-full gap-8 rounded-[34px] border border-[#2B2B31] bg-[#18181B] p-5 text-white shadow-[0_24px_70px_rgba(24,24,27,0.16)] sm:p-8 lg:grid-cols-[0.74fr_1.26fr] lg:p-10">
         <div className="flex flex-col justify-between gap-10">
           <div>

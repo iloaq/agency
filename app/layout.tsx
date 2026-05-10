@@ -5,6 +5,7 @@ import { LenisGsapProvider } from "@/components/providers/lenis-gsap-provider";
 import { SiteHeader } from "@/components/site/site-header";
 import { ToastProvider } from "@/components/ui/toast";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { YandexMetrika } from "@/components/analytics/yandex-metrika";
 import { resolveSiteContacts } from "@/lib/site/site-contacts";
 import { siteUrl } from "@/lib/site-url";
 import "./globals.css";
@@ -74,6 +75,7 @@ export default async function RootLayout({
             </ToastProvider>
           </TooltipProvider>
         </AppRouterCacheProvider>
+        <YandexMetrika />
       </body>
     </html>
   );

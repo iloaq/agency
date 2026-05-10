@@ -5,10 +5,14 @@ import type { IconType } from "react-icons";
 import {
   FiCpu,
   FiCreditCard,
+  FiEdit3,
   FiFilm,
   FiGitBranch,
   FiGlobe,
   FiLayers,
+  FiMonitor,
+  FiPenTool,
+  FiRefreshCw,
   FiSearch,
   FiSend,
 } from "react-icons/fi";
@@ -20,10 +24,10 @@ import { serviceList, type ServiceSlug } from "@/lib/services/services-data";
 
 export const metadata: Metadata = {
   title: {
-    absolute: "Skybric — веб-разработка, автоматизация и digital-системы для бизнеса",
+    absolute: "Skybric — дизайн, веб-разработка, автоматизация и digital-системы для бизнеса",
   },
   description:
-    "Разрабатываем сайты, веб-сервисы, Telegram-ботов, CRM-интеграции, AI-автоматизацию, SEO, digital-сопровождение и fintech-решения для B2B-компаний.",
+    "Проектируем UI/UX, сайты, веб-сервисы, Telegram-ботов, CRM-интеграции, AI-автоматизацию, SEO, digital-сопровождение и fintech-решения для B2B-компаний.",
   alternates: {
     canonical: "/",
   },
@@ -61,8 +65,12 @@ const teamRoles = [
 ] as const;
 
 const serviceIcons: Record<ServiceSlug, IconType> = {
+  "ui-ux-design": FiPenTool,
+  "website-redesign": FiRefreshCw,
   websites: FiGlobe,
+  "saas-product-design": FiMonitor,
   "web-app-development": FiLayers,
+  "fintech-ui-design": FiEdit3,
   "telegram-bots": FiSend,
   "crm-integrations": FiGitBranch,
   "ai-automation": FiCpu,
@@ -81,6 +89,8 @@ function JsonLd() {
     areaServed: ["Kazakhstan", "Worldwide"],
     knowsAbout: [
       "web development",
+      "UI/UX design",
+      "website redesign",
       "CRM integrations",
       "Telegram bots",
       "SEO",

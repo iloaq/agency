@@ -4,7 +4,7 @@
  * Иначе в sitemap попадут «чужие» URL → «недопустим для этого местоположения».
  * См. https://yandex.ru/support/webmaster/ru/error-dictionary/sitemap
  */
-export const siteBrandHostnames = ["skybric.com", "skybric.ru"] as const;
+export const siteBrandHostnames = ["skybric.kz", "skybric.com"] as const;
 
 function normalizeSiteUrl(input: string): string {
   const trimmed = input.trim().replace(/\/+$/, "");
@@ -27,7 +27,7 @@ function normalizeSiteUrl(input: string): string {
 }
 
 export const siteUrl = normalizeSiteUrl(
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://skybric.com",
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://skybric.kz",
 );
 
 /** Для директивы Host в robots.txt (Яндекс — без схемы). */

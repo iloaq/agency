@@ -4,10 +4,10 @@ import { resolveServiceList } from "@/lib/services/resolve-services";
 
 export const metadata: Metadata = {
   title: {
-    absolute: "Услуги Skybric — сайты, Telegram-боты, CRM, SEO, digital и fintech-разработка",
+    absolute: "Услуги Skybric — дизайн, сайты, Telegram-боты, CRM, SEO и fintech-разработка",
   },
   description:
-    "Технологические и digital-услуги для бизнеса: сайты, веб-сервисы, Telegram-боты, CRM-интеграции, AI-автоматизация, SEO, digital-сопровождение и fintech-разработка.",
+    "Технологические и digital-услуги для бизнеса: UI/UX-дизайн, редизайн сайтов, веб-сервисы, Telegram-боты, CRM-интеграции, AI-автоматизация, SEO и fintech-разработка.",
   alternates: {
     canonical: "/services",
   },
@@ -24,7 +24,7 @@ export default async function ServicesPage() {
           </h1>
           <div className="mt-8 max-w-3xl">
             <p className="text-base leading-7 text-[#4B4B4B] sm:text-lg sm:leading-8">
-              Сайты, веб-сервисы, Telegram-боты, CRM, SEO, AI-автоматизация, digital-сопровождение и fintech-разработка.
+              UI/UX-дизайн, редизайн сайтов, веб-сервисы, Telegram-боты, CRM, SEO, AI-автоматизация, digital-сопровождение и fintech-разработка.
               Каждое направление закрывает конкретный участок: привлечь заявку, связать
               системы, убрать ручной труд или сделать продукт понятнее.
             </p>

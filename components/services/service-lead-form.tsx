@@ -16,8 +16,12 @@ declare global {
 }
 
 const serviceInterestOptions = [
+  "UI/UX-дизайн для B2B",
+  "Редизайн B2B-сайта",
   "Сайт для бизнеса",
+  "Product design для SaaS",
   "Веб-сервис или личный кабинет",
+  "Fintech UI/UX",
   "Telegram-бот",
   "CRM и интеграции",
   "AI-автоматизация",
@@ -50,17 +54,37 @@ export function ServiceLeadForm({
   const [state, setState] = useState<FormState>("idle");
   const [contactMethod, setContactMethod] = useState<ContactMethod>("email");
   const lastSubmitAt = useRef(0);
+  const hasTrackedFormStart = useRef(false);
   const defaultServiceInterest =
     serviceInterestOptions.find((option) => option === serviceTitle) ?? "";
+
+  function pushLeadEvent(event: string, payload: Record<string, unknown> = {}) {
+    const dataLayer = window.dataLayer;
+    if (!dataLayer) return;
+    dataLayer.push({
+      event,
+      service_slug: serviceSlug,
+      service_title: serviceTitle,
+      ...payload,
+    });
+  }
+
+  function trackFormStart() {
+    if (hasTrackedFormStart.current) return;
+    hasTrackedFormStart.current = true;
+    pushLeadEvent("form_start");
+  }
 
   return (
     <form
       className="grid min-w-0 gap-4 rounded-[28px] border border-white/10 bg-[#202024] p-5 text-white shadow-[0_18px_54px_rgba(0,0,0,0.22)] sm:p-6 lg:p-7"
+      onFocusCapture={trackFormStart}
+      onChangeCapture={trackFormStart}
       onSubmit={async (event) => {
         event.preventDefault();
 
-        const now = Date.now();
-        if (now - lastSubmitAt.current < 6000) {
+        const now = event.timeStamp;
+        if (lastSubmitAt.current > 0 && now - lastSubmitAt.current < 6000) {
           toast({
             title: "Заявка уже отправляется. Подождите несколько секунд.",
             variant: "neutral",
@@ -117,11 +141,7 @@ export function ServiceLeadForm({
         }
 
         setState("success");
-        window.dataLayer = window.dataLayer || [];
-        window.dataLayer.push({
-          event: "lead_submit",
-          service_slug: serviceSlug,
-          service_title: serviceTitle,
+        pushLeadEvent("lead_submit", {
           service_interest: lead.service_interest,
           preferred_contact: lead.preferred_contact,
         });
@@ -175,7 +195,12 @@ export function ServiceLeadForm({
                   active ? "bg-[#6D4AFF] text-white" : "text-white/68 hover:bg-white/10 hover:text-white",
                 ].join(" ")}
                 aria-pressed={active}
-                onClick={() => setContactMethod(method.value)}
+                onClick={() => {
+                  setContactMethod(method.value);
+                  pushLeadEvent("preferred_contact_select", {
+                    preferred_contact: method.value,
+                  });
+                }}
               >
                 {method.label}
               </button>
@@ -205,6 +230,11 @@ export function ServiceLeadForm({
               name="service_interest"
               className={selectClass}
               defaultValue={defaultServiceInterest}
+              onChange={(event) =>
+                pushLeadEvent("service_select", {
+                  service_interest: event.currentTarget.value,
+                })
+              }
             >
               <option value="" className="text-[#121212]">
                 Выберите, если понятно

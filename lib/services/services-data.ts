@@ -1,4 +1,10 @@
+import { designServices } from "@/lib/services/design-services-data";
+
 export type ServiceSlug =
+  | "ui-ux-design"
+  | "website-redesign"
+  | "saas-product-design"
+  | "fintech-ui-design"
   | "websites"
   | "web-app-development"
   | "telegram-bots"
@@ -121,6 +127,7 @@ const commonFaq: ServiceFaq[] = [
 ];
 
 export const servicesData: Record<ServiceSlug, ServiceData> = {
+  ...designServices,
   websites: {
     slug: "websites",
     path: "/services/websites",
@@ -914,8 +921,12 @@ export const servicesData: Record<ServiceSlug, ServiceData> = {
 };
 
 export const serviceList: ServiceData[] = [
+  servicesData["ui-ux-design"],
+  servicesData["website-redesign"],
   servicesData.websites,
+  servicesData["saas-product-design"],
   servicesData["web-app-development"],
+  servicesData["fintech-ui-design"],
   servicesData["telegram-bots"],
   servicesData["crm-integrations"],
   servicesData["ai-automation"],

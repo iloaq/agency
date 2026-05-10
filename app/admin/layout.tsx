@@ -1,10 +1,11 @@
 /**
- * Админка контента Supabase: вход /admin/login (ADMIN_PASSWORD / ADMIN_SECRET / ADMIN_SESSION_SECRET),
- * мутации только на сервере через SUPABASE_SERVICE_ROLE_KEY. Подробнее — .env.example
+ * Админка: /admin/login, защищённые маршруты — middleware + cookie.
  * Source: https://supabase.com/docs/guides/api/api-keys
  */
 export default function AdminShellLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-[50vh] bg-[var(--bg-primary)] text-[var(--fonts-black)] antialiased">{children}</div>
+    <div className="min-h-screen bg-slate-950 text-slate-100 antialiased selection:bg-violet-500/30">
+      {children}
+    </div>
   );
 }

@@ -21,9 +21,9 @@ function formatDate(iso: string) {
 function Field({ label, value }: { label: string; value: string | null | undefined }) {
   const v = value?.trim();
   return (
-    <div className="grid gap-1 border-b border-[#DCD3C8] py-3 last:border-0">
-      <dt className="text-xs font-medium uppercase tracking-wide text-[var(--fonts-grey)]">{label}</dt>
-      <dd className="min-w-0 break-words text-sm">{v ? v : "—"}</dd>
+    <div className="grid gap-1 border-b border-slate-800 py-3 last:border-0">
+      <dt className="text-xs font-medium uppercase tracking-wide text-slate-500">{label}</dt>
+      <dd className="min-w-0 break-words text-sm text-slate-200">{v ? v : "—"}</dd>
     </div>
   );
 }
@@ -40,17 +40,19 @@ export default async function AdminLeadDetailPage({ params }: Props) {
 
   return (
     <div className="space-y-6">
-      <nav className="text-sm text-[var(--fonts-grey)]">
-        <Link href="/admin/leads" className="underline-offset-2 hover:underline">
+      <nav className="text-sm text-slate-500">
+        <Link href="/admin/leads" className="text-violet-400 hover:text-violet-300 hover:underline">
           Лиды
         </Link>
-        <span className="mx-2">/</span>
-        <span className="font-mono text-xs">{row.id.slice(0, 8)}…</span>
+        <span className="mx-2 text-slate-600">/</span>
+        <span className="font-mono text-xs text-slate-400">{row.id.slice(0, 8)}…</span>
       </nav>
-      <h1 className="text-2xl font-semibold">Заявка</h1>
-      <p className="text-sm text-[var(--fonts-grey)]">{formatDate(row.created_at)}</p>
+      <div>
+        <h1 className="text-2xl font-semibold tracking-tight text-white">Заявка</h1>
+        <p className="mt-1 text-sm text-slate-400">{formatDate(row.created_at)}</p>
+      </div>
 
-      <div className="rounded-[var(--rad-xl)] border border-[#DCD3C8] bg-[var(--bg-secondary)] px-4 sm:px-6">
+      <div className="rounded-xl border border-slate-700/80 bg-slate-900/50 px-4 sm:px-6">
         <dl>
           <Field label="Статус" value={row.status} />
           <Field label="Услуга (slug)" value={row.service_slug} />
@@ -74,9 +76,9 @@ export default async function AdminLeadDetailPage({ params }: Props) {
         </dl>
       </div>
 
-      <div className="rounded-[var(--rad-xl)] border border-[#DCD3C8] bg-[var(--bg-secondary)] p-4 sm:p-6">
-        <h2 className="mb-2 text-sm font-semibold text-[var(--fonts-grey)]">Сообщение</h2>
-        <pre className="max-h-[480px] overflow-auto whitespace-pre-wrap break-words font-sans text-sm leading-relaxed">
+      <div className="rounded-xl border border-slate-700/80 bg-slate-900/50 p-4 sm:p-6">
+        <h2 className="mb-3 text-xs font-semibold uppercase tracking-wide text-slate-500">Сообщение</h2>
+        <pre className="max-h-[480px] overflow-auto whitespace-pre-wrap break-words font-sans text-sm leading-relaxed text-slate-200">
           {row.message}
         </pre>
       </div>

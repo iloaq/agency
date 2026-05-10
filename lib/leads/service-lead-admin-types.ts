@@ -12,7 +12,8 @@ export type ServiceLeadAdminRow = {
   service_interest: string | null;
   project_stage: string | null;
   budget_band: string | null;
-  preferred_contact: string | null;
+  /** После миграции `service_leads_preferred_contact.sql` приходит из БД. */
+  preferred_contact?: string | null;
   message: string;
   source_page: string | null;
   utm_source: string | null;

@@ -96,9 +96,14 @@ export function ServiceLeadForm({
         const form = event.currentTarget;
         const formData = new FormData(form);
         const url = new URL(window.location.href);
+        const businessArea = String(formData.get("business_area") ?? "").trim();
         const role = String(formData.get("role") ?? "").trim();
         const rawMessage = String(formData.get("message") ?? "").trim();
-        const message = [role ? `Должность: ${role}` : null, rawMessage]
+        const message = [
+          businessArea ? `Сфера деятельности: ${businessArea}` : null,
+          role ? `Должность: ${role}` : null,
+          rawMessage,
+        ]
           .filter(Boolean)
           .join("\n\n");
 
@@ -218,6 +223,16 @@ export function ServiceLeadForm({
           autoComplete={contactMethod === "email" ? "email" : "username"}
           placeholder={contactMethods.find((method) => method.value === contactMethod)?.placeholder}
           required
+          className={fieldClass}
+        />
+      </label>
+
+      <label className={labelClass}>
+        Сфера деятельности
+        <input
+          name="business_area"
+          autoComplete="organization-title"
+          placeholder="Например: клиника, строительство, онлайн-школа, B2B-услуги"
           className={fieldClass}
         />
       </label>

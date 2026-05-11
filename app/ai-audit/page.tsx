@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { AuditScrollLink } from "@/components/ai-audit/audit-scroll-link";
 import { BusinessPainSection } from "@/components/ai-audit/business-pain-section";
 import { ContactCTA } from "@/components/marketing/light-ui";
 import { ServiceLeadForm } from "@/components/services/service-lead-form";
@@ -55,7 +55,7 @@ const auditRows = [
     loss: "часть клиентов ждёт ответа",
     ai: "структура заявки, быстрый черновик ответа, фиксация в CRM",
     priority: "высокий",
-    comment: "разобрать первым",
+    comment: "где заявка теряет скорость и какой шаг проверить первым",
   },
   {
     process: "Документы и КП",
@@ -64,7 +64,7 @@ const auditRows = [
     loss: "время специалистов",
     ai: "черновик КП и проверка комплектности",
     priority: "средний",
-    comment: "нужен контроль человека",
+    comment: "какие шаблоны и данные нужны для быстрого черновика",
   },
   {
     process: "База знаний",
@@ -73,7 +73,7 @@ const auditRows = [
     loss: "повторные вопросы",
     ai: "поиск по внутренним материалам",
     priority: "средний",
-    comment: "проверить структуру",
+    comment: "какие материалы собрать и какие вопросы повторяются чаще",
   },
 ] as const;
 
@@ -123,17 +123,17 @@ export default function AiAuditPage() {
 
           <div className="mt-9 max-w-4xl">
             <p className="text-base leading-7 text-[#4B4B4B] sm:text-xl sm:leading-9">
-              За 20 минут разберём, как обрабатываются заявки, клиентские вопросы,
-              документы, CRM и повторяющиеся задачи. После аудита отправим краткую
-              таблицу: что работает, где слабые места и какие процессы можно улучшить.
+              За 20 минут разберём 2 рабочих процесса в вашем бизнесе. После аудита
+              отправим таблицу: где есть просадка, какие точки можно улучшить, что
+              конкретно стоит сделать, какой результат это может дать в цифрах и с
+              чего лучше начать в первую очередь.
             </p>
             <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center">
-              <Link
-                href="#audit-form"
+              <AuditScrollLink
                 className="inline-flex min-h-14 items-center justify-center rounded-2xl bg-[#18181B] px-7 text-center text-base font-semibold text-white shadow-[0_18px_45px_rgba(24,24,27,0.22)] transition hover:bg-[#2B2B31] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#6D4AFF]"
               >
                 Записаться на аудит ↗
-              </Link>
+              </AuditScrollLink>
               <p className="text-sm leading-6 text-[#6B6B6B] sm:text-base">
                 Таблица с выводами — в течение 2 дней.
               </p>
@@ -216,11 +216,10 @@ export default function AiAuditPage() {
               Что вы получите после аудита
             </h2>
             <div className="max-w-3xl">
-              <p className="w-fit rounded-full bg-white px-4 py-2 text-sm font-semibold text-[#6D4AFF] shadow-[0_10px_28px_rgba(72,57,41,0.04)]">
-                1. Фрагмент таблицы — конкретика по процессам
-              </p>
-              <p className="mt-4 text-base leading-7 text-[#4B4B4B] sm:text-lg sm:leading-8">
-                Фиксируем выводы в формате таблицы: процесс, что уже работает, слабое место, потери, возможность для автоматизации, приоритет и комментарий.
+              <p className="text-base leading-7 text-[#4B4B4B] sm:text-lg sm:leading-8">
+                Получаете короткую таблицу по двум рабочим процессам: где есть просадка,
+                что улучшить, какое действие сделать первым и какой результат можно
+                оценить в цифрах.
               </p>
             </div>
           </div>
@@ -228,7 +227,7 @@ export default function AiAuditPage() {
           <div className="overflow-hidden rounded-[30px] border border-[#E6E0D8] bg-white shadow-[0_16px_48px_rgba(72,57,41,0.07)]">
             <div className="hidden lg:block">
               <div className="grid grid-cols-[0.9fr_1fr_1fr_0.95fr_1.25fr_0.75fr_1fr] gap-3 border-b border-[#E6E0D8] bg-[#18181B] px-5 py-4 text-xs font-semibold uppercase tracking-[0.08em] text-white/70">
-                {["Процесс", "Что работает", "Слабое место", "Потери", "Возможность", "Приоритет", "Комментарий"].map((head) => (
+                {["Процесс", "Что работает", "Слабое место", "Потери", "Возможность", "Приоритет", "Что получите"].map((head) => (
                   <p key={head}>{head}</p>
                 ))}
               </div>
@@ -258,6 +257,7 @@ export default function AiAuditPage() {
                       ["Потери", row.loss],
                       ["Возможность", row.ai],
                       ["Приоритет", row.priority],
+                      ["Что получите", row.comment],
                     ].map(([label, value]) => (
                       <div key={label} className="rounded-[18px] bg-white p-3">
                         <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[#6B6B6B]">

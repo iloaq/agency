@@ -1,4 +1,8 @@
-import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { createClient } from "@supabase/supabase-js";
+import {
+  getSupabaseAnonOrPublishableKey,
+  getSupabaseProjectUrl,
+} from "@/lib/supabase/project-env";
 
 // Source: https://supabase.com/docs/reference/javascript/select
 
@@ -19,15 +23,27 @@ export type ServiceRow = {
 };
 
 export async function fetchPublishedServices(): Promise<ServiceRow[]> {
-  const supabase = await createSupabaseServerClient();
-  if (!supabase) return [];
+  try {
+    const url = getSupabaseProjectUrl();
+    const key = getSupabaseAnonOrPublishableKey();
+    if (!url || !key) return [];
 
-  const { data, error } = await supabase
-    .from(TABLE)
-    .select("*")
-    .eq("published", true)
-    .order("sort_order", { ascending: true });
+    const supabase = createClient(url, key, {
+      auth: {
+        persistSession: false,
+        autoRefreshToken: false,
+      },
+    });
 
-  if (error || !data) return [];
-  return data as ServiceRow[];
+    const { data, error } = await supabase
+      .from(TABLE)
+      .select("*")
+      .eq("published", true)
+      .order("sort_order", { ascending: true });
+
+    if (error || !data) return [];
+    return data as ServiceRow[];
+  } catch {
+    return [];
+  }
 }

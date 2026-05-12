@@ -1,5 +1,10 @@
 import type { SiteContacts } from "@/lib/site/site-contacts-model";
 
+export type HeaderNavLink = {
+  href: string;
+  label: string;
+};
+
 export const mainNav = [
   { href: "/services", label: "Услуги" },
   { href: "/cases", label: "Проекты" },
@@ -10,24 +15,14 @@ export const mainNav = [
 
 export const overlayPrimary = mainNav;
 
-export function buildOverlayColumns(contacts: SiteContacts) {
+export function buildOverlayColumns(
+  contacts: SiteContacts,
+  serviceLinks: ReadonlyArray<HeaderNavLink>,
+) {
   return [
     {
       title: "Услуги",
-      links: [
-        { href: "/services/ui-ux-design", label: "UI/UX-дизайн для B2B" },
-        { href: "/services/website-redesign", label: "Редизайн B2B-сайта" },
-        { href: "/services/websites", label: "Сайты для бизнеса" },
-        { href: "/services/saas-product-design", label: "Product design для SaaS" },
-        { href: "/services/web-app-development", label: "Веб-сервисы и кабинеты" },
-        { href: "/services/fintech-ui-design", label: "Fintech UI/UX" },
-        { href: "/services/telegram-bots", label: "Telegram-боты" },
-        { href: "/services/crm-integrations", label: "CRM и интеграции" },
-        { href: "/services/ai-automation", label: "AI-автоматизация" },
-        { href: "/services/seo", label: "SEO" },
-        { href: "/services/fintech-development", label: "Fintech-разработка" },
-        { href: "/services/digital-support", label: "Digital-сопровождение" },
-      ],
+      links: serviceLinks.length > 0 ? serviceLinks : [{ href: "/services", label: "Все услуги" }],
     },
     {
       title: "Разделы",

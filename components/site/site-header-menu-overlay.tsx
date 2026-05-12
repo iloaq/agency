@@ -5,7 +5,11 @@ import Link from "next/link";
 import type { RefObject } from "react";
 import { Button } from "@/components/ui/button";
 import { SiteLogoLink } from "@/components/site/site-logo-link";
-import { buildOverlayColumns, overlayPrimary } from "@/components/site/site-header-nav-data";
+import {
+  buildOverlayColumns,
+  overlayPrimary,
+  type HeaderNavLink,
+} from "@/components/site/site-header-nav-data";
 import type { SiteContacts } from "@/lib/site/site-contacts-model";
 import { siteGutterX } from "@/lib/site-gutters";
 
@@ -14,6 +18,7 @@ export type SiteHeaderMenuOverlayProps = {
   closeRef: RefObject<HTMLButtonElement | null>;
   onClose: () => void;
   contacts: SiteContacts;
+  serviceLinks: HeaderNavLink[];
 };
 
 export default function SiteHeaderMenuOverlay({
@@ -21,8 +26,9 @@ export default function SiteHeaderMenuOverlay({
   closeRef,
   onClose,
   contacts,
+  serviceLinks,
 }: SiteHeaderMenuOverlayProps) {
-  const overlayColumns = buildOverlayColumns(contacts);
+  const overlayColumns = buildOverlayColumns(contacts, serviceLinks);
 
   return (
     <div

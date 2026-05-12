@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Suspense, useCallback, useEffect, useId, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { mainNav } from "@/components/site/site-header-nav-data";
+import type { HeaderNavLink } from "@/components/site/site-header-nav-data";
 import { SiteLogoLink } from "@/components/site/site-logo-link";
 import type { SiteContacts } from "@/lib/site/site-contacts-model";
 import { SITE_CONTACTS_FALLBACK } from "@/lib/site/site-contacts-model";
@@ -19,7 +20,13 @@ const SiteHeaderMenuOverlay = dynamic(
 const navLinkClass =
   "relative inline-flex pb-1 text-base font-semibold text-[#121212] transition-colors hover:text-[#6D4AFF] after:pointer-events-none after:absolute after:inset-x-0 after:bottom-0 after:h-px after:origin-center after:scale-x-0 after:bg-current after:transition-transform hover:after:scale-x-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#6D4AFF]";
 
-export function SiteHeader({ contacts = SITE_CONTACTS_FALLBACK }: { contacts?: SiteContacts }) {
+export function SiteHeader({
+  contacts = SITE_CONTACTS_FALLBACK,
+  serviceLinks = [],
+}: {
+  contacts?: SiteContacts;
+  serviceLinks?: HeaderNavLink[];
+}) {
   const [open, setOpen] = useState(false);
   const closeRef = useRef<HTMLButtonElement>(null);
   const panelId = useId();
@@ -87,6 +94,7 @@ export function SiteHeader({ contacts = SITE_CONTACTS_FALLBACK }: { contacts?: S
             closeRef={closeRef}
             onClose={close}
             contacts={contacts}
+            serviceLinks={serviceLinks}
           />
         </Suspense>
       ) : null}

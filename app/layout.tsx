@@ -9,6 +9,7 @@ import { GoogleTagManager } from "@/components/analytics/google-tag-manager";
 import { YandexMetrika } from "@/components/analytics/yandex-metrika";
 import { ChatwootWidget } from "@/components/analytics/chatwoot-widget";
 import { resolveSiteContacts } from "@/lib/site/site-contacts";
+import { resolveServiceList } from "@/lib/services/resolve-services";
 import { siteUrl } from "@/lib/site-url";
 import "./globals.css";
 
@@ -61,7 +62,15 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const contacts = await resolveSiteContacts();
+  const [contacts, services] = await Promise.all([
+    resolveSiteContacts(),
+    resolveServiceList(),
+  ]);
+  const serviceLinks = services.map((service) => ({
+    href: service.path,
+    label: service.title,
+  }));
+
   return (
     <html lang="ru" className={`${manrope.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col bg-background-primary font-sans text-fonts-black">
@@ -70,7 +79,7 @@ export default async function RootLayout({
           <TooltipProvider>
             <ToastProvider>
               <div className="flex min-h-0 flex-1 flex-col">
-                <SiteHeader contacts={contacts} />
+                <SiteHeader contacts={contacts} serviceLinks={serviceLinks} />
                 <div className="flex min-h-0 w-full min-w-0 flex-1 flex-col">
                   <LenisGsapProvider>{children}</LenisGsapProvider>
                 </div>

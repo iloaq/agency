@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 import { ServicePage } from "@/components/services/service-page";
 import { resolveServiceBySlug, resolveServiceList } from "@/lib/services/resolve-services";
-import { serviceList } from "@/lib/services/services-data";
 
 type PageProps = {
   params: Promise<{
@@ -30,7 +29,8 @@ const legacyServiceRedirects: Record<string, string> = {
   "ui-ux": "/services/ui-ux-design",
 };
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
+  const serviceList = await resolveServiceList();
   return serviceList.map((service) => ({
     service: service.slug,
   }));

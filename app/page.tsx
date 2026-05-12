@@ -20,7 +20,7 @@ import { ServiceLeadForm } from "@/components/services/service-lead-form";
 import { SiteMarketingFooter } from "@/components/site/site-marketing-footer";
 import { SITE_CONTACTS_FALLBACK } from "@/lib/site/site-contacts-model";
 import { siteUrl } from "@/lib/site-url";
-import { serviceList, type ServiceSlug } from "@/lib/services/services-data";
+import { resolveServiceList } from "@/lib/services/resolve-services";
 
 export const metadata: Metadata = {
   title: {
@@ -64,7 +64,7 @@ const teamRoles = [
   ["Развитие", "улучшаем продукт после первых реальных сценариев"],
 ] as const;
 
-const serviceIcons: Record<ServiceSlug, IconType> = {
+const serviceIcons: Record<string, IconType> = {
   "ui-ux-design": FiPenTool,
   "website-redesign": FiRefreshCw,
   websites: FiGlobe,
@@ -205,7 +205,9 @@ function SystemMap() {
   );
 }
 
-export default function Home() {
+export default async function Home() {
+  const services = await resolveServiceList();
+
   return (
     <main className="isolate min-h-screen overflow-hidden bg-[#F6F3EE] text-[#121212]">
       <JsonLd />
@@ -256,9 +258,9 @@ export default function Home() {
           </div>
 
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {serviceList.slice(0, 4).map((service) => (
+            {services.slice(0, 4).map((service) => (
               (() => {
-                const Icon = serviceIcons[service.slug];
+                const Icon = serviceIcons[service.slug] ?? FiLayers;
                 return (
               <Link
                 key={service.slug}

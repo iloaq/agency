@@ -5,7 +5,7 @@ INSERT INTO public.site_settings (id, brand_name, email, phone_display, phone_hr
 VALUES (
   1,
   $v$Skybric$v$,
-  $v$hello@skybric.ru$v$,
+  $v$clients@skybric.com$v$,
   $v$+7(777)336-56-02$v$,
   $v$tel:+77773365602$v$,
   '{}'::jsonb,

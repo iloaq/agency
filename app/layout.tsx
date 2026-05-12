@@ -7,6 +7,7 @@ import { ToastProvider } from "@/components/ui/toast";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { GoogleTagManager } from "@/components/analytics/google-tag-manager";
 import { YandexMetrika } from "@/components/analytics/yandex-metrika";
+import { ChatwootWidget } from "@/components/analytics/chatwoot-widget";
 import { resolveSiteContacts } from "@/lib/site/site-contacts";
 import { siteUrl } from "@/lib/site-url";
 import "./globals.css";
@@ -78,6 +79,7 @@ export default async function RootLayout({
           </TooltipProvider>
         </AppRouterCacheProvider>
         <YandexMetrika />
+        <ChatwootWidget />
       </body>
     </html>
   );

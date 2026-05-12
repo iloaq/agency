@@ -8,6 +8,7 @@ import {
   AdminStatusBadge,
 } from "@/components/admin/admin-ui";
 import { getAdminOverviewStats } from "@/lib/admin/admin-overview-stats";
+import { isSupabaseAdminConfigured } from "@/lib/admin/env";
 import { getSupabaseAdminClient } from "@/lib/admin/supabase-admin";
 import type { ServiceLeadAdminRow } from "@/lib/leads/service-lead-admin-types";
 
@@ -73,6 +74,7 @@ const quickActions = [
 ];
 
 export default async function AdminHomePage() {
+  const adminDbConfigured = isSupabaseAdminConfigured();
   const [stats, recentLeads] = await Promise.all([getAdminOverviewStats(), getRecentLeads()]);
 
   return (
@@ -102,9 +104,19 @@ export default async function AdminHomePage() {
       ) : (
         <AdminPanel className="p-5">
           <p className="text-sm leading-6 text-[#7a5a00]">
-            Не удалось загрузить метрики. Проверьте переменные окружения{" "}
-            <code className="rounded bg-[#f3eee3] px-1.5 py-0.5 font-mono text-xs">NEXT_PUBLIC_SUPABASE_URL</code> и{" "}
-            <code className="rounded bg-[#f3eee3] px-1.5 py-0.5 font-mono text-xs">SUPABASE_SERVICE_ROLE_KEY</code>.
+            {adminDbConfigured ? (
+              <>Не удалось запросить метрики в Supabase. Проверьте сеть, ключ и наличие таблиц.</>
+            ) : (
+              <>
+                Не удалось загрузить метрики: не задан URL или service role. В CapRover / Docker задайте runtime{" "}
+                <code className="rounded bg-[#f3eee3] px-1.5 py-0.5 font-mono text-xs">SUPABASE_URL</code> (тот же
+                Project URL, что в Supabase → Settings → API) и{" "}
+                <code className="rounded bg-[#f3eee3] px-1.5 py-0.5 font-mono text-xs">SUPABASE_SERVICE_ROLE_KEY</code>{" "}
+                (secret service_role). Либо задайте{" "}
+                <code className="rounded bg-[#f3eee3] px-1.5 py-0.5 font-mono text-xs">NEXT_PUBLIC_SUPABASE_URL</code>{" "}
+                при сборке и тот же service role в runtime.
+              </>
+            )}
           </p>
         </AdminPanel>
       )}

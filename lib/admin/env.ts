@@ -18,9 +18,17 @@ export function getConfiguredLoginSecret(): string | null {
   return sess && sess.length > 0 ? sess : null;
 }
 
+/** URL без NEXT_PUBLIC — не вшивается в клиентский билд; удобно для CapRover/Docker runtime. Source: https://supabase.com/docs/guides/api */
 export function getSupabaseServiceConfig(): { url: string; key: string } | null {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL?.replace(/\/$/, "");
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY?.trim();
+  const url =
+    process.env.SUPABASE_URL?.trim().replace(/\/$/, "") ||
+    process.env.NEXT_PUBLIC_SUPABASE_URL?.trim().replace(/\/$/, "") ||
+    "";
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY?.trim() ?? "";
   if (!url || !key) return null;
   return { url, key };
+}
+
+export function isSupabaseAdminConfigured(): boolean {
+  return getSupabaseServiceConfig() !== null;
 }

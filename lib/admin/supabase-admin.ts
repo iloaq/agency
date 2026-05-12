@@ -9,7 +9,9 @@ let cached: SupabaseClient | null = null;
 export function getSupabaseAdminClient(): SupabaseClient {
   const cfg = getSupabaseServiceConfig();
   if (!cfg) {
-    throw new Error("Задайте NEXT_PUBLIC_SUPABASE_URL и SUPABASE_SERVICE_ROLE_KEY");
+    throw new Error(
+      "Задайте SUPABASE_SERVICE_ROLE_KEY и URL: SUPABASE_URL (runtime) или NEXT_PUBLIC_SUPABASE_URL (при сборке)",
+    );
   }
   if (!cached) {
     cached = createClient(cfg.url, cfg.key, {

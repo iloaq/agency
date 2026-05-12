@@ -68,9 +68,9 @@ export function SiteHeader({ contacts = SITE_CONTACTS_FALLBACK }: { contacts?: S
             <Button
               type="button"
               size="medium"
-              variant="secondary"
+              variant="ghost"
               mode="icon"
-              icon={<Menu sx={{ fontSize: 22 }} aria-hidden />}
+              icon={<Menu sx={{ fontSize: 24 }} aria-hidden />}
               aria-label="Открыть меню"
               aria-expanded={open}
               aria-controls={panelId}

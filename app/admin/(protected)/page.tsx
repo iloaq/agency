@@ -108,13 +108,12 @@ export default async function AdminHomePage() {
               <>Не удалось запросить метрики в Supabase. Проверьте сеть, ключ и наличие таблиц.</>
             ) : (
               <>
-                Не удалось загрузить метрики: не задан URL или service role. В CapRover / Docker задайте runtime{" "}
-                <code className="rounded bg-[#f3eee3] px-1.5 py-0.5 font-mono text-xs">SUPABASE_URL</code> (тот же
-                Project URL, что в Supabase → Settings → API) и{" "}
+                Не удалось загрузить метрики: задайте{" "}
                 <code className="rounded bg-[#f3eee3] px-1.5 py-0.5 font-mono text-xs">SUPABASE_SERVICE_ROLE_KEY</code>{" "}
-                (secret service_role). Либо задайте{" "}
+                и URL проекта —{" "}
+                <code className="rounded bg-[#f3eee3] px-1.5 py-0.5 font-mono text-xs">SUPABASE_URL</code> или{" "}
                 <code className="rounded bg-[#f3eee3] px-1.5 py-0.5 font-mono text-xs">NEXT_PUBLIC_SUPABASE_URL</code>{" "}
-                при сборке и тот же service role в runtime.
+                (достаточно одного из двух).
               </>
             )}
           </p>

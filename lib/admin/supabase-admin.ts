@@ -10,7 +10,7 @@ export function getSupabaseAdminClient(): SupabaseClient {
   const cfg = getSupabaseServiceConfig();
   if (!cfg) {
     throw new Error(
-      "Задайте SUPABASE_SERVICE_ROLE_KEY и URL: SUPABASE_URL (runtime) или NEXT_PUBLIC_SUPABASE_URL (при сборке)",
+      "Задайте SUPABASE_SERVICE_ROLE_KEY и URL проекта (SUPABASE_URL или NEXT_PUBLIC_SUPABASE_URL — достаточно одного).",
     );
   }
   if (!cached) {

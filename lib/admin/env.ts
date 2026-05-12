@@ -1,5 +1,7 @@
 /** Сервер-only: переменные админки и Supabase service role. */
 
+import { getSupabaseProjectUrl } from "@/lib/supabase/project-env";
+
 export function getSessionSigningSecret(): string | null {
   const s =
     process.env.ADMIN_SESSION_SECRET ??
@@ -18,12 +20,9 @@ export function getConfiguredLoginSecret(): string | null {
   return sess && sess.length > 0 ? sess : null;
 }
 
-/** URL без NEXT_PUBLIC — не вшивается в клиентский билд; удобно для CapRover/Docker runtime. Source: https://supabase.com/docs/guides/api */
+/** Service role + тот же Project URL, что для публичного API (см. getSupabaseProjectUrl). Source: https://supabase.com/docs/guides/api */
 export function getSupabaseServiceConfig(): { url: string; key: string } | null {
-  const url =
-    process.env.SUPABASE_URL?.trim().replace(/\/$/, "") ||
-    process.env.NEXT_PUBLIC_SUPABASE_URL?.trim().replace(/\/$/, "") ||
-    "";
+  const url = getSupabaseProjectUrl();
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY?.trim() ?? "";
   if (!url || !key) return null;
   return { url, key };

@@ -1,14 +1,12 @@
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
+import { getSupabaseAnonOrPublishableKey, getSupabaseProjectUrl } from "@/lib/supabase/project-env";
 
 // Source: https://supabase.com/docs/guides/auth/server-side/nextjs
 
 function getSupabaseUrlAndKey(): { url: string; key: string } | null {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL?.replace(/\/$/, "");
-  const key =
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ??
-    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
-
+  const url = getSupabaseProjectUrl();
+  const key = getSupabaseAnonOrPublishableKey();
   if (!url || !key) return null;
   return { url, key };
 }

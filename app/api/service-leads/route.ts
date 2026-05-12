@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { normalizeServiceLead, validateServiceLead } from "@/lib/leads/validate-service-lead";
+import { getSupabaseAnonOrPublishableKey, getSupabaseProjectUrl } from "@/lib/supabase/project-env";
 
 export const runtime = "nodejs";
 
@@ -28,34 +29,34 @@ function isForbiddenSupabaseKey(key: string) {
 function resolveSupabase():
   | { ok: true; url: string; key: string }
   | { ok: false; message: string } {
-  const urlRaw = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
-  const keyRaw = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim();
+  const url = getSupabaseProjectUrl();
+  const keyRaw = getSupabaseAnonOrPublishableKey();
 
-  if (!urlRaw) {
+  if (!url) {
     return {
       ok: false,
       message:
-        "Сервер: не задан NEXT_PUBLIC_SUPABASE_URL. Добавьте переменную в CapRover (App Config → Environmental Variables) и перезапустите приложение.",
+        "Сервер: не задан URL проекта Supabase. В CapRover укажите SUPABASE_URL или NEXT_PUBLIC_SUPABASE_URL (достаточно одного) и перезапустите приложение.",
     };
   }
   if (!keyRaw) {
     return {
       ok: false,
       message:
-        "Сервер: не задан NEXT_PUBLIC_SUPABASE_ANON_KEY. В Supabase: Settings → API → anon public key (не service_role).",
+        "Сервер: не задан публичный ключ Supabase. Укажите NEXT_PUBLIC_SUPABASE_ANON_KEY или NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY (достаточно одного), не service_role.",
     };
   }
   if (isForbiddenSupabaseKey(keyRaw)) {
     return {
       ok: false,
       message:
-        "Сервер: в NEXT_PUBLIC_SUPABASE_ANON_KEY должен быть anon (publishable) ключ, не service_role.",
+        "Сервер: нужен anon или publishable ключ (Settings → API), не service_role.",
     };
   }
 
   return {
     ok: true,
-    url: urlRaw.replace(/\/$/, ""),
+    url,
     key: keyRaw,
   };
 }

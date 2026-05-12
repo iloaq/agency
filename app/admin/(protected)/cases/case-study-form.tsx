@@ -88,12 +88,30 @@ export function CaseStudyForm({ row }: { row: CaseStudyRow | null }) {
           </label>
 
           <label className={labelClass}>
-            Архитектурная схема
+            Архитектурная схема (текст)
             <textarea
               className={`${inputClass} min-h-[88px] resize-y leading-6`}
               name="architecture_flow"
               defaultValue={row?.architecture_flow ?? ""}
             />
+            <span className={hintClass}>
+              Показывается справа в hero, если нет URL картинки ниже.
+            </span>
+          </label>
+
+          <label className={labelClass}>
+            Схема потока — URL картинки
+            <input
+              className={inputClass}
+              name="architecture_flow_image_url"
+              type="url"
+              inputMode="url"
+              placeholder="https://…"
+              defaultValue={row?.architecture_flow_image_url ?? ""}
+            />
+            <span className={hintClass}>
+              Публичная ссылка (Supabase Storage или CDN). Если заполнено — на сайте вместо текстового блока «Маршрут проекта».
+            </span>
           </label>
 
           <div className="space-y-3 rounded-[22px] border border-[#ded6ca] bg-[#fbfaf7] p-4">

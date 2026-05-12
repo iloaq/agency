@@ -16,6 +16,7 @@ type CaseStudySeed = {
   goal: string;
   what_we_did: string[];
   architecture_flow: string;
+  architecture_flow_image_url?: string | null;
   stack: {
     frontend: string;
     backend: string;

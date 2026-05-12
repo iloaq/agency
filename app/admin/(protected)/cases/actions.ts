@@ -83,6 +83,7 @@ export async function saveCaseStudy(formData: FormData) {
     goal: emptyToNull(String(formData.get("goal") ?? "")),
     what_we_did,
     architecture_flow: emptyToNull(String(formData.get("architecture_flow") ?? "")),
+    architecture_flow_image_url: emptyToNull(String(formData.get("architecture_flow_image_url") ?? "")),
     stack: buildStack(formData),
     outcomes,
     conclusion: emptyToNull(String(formData.get("conclusion") ?? "")),

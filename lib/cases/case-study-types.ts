@@ -17,6 +17,8 @@ export type CaseStudyRow = {
   goal: string | null;
   what_we_did: unknown;
   architecture_flow: string | null;
+  /** Публичный URL изображения схемы потока (hero справа). */
+  architecture_flow_image_url: string | null;
   stack: unknown;
   outcomes: unknown;
   conclusion: string | null;

@@ -1,44 +1,25 @@
-"use client";
+import { ChatwootWidgetClient } from "@/components/analytics/chatwoot-widget-client";
 
-import { useEffect } from "react";
+/** Без префикса NEXT_PUBLIC — читается на сервере в runtime (Docker/CapRover). Fallback: NEXT_PUBLIC_* для локальной сборки. Source: https://nextjs.org/docs/app/guides/environment-variables */
+function chatwootBaseUrl(): string {
+  const raw =
+    process.env.CHATWOOT_BASE_URL?.trim() ??
+    process.env.NEXT_PUBLIC_CHATWOOT_BASE_URL?.trim() ??
+    "";
+  return raw.replace(/\/+$/, "");
+}
 
-// Source: https://www.chatwoot.com/docs/product/channels/live-chat/sdk-setup
-
-const SDK_PATH = "/packs/js/sdk.js";
-
-declare global {
-  interface Window {
-    chatwootSettings?: Record<string, unknown>;
-    chatwootSDK?: { run: (opts: { websiteToken: string; baseUrl: string }) => void };
-  }
+function chatwootWebsiteToken(): string {
+  return (
+    process.env.CHATWOOT_WEBSITE_TOKEN?.trim() ??
+    process.env.NEXT_PUBLIC_CHATWOOT_WEBSITE_TOKEN?.trim() ??
+    ""
+  );
 }
 
 export function ChatwootWidget() {
-  useEffect(() => {
-    const baseUrl = process.env.NEXT_PUBLIC_CHATWOOT_BASE_URL?.trim().replace(/\/+$/, "") ?? "";
-    const websiteToken = process.env.NEXT_PUBLIC_CHATWOOT_WEBSITE_TOKEN?.trim() ?? "";
-    if (!baseUrl || !websiteToken) return;
-
-    const sdkSrc = `${baseUrl}${SDK_PATH}`;
-    for (let i = 0; i < document.scripts.length; i++) {
-      if (document.scripts[i].src === sdkSrc) return;
-    }
-
-    window.chatwootSettings = {
-      position: "right",
-      type: "standard",
-      launcherTitle: "Обсудить проект",
-    };
-
-    const script = document.createElement("script");
-    script.src = sdkSrc;
-    script.async = true;
-    script.defer = true;
-    script.onload = () => {
-      window.chatwootSDK?.run({ websiteToken, baseUrl });
-    };
-    document.head.appendChild(script);
-  }, []);
-
-  return null;
+  const baseUrl = chatwootBaseUrl();
+  const websiteToken = chatwootWebsiteToken();
+  if (!baseUrl || !websiteToken) return null;
+  return <ChatwootWidgetClient baseUrl={baseUrl} websiteToken={websiteToken} />;
 }

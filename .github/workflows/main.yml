@@ -23,7 +23,15 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      # NEXT_PUBLIC_* подставляются на этапе сборки: https://nextjs.org/docs/app/guides/environment-variables#bundling-environment-variables-for-the-browser
       - name: Build application
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+          NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY }}
+          NEXT_PUBLIC_YANDEX_METRIKA_ID: ${{ secrets.NEXT_PUBLIC_YANDEX_METRIKA_ID }}
+          NEXT_PUBLIC_CHATWOOT_BASE_URL: ${{ secrets.NEXT_PUBLIC_CHATWOOT_BASE_URL }}
+          NEXT_PUBLIC_CHATWOOT_WEBSITE_TOKEN: ${{ secrets.NEXT_PUBLIC_CHATWOOT_WEBSITE_TOKEN }}
         run: npm run build --if-present
 
       - name: Run tests

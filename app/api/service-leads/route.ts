@@ -43,7 +43,7 @@ function resolveSupabase():
     return {
       ok: false,
       message:
-        "Сервер: не задан публичный ключ Supabase. Укажите NEXT_PUBLIC_SUPABASE_ANON_KEY или NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY (достаточно одного), не service_role.",
+        "Сервер: не задан публичный ключ Supabase. В CapRover добавьте SUPABASE_ANON_KEY или SUPABASE_PUBLISHABLE_KEY (тот же ключ, что anon/publishable в Dashboard — в runtime), либо задайте NEXT_PUBLIC_* при сборке в CI.",
     };
   }
   if (isForbiddenSupabaseKey(keyRaw)) {

@@ -13,11 +13,15 @@ export function getSupabaseProjectUrl(): string | null {
 }
 
 /**
- * Публичный ключ для anon/publishable: достаточно **одного** из переменных.
+ * Публичный ключ: сначала **без** NEXT_PUBLIC_ — в Docker/CapRover читается в runtime (NEXT_PUBLIC_* часто пусты в билде).
+ * Достаточно одного из anon / publishable.
+ * Source: https://nextjs.org/docs/app/guides/environment-variables#bundling-environment-variables-for-the-browser
  * Source: https://supabase.com/docs/guides/api/api-keys
  */
 export function getSupabaseAnonOrPublishableKey(): string | null {
   const k =
+    process.env.SUPABASE_ANON_KEY?.trim() ||
+    process.env.SUPABASE_PUBLISHABLE_KEY?.trim() ||
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim() ||
     process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY?.trim() ||
     "";

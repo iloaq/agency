@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "seed:sql": "tsx scripts/generate-supabase-seed.ts"
+    "seed:sql": "tsx scripts/generate-supabase-seed.ts",
+    "seed:cases": "tsx scripts/seed-case-studies.ts"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",

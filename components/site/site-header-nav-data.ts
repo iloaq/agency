@@ -2,6 +2,7 @@ import type { SiteContacts } from "@/lib/site/site-contacts-model";
 
 export const mainNav = [
   { href: "/services", label: "Услуги" },
+  { href: "/cases", label: "Проекты" },
   { href: "/process", label: "Подход" },
   { href: "/about", label: "Команда" },
   { href: "/contact", label: "Контакты" },
@@ -31,6 +32,7 @@ export function buildOverlayColumns(contacts: SiteContacts) {
     {
       title: "Разделы",
       links: [
+        { href: "/cases", label: "Разборы задач" },
         { href: "/process", label: "Как мы работаем" },
         { href: "/about", label: "О команде" },
         { href: "/ai-audit", label: "Аудит процессов и автоматизации" },

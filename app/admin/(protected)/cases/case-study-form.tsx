@@ -3,18 +3,21 @@ import type { CaseStudyRow } from "@/lib/cases/case-study-types";
 import { AdminDeleteTrigger } from "../admin-delete-button";
 import { deleteCaseStudy, saveCaseStudy } from "./actions";
 
-function jsonPretty(value: unknown, fallback: string): string {
-  if (value === undefined || value === null) return fallback;
-  try {
-    return JSON.stringify(value, null, 2);
-  } catch {
-    return fallback;
-  }
+function lines(value: unknown): string {
+  if (!Array.isArray(value)) return "";
+  return value.filter((x): x is string => typeof x === "string" && x.trim().length > 0).join("\n");
+}
+
+function stackValue(value: unknown, key: "frontend" | "backend" | "database" | "integrations"): string {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return "";
+  const stack = value as Record<string, unknown>;
+  return typeof stack[key] === "string" ? stack[key] : "";
 }
 
 const inputClass =
   "w-full rounded-[18px] border border-[#ded6ca] bg-white px-4 py-3 text-sm text-[#111111] outline-none transition placeholder:text-[#9a9288] focus:border-[#6d4aff] focus:ring-4 focus:ring-[#6d4aff]/12";
 const labelClass = "flex flex-col gap-2 text-sm font-semibold text-[#111111]";
+const hintClass = "text-xs font-normal leading-5 text-[#7c746b]";
 
 export function CaseStudyForm({ row }: { row: CaseStudyRow | null }) {
   const isNew = !row;
@@ -58,12 +61,14 @@ export function CaseStudyForm({ row }: { row: CaseStudyRow | null }) {
           </label>
 
           <label className={labelClass}>
-            Проблемы (JSON array of strings)
+            Где терялось время / контроль / заявка
             <textarea
-              className={`${inputClass} min-h-[132px] resize-y font-mono text-xs leading-5`}
+              className={`${inputClass} min-h-[132px] resize-y leading-6`}
               name="problems"
-              defaultValue={jsonPretty(row?.problems, "[]")}
+              defaultValue={lines(row?.problems)}
+              placeholder={"Каждый пункт с новой строки\nНапример: заявки приходили из Telegram и сайта, но не фиксировались в CRM"}
             />
+            <span className={hintClass}>Один пункт на строку. В базу сохранится как JSON-массив.</span>
           </label>
 
           <label className={labelClass}>
@@ -72,12 +77,14 @@ export function CaseStudyForm({ row }: { row: CaseStudyRow | null }) {
           </label>
 
           <label className={labelClass}>
-            Что сделали (JSON array of strings)
+            Что можно собрать / что сделали
             <textarea
-              className={`${inputClass} min-h-[132px] resize-y font-mono text-xs leading-5`}
+              className={`${inputClass} min-h-[132px] resize-y leading-6`}
               name="what_we_did"
-              defaultValue={jsonPretty(row?.what_we_did, "[]")}
+              defaultValue={lines(row?.what_we_did)}
+              placeholder={"Каждый пункт с новой строки\nНапример: маршрут заявки сайт → CRM → ответственный → follow-up"}
             />
+            <span className={hintClass}>Пиши фактически: без выдуманных цифр, клиентов и результатов.</span>
           </label>
 
           <label className={labelClass}>
@@ -89,22 +96,40 @@ export function CaseStudyForm({ row }: { row: CaseStudyRow | null }) {
             />
           </label>
 
-          <label className={labelClass}>
-            Stack (JSON object: frontend, backend, database, integrations)
-            <textarea
-              className={`${inputClass} min-h-[132px] resize-y font-mono text-xs leading-5`}
-              name="stack"
-              defaultValue={jsonPretty(row?.stack, "{}")}
-            />
-          </label>
+          <div className="space-y-3 rounded-[22px] border border-[#ded6ca] bg-[#fbfaf7] p-4">
+            <div>
+              <p className="text-sm font-semibold text-[#111111]">Какие системы связать / стек</p>
+              <p className="mt-1 text-xs leading-5 text-[#7c746b]">Заполняйте только то, что можно показать публично. В базу сохранится объект `stack`.</p>
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <label className={labelClass}>
+                Frontend / интерфейс
+                <input className={inputClass} name="stack_frontend" defaultValue={stackValue(row?.stack, "frontend")} />
+              </label>
+              <label className={labelClass}>
+                Backend / логика
+                <input className={inputClass} name="stack_backend" defaultValue={stackValue(row?.stack, "backend")} />
+              </label>
+              <label className={labelClass}>
+                База данных
+                <input className={inputClass} name="stack_database" defaultValue={stackValue(row?.stack, "database")} />
+              </label>
+              <label className={labelClass}>
+                Интеграции
+                <input className={inputClass} name="stack_integrations" defaultValue={stackValue(row?.stack, "integrations")} />
+              </label>
+            </div>
+          </div>
 
           <label className={labelClass}>
-            Результаты (JSON array of strings)
+            Что станет проще после запуска
             <textarea
-              className={`${inputClass} min-h-[132px] resize-y font-mono text-xs leading-5`}
+              className={`${inputClass} min-h-[132px] resize-y leading-6`}
               name="outcomes"
-              defaultValue={jsonPretty(row?.outcomes, "[]")}
+              defaultValue={lines(row?.outcomes)}
+              placeholder={"Каждый пункт с новой строки\nНапример: менеджер видит источник, статус и следующий шаг по заявке"}
             />
+            <span className={hintClass}>Если цифр нет, описывай изменения качественно: скорость, контроль, прозрачность, меньше ручной работы.</span>
           </label>
 
           <label className={labelClass}>

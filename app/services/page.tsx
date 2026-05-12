@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { resolveServiceList } from "@/lib/services/resolve-services";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export const metadata: Metadata = {
   title: {
     absolute: "Услуги Skybric — дизайн, сайты, Telegram-боты, CRM, SEO и fintech-разработка",

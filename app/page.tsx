@@ -22,6 +22,9 @@ import { SITE_CONTACTS_FALLBACK } from "@/lib/site/site-contacts-model";
 import { siteUrl } from "@/lib/site-url";
 import { resolveServiceList } from "@/lib/services/resolve-services";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export const metadata: Metadata = {
   title: {
     absolute: "Skybric — дизайн, веб-разработка, автоматизация и digital-системы для бизнеса",

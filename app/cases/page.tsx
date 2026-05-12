@@ -5,7 +5,8 @@ import { fetchPublishedCaseStudies } from "@/lib/cases/fetch-case-studies";
 import { rowToCaseCard } from "@/lib/cases/case-study-helpers";
 import { absoluteUrl } from "@/lib/site-url";
 
-export const revalidate = 3600;
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export const metadata: Metadata = {
   title: {

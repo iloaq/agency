@@ -2,10 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { SiteMarketingFooter } from "@/components/site/site-marketing-footer";
-import {
-  fetchCaseStudyBySlug,
-  fetchPublishedCaseStudies,
-} from "@/lib/cases/fetch-case-studies";
+import { fetchCaseStudyBySlug } from "@/lib/cases/fetch-case-studies";
 import {
   asStack,
   asStringArray,
@@ -14,7 +11,8 @@ import {
 import type { CaseStudyRow } from "@/lib/cases/case-study-types";
 import { absoluteUrl } from "@/lib/site-url";
 
-export const revalidate = 3600;
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -162,11 +160,6 @@ function TextBlock({
       </p>
     </section>
   );
-}
-
-export async function generateStaticParams() {
-  const rows = await fetchPublishedCaseStudies();
-  return rows.map((row) => ({ slug: row.slug }));
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {

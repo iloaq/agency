@@ -1,6 +1,6 @@
 // Source: https://www.chatwoot.com/docs/product/channels/live-chat/sdk-setup
 
-const CHATWOOT_BASE_URL = "https://chatwootskybric.capaadmin.skybric.com";
+const CHATWOOT_BASE_URL = "http://chatwootskybric.capaadmin.skybric.com";
 const CHATWOOT_WEBSITE_TOKEN = "9N2pEkUuBTP286y6VQqNfmzz";
 
 /** Серверный компонент: один inline-скрипт, без use client / useEffect. */

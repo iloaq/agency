@@ -25,32 +25,29 @@ function isForbiddenSupabaseKey(key: string) {
   return payload?.role === "service_role";
 }
 
-/** Anon/publishable key в env; без этого POST /api/service-leads отдаёт 503. */
+/** Anon/publishable key в env; без этого POST /api/service-leads отдаёт 503 с общим текстом клиенту. */
 function resolveSupabase():
   | { ok: true; url: string; key: string }
-  | { ok: false; message: string } {
+  | { ok: false; log: string } {
   const url = getSupabaseProjectUrl();
   const keyRaw = getSupabaseAnonOrPublishableKey();
 
   if (!url) {
     return {
       ok: false,
-      message:
-        "Сервер: не задан URL проекта Supabase. В CapRover укажите SUPABASE_URL или NEXT_PUBLIC_SUPABASE_URL (достаточно одного) и перезапустите приложение.",
+      log: "service-leads: отсутствует URL проекта Supabase (SUPABASE_URL / NEXT_PUBLIC_SUPABASE_URL)",
     };
   }
   if (!keyRaw) {
     return {
       ok: false,
-      message:
-        "Сервер: не задан публичный ключ Supabase. В CapRover добавьте SUPABASE_ANON_KEY или SUPABASE_PUBLISHABLE_KEY (тот же ключ, что anon/publishable в Dashboard — в runtime), либо задайте NEXT_PUBLIC_* при сборке в CI.",
+      log: "service-leads: отсутствует anon/publishable ключ (NEXT_PUBLIC_* или SUPABASE_ANON_KEY)",
     };
   }
   if (isForbiddenSupabaseKey(keyRaw)) {
     return {
       ok: false,
-      message:
-        "Сервер: нужен anon или publishable ключ (Settings → API), не service_role.",
+      log: "service-leads: передан service_role или sb_secret_ вместо anon/publishable",
     };
   }
 
@@ -92,7 +89,8 @@ export async function POST(request: Request) {
 
   const supabaseRes = resolveSupabase();
   if (!supabaseRes.ok) {
-    return NextResponse.json({ message: supabaseRes.message }, { status: 503 });
+    console.error(supabaseRes.log);
+    return NextResponse.json({ message: genericError }, { status: 503 });
   }
   const supabase: SupabaseConfig = supabaseRes;
 

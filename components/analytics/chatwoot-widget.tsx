@@ -1,24 +1,74 @@
+"use client";
+
+import { useEffect } from "react";
+
 // Source: https://www.chatwoot.com/docs/product/channels/live-chat/sdk-setup
 
-const CHATWOOT_BASE_URL = "https://chatwootskybric-web.capaadmin.skybric.com";
-const CHATWOOT_WEBSITE_TOKEN = "9N2pEkUuBTP286y6VQqNfmzz";
+declare global {
+  interface Window {
+    chatwootSettings?: {
+      position: "left" | "right";
+      type: "standard" | "expanded_bubble";
+      launcherTitle: string;
+    };
+    chatwootSDK?: {
+      run: (config: { websiteToken: string; baseUrl: string }) => void;
+    };
+  }
+}
 
-/** Серверный компонент: один inline-скрипт, без use client / useEffect. */
+function chatwootConfig() {
+  const baseUrl = process.env.NEXT_PUBLIC_CHATWOOT_BASE_URL?.trim().replace(/\/+$/, "");
+  const websiteToken = process.env.NEXT_PUBLIC_CHATWOOT_WEBSITE_TOKEN?.trim();
+
+  if (!baseUrl || !websiteToken) return null;
+  return { baseUrl, websiteToken };
+}
+
 export function ChatwootWidget() {
-  const baseUrl = CHATWOOT_BASE_URL.replace(/\/+$/, "");
-  const websiteToken = CHATWOOT_WEBSITE_TOKEN;
-  const __html = `
-(function(){
-  var BASE_URL=${JSON.stringify(baseUrl)};
-  var WEBSITE_TOKEN=${JSON.stringify(websiteToken)};
-  var SDK_SRC=BASE_URL+"/packs/js/sdk.js";
-  for(var i=0;i<document.scripts.length;i++){if(document.scripts[i].src===SDK_SRC)return;}
-  window.chatwootSettings={position:"right",type:"standard",launcherTitle:"Обсудить проект"};
-  var g=document.createElement("script"),s=document.getElementsByTagName("script")[0];
-  g.src=SDK_SRC;g.async=true;
-  g.onload=function(){window.chatwootSDK&&window.chatwootSDK.run({websiteToken:WEBSITE_TOKEN,baseUrl:BASE_URL});};
-  s.parentNode.insertBefore(g,s);
-})();`;
+  useEffect(() => {
+    const config = chatwootConfig();
+    if (!config) return;
 
-  return <script dangerouslySetInnerHTML={{ __html }} />;
+    const sdkSrc = `${config.baseUrl}/packs/js/sdk.js`;
+    let loaded = false;
+
+    const loadChatwoot = () => {
+      if (loaded) return;
+      loaded = true;
+
+      if (Array.from(document.scripts).some((script) => script.src === sdkSrc)) return;
+
+      window.chatwootSettings = {
+        position: "right",
+        type: "standard",
+        launcherTitle: "Обсудить проект",
+      };
+
+      const script = document.createElement("script");
+      script.src = sdkSrc;
+      script.async = true;
+      script.defer = true;
+      script.onload = () => {
+        window.chatwootSDK?.run({
+          websiteToken: config.websiteToken,
+          baseUrl: config.baseUrl,
+        });
+      };
+
+      document.head.appendChild(script);
+    };
+
+    const timeoutId = window.setTimeout(loadChatwoot, 5000);
+    window.addEventListener("pointerdown", loadChatwoot, { once: true });
+    window.addEventListener("scroll", loadChatwoot, { once: true, passive: true });
+
+    return () => {
+      window.clearTimeout(timeoutId);
+      window.removeEventListener("pointerdown", loadChatwoot);
+      window.removeEventListener("scroll", loadChatwoot);
+    };
+  }, []);
+
+  return null;
 }

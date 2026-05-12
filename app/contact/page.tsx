@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { ServiceLeadForm } from "@/components/services/service-lead-form";
 import { resolveSiteContacts } from "@/lib/site/site-contacts";
+import { siteUrl } from "@/lib/site-url";
 
 export const metadata: Metadata = {
   title: {
@@ -15,9 +16,29 @@ export const metadata: Metadata = {
 
 export default async function ContactPage() {
   const contacts = await resolveSiteContacts();
+  const contactJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    name: "Skybric",
+    url: siteUrl,
+    email: contacts.email,
+    areaServed: ["Kazakhstan", "Worldwide"],
+    contactPoint: {
+      "@type": "ContactPoint",
+      contactType: "sales",
+      email: contacts.email,
+      availableLanguage: ["ru", "en"],
+    },
+  };
 
   return (
     <main className="min-h-screen bg-[#F6F3EE] pb-24 pt-10 text-[#121212] lg:pb-32 lg:pt-14">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(contactJsonLd).replace(/</g, "\\u003c"),
+        }}
+      />
       <section className="px-5 sm:px-8 lg:px-10">
         <div className="w-full min-w-0">
           <h1 className="text-[clamp(2.55rem,6.4vw,7rem)] font-semibold leading-[0.94]">

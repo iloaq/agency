@@ -19,6 +19,16 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
+        source: "/calculator",
+        destination: "/contact",
+        permanent: true,
+      },
+      {
+        source: "/en/calculator",
+        destination: "/contact",
+        permanent: true,
+      },
+      {
         source: "/en/:path*",
         destination: "/",
         permanent: true,
@@ -40,6 +50,11 @@ const nextConfig: NextConfig = {
       },
       {
         source: "/blog/:path*",
+        destination: "/services",
+        permanent: true,
+      },
+      {
+        source: "/news/:path*",
         destination: "/services",
         permanent: true,
       },

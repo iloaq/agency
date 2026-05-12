@@ -7,25 +7,28 @@ export { SITE_CONTACTS_FALLBACK } from "@/lib/site/site-contacts-model";
 
 /** Fallback при отсутствии Supabase или строки с published=false. */
 export async function resolveSiteContacts(): Promise<SiteContacts> {
+  const canonicalEmail = process.env.NEXT_PUBLIC_SITE_EMAIL?.trim() || SITE_CONTACTS_FALLBACK.email;
   const row = await fetchPublishedSiteSettings();
   if (row) {
     return {
-      email: row.email.trim(),
+      email: canonicalEmail,
       phoneDisplay: row.phone_display.trim(),
       phoneHref: row.phone_href.trim(),
     };
   }
 
-  const envEmail = process.env.NEXT_PUBLIC_SITE_EMAIL?.trim();
   const envPhoneDisplay = process.env.NEXT_PUBLIC_SITE_PHONE_DISPLAY?.trim();
   const envPhoneHref = process.env.NEXT_PUBLIC_SITE_PHONE_HREF?.trim();
-  if (envEmail && envPhoneDisplay && envPhoneHref) {
+  if (envPhoneDisplay && envPhoneHref) {
     return {
-      email: envEmail,
+      email: canonicalEmail,
       phoneDisplay: envPhoneDisplay,
       phoneHref: envPhoneHref,
     };
   }
 
-  return SITE_CONTACTS_FALLBACK;
+  return {
+    ...SITE_CONTACTS_FALLBACK,
+    email: canonicalEmail,
+  };
 }

@@ -16,6 +16,18 @@ const legacyServiceRedirects: Record<string, string> = {
   "web-development": "/services/web-app-development",
   "mobile-app-development": "/services/web-app-development",
   "ai-crm-integrations": "/services/crm-integrations",
+  crm: "/services/crm-integrations",
+  automation: "/services/ai-automation",
+  "business-automation": "/services/ai-automation",
+  "ai-development": "/services/ai-automation",
+  "smm": "/services/digital-support",
+  "email-marketing": "/services/digital-support",
+  "digital-marketing": "/services/digital-support",
+  "cloud-devops": "/services/web-app-development",
+  cybersecurity: "/services/web-app-development",
+  "web-design": "/services/ui-ux-design",
+  design: "/services/ui-ux-design",
+  "ui-ux": "/services/ui-ux-design",
 };
 
 export function generateStaticParams() {

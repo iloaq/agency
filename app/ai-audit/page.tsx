@@ -5,32 +5,66 @@ import { ContactCTA } from "@/components/marketing/light-ui";
 import { ServiceLeadForm } from "@/components/services/service-lead-form";
 import { SiteMarketingFooter } from "@/components/site/site-marketing-footer";
 
-const fitCards = [
+/** Карточки секции: сегмент → типичная боль → направление улучшения. Семантика секции: https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/section */
+const businessSegmentCards = [
   {
-    title: "Есть регулярные заявки",
-    text: "Заявки приходят с сайта, рекламы, Telegram, WhatsApp, звонков или других каналов.",
+    segment: "Юридические, бухгалтерские, миграционные, визовые и консалтинговые компании",
+    pain: "Много однотипных запросов и документов, эксперты тратят время на первичку, клиенты ждут ответа.",
+    solution:
+      "ИИ-ассистент первичной консультации, генератор чек-листов/документов, база знаний, помощник менеджера.",
   },
   {
-    title: "Менеджеры отвечают вручную",
-    text: "Команда часто повторяет одни и те же ответы клиентам и тратит на это рабочее время.",
+    segment: "E-commerce / интернет-магазины / локальные бренды",
+    pain: "Много ручного описания товаров и ответов, конкуренция, нужно быстрее обновлять ассортимент.",
+    solution: "Генерация карточек и описаний, ассистент поддержки, рекомендации, рассылки.",
   },
   {
-    title: "CRM и переписки живут отдельно",
-    text: "Часть информации остаётся в мессенджерах, таблицах, звонках или личных чатах сотрудников.",
+    segment: "Онлайн-школы / образовательные проекты",
+    pain: "Менеджеры не успевают, много повторяющихся вопросов, дорого держать поддержку, нужен постоянный контент.",
+    solution:
+      "Бот/ассистент поддержки, генератор контента и рассылок, ассистент РОПа, база знаний для кураторов.",
   },
   {
-    title: "Документы собираются руками",
-    text: "КП, анкеты, договоры, отчёты и шаблоны готовятся вручную и отнимают время.",
+    segment: "Сервисный бизнес с потоком заявок: студии, салоны, ремонт, частные услуги",
+    pain: "Заявки приходят в разные каналы, администратор перегружен, часть клиентов теряется.",
+    solution: "Ассистент заявок и записи, автоответы, напоминания, сбор отзывов, FAQ-бот.",
   },
   {
-    title: "Знания сложно найти",
-    text: "Инструкции, ответы и регламенты разбросаны по файлам, чатам и головам сотрудников.",
+    segment: "Недвижимость / агентства / девелоперские продажи",
+    pain: "Лиды холодеют, менеджеры не успевают отвечать, много повторяющихся вопросов.",
+    solution: "Ассистент квалификации лида, генератор описаний, база объектов, follow-up помощник.",
   },
   {
-    title: "Непонятно, с чего начать",
-    text: "Есть интерес к автоматизации, но непонятно, какой процесс стоит улучшать первым.",
+    segment: "HR и рекрутинговые агентства",
+    pain: "Много ручной сортировки, кандидаты теряются, рекрутеры перегружены.",
+    solution: "ИИ-скрининг резюме, ассистент коммуникаций, генератор вакансий, отчёты.",
+  },
+  {
+    segment: "Туризм, визовые центры, миграционные сервисы",
+    pain: "Клиенты задают одинаковые вопросы, документы проверяются вручную, менеджеры перегружены.",
+    solution: "Ассистент FAQ, генератор чек-листов, проверка полноты анкеты, база знаний.",
+  },
+  {
+    segment: "Производственные и торговые B2B-компании",
+    pain: "Долгая подготовка КП, зависимость от опытных менеджеров, много внутренней рутины.",
+    solution: "Генератор КП, внутренний ассистент по продуктам, база знаний, аналитика обращений.",
   },
 ] as const;
+
+/** Ритм 11·2·3 / 4·55·6 на xl (4 колонки); хвост после полных шестёрок без пустых ячеек. // Source: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_grid_layout */
+function segmentCardColSpanClass(index: number, total: number): string {
+  const r = total % 6;
+  if (r === 2 && index >= total - 2) return "xl:col-span-2";
+  if (r === 1 && index === total - 1) return "xl:col-span-4";
+  if (r === 4 && index >= total - 4) return "xl:col-span-2";
+  if (r === 5 && index >= total - 5) {
+    const i = index - (total - 5);
+    if (i === 0 || i === 3 || i === 4) return "xl:col-span-2";
+    return "";
+  }
+  if (index % 6 === 0 || index % 6 === 4) return "xl:col-span-2";
+  return "";
+}
 
 const auditSteps = [
   {
@@ -117,8 +151,8 @@ export default function AiAuditPage() {
 
       <section className="px-5 pb-16 pt-10 sm:px-8 lg:px-10 lg:pb-24 lg:pt-14">
         <div className="w-full min-w-0">
-          <h1 className="max-w-[19ch] text-[clamp(2.55rem,5.8vw,6.8rem)] font-semibold leading-[0.94] tracking-normal text-[#121212]">
-            Проведём бесплатный аудит процессов и покажем, где теряются заявки, время и деньги
+          <h1 className=" text-[clamp(2.55rem,5.8vw,6.8rem)] font-semibold leading-[0.94] tracking-normal text-[#121212]">
+            Проведём бесплатный аудит бизнес-процессов и покажем, что можно автоматизировать, где и как внедрить ИИ.
           </h1>
 
           <div className="mt-9 max-w-4xl">
@@ -143,29 +177,61 @@ export default function AiAuditPage() {
         </div>
       </section>
 
-      <section className="px-5 py-12 sm:px-8 lg:px-10 lg:py-16" aria-labelledby="fit-heading">
+      <section
+        className="px-5 py-12 sm:px-8 lg:px-10 lg:py-16"
+        aria-labelledby="segments-heading"
+      >
         <div className="grid w-full gap-8">
           <div className="grid gap-5 lg:grid-cols-[0.52fr_0.48fr] lg:items-end">
             <h2
-              id="fit-heading"
+              id="segments-heading"
               className="text-[clamp(2.25rem,4.6vw,4.7rem)] font-semibold leading-[0.98]"
             >
               Кому подходит аудит
             </h2>
-            <p className="max-w-3xl text-base leading-7 text-[#4B4B4B] sm:text-lg sm:leading-8">
-              Полезен компаниям, где уже есть заявки, клиенты, сотрудники и повторяющиеся
-              процессы, но часть работы всё ещё держится на ручном труде.
+            <p className="max-w-3xl text-right leading-7 text-[#4B4B4B] sm:text-lg sm:leading-8">
+              Конкретные зоны бизнеса: как боль проявляется в работе и какое направление улучшения
+              обычно даёт быстрый эффект после аудита.
             </p>
           </div>
 
-          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-            {fitCards.map((item) => (
+          {/* Сетка 4 колонки на xl: ряд 1 — [2+1+1], ряд 2 — [1+2+1]; хвосты см. segmentCardColSpanClass */}
+          <div className="grid min-w-0 gap-4 md:grid-cols-2 xl:grid-cols-4 xl:gap-5">
+            {businessSegmentCards.map((item, index) => (
               <article
-                key={item.title}
-                className="rounded-[26px] border border-[#E6E0D8] bg-white p-5 shadow-[0_12px_34px_rgba(72,57,41,0.045)]"
+                key={item.segment}
+                className={`group flex h-full min-w-0 flex-col rounded-[28px] border border-[#E6E0D8] bg-white p-6 shadow-[0_12px_36px_rgba(72,57,41,0.05)] transition duration-200 hover:-translate-y-0.5 hover:border-[#6D4AFF]/35 hover:shadow-[0_18px_52px_rgba(72,57,41,0.08)] motion-reduce:transition-none motion-reduce:hover:translate-y-0 ${segmentCardColSpanClass(
+                  index,
+                  businessSegmentCards.length,
+                )}`}
               >
-                <h3 className="text-xl font-semibold leading-7">{item.title}</h3>
-                <p className="mt-3 text-base leading-7 text-[#4B4B4B]">{item.text}</p>
+                <div className="mb-7 flex items-start justify-between gap-4">
+                  <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#F1EAFF] text-sm font-bold text-[#6D4AFF] ring-1 ring-[#D8CCFF]">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                </div>
+
+                <h3 className="text-[1.38rem] font-semibold leading-[1.18] text-[#121212] sm:text-2xl">
+                  {item.segment}
+                </h3>
+
+                <div className="mt-6 flex flex-1 flex-col gap-4">
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[#6B6B6B]">
+                      Как проявляется
+                    </p>
+                    <p className="mt-2 text-[15px] leading-[1.58] text-[#4B4B4B]">{item.pain}</p>
+                  </div>
+
+                  <div className="mt-auto rounded-[18px] bg-[#18181B] p-4 text-white">
+                    <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[#B8FF5C]">
+                      Возможное решение
+                    </p>
+                    <p className="mt-2 text-[15px] font-semibold leading-[1.55] text-white/90">
+                      {item.solution}
+                    </p>
+                  </div>
+                </div>
               </article>
             ))}
           </div>

@@ -76,6 +76,7 @@ export default async function RootLayout({
     <html lang="ru" className={`${manrope.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col bg-background-primary font-sans text-fonts-black">
         <GoogleTagManager />
+        <YandexMetrika />
         <AppRouterCacheProvider options={{ key: "mui" }}>
           <TooltipProvider>
             <ToastProvider>
@@ -88,7 +89,6 @@ export default async function RootLayout({
             </ToastProvider>
           </TooltipProvider>
         </AppRouterCacheProvider>
-        <YandexMetrika />
         <ChatwootWidget />
         <CookieNotice />
       </body>

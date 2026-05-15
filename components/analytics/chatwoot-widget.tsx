@@ -3,6 +3,8 @@
 import { useEffect } from "react";
 
 // Source: https://www.chatwoot.com/docs/product/channels/live-chat/sdk-setup
+const SKYBRIC_CHATWOOT_BASE_URL = "https://chatwootskybric-web.capaadmin.skybric.com";
+const SKYBRIC_CHATWOOT_WEBSITE_TOKEN = "9N2pEkUuBTP286y6VQqNfmzz";
 
 declare global {
   interface Window {
@@ -18,25 +20,11 @@ declare global {
   }
 }
 
-function chatwootConfig() {
-  const baseUrl = process.env.NEXT_PUBLIC_CHATWOOT_BASE_URL?.trim().replace(/\/+$/, "");
-  const websiteToken = process.env.NEXT_PUBLIC_CHATWOOT_WEBSITE_TOKEN?.trim();
-
-  if (!baseUrl || !websiteToken) return null;
-  return { baseUrl, websiteToken };
-}
-
 export function ChatwootWidget() {
-  const config = chatwootConfig();
-  const baseUrl = config?.baseUrl;
-  const websiteToken = config?.websiteToken;
+  const baseUrl = SKYBRIC_CHATWOOT_BASE_URL;
+  const websiteToken = SKYBRIC_CHATWOOT_WEBSITE_TOKEN;
 
   useEffect(() => {
-    if (!baseUrl || !websiteToken) {
-      console.warn("[Skybric] Chatwoot is not initialized: public env is missing.");
-      return;
-    }
-
     const sdkSrc = `${baseUrl}/packs/js/sdk.js`;
     let loaded = false;
 
@@ -44,18 +32,22 @@ export function ChatwootWidget() {
       if (loaded) return;
       loaded = true;
 
-      if (Array.from(document.scripts).some((script) => script.src === sdkSrc)) return;
-
       window.chatwootSettings = {
         position: "right",
         type: "standard",
         launcherTitle: "Обсудить проект",
       };
 
+      if (Array.from(document.scripts).some((script) => script.src === sdkSrc)) {
+        window.chatwootSDK?.run({ websiteToken, baseUrl });
+        return;
+      }
+
       const script = document.createElement("script");
       script.src = sdkSrc;
       script.async = true;
       script.defer = true;
+      script.dataset.skybricChatwoot = "true";
       script.onload = () => {
         window.chatwootSDK?.run({
           websiteToken,
@@ -71,17 +63,7 @@ export function ChatwootWidget() {
       document.head.appendChild(script);
     };
 
-    const timeoutId = window.setTimeout(loadChatwoot, 1200);
-    window.addEventListener("load", loadChatwoot, { once: true });
-    window.addEventListener("pointerdown", loadChatwoot, { once: true });
-    window.addEventListener("scroll", loadChatwoot, { once: true, passive: true });
-
-    return () => {
-      window.clearTimeout(timeoutId);
-      window.removeEventListener("load", loadChatwoot);
-      window.removeEventListener("pointerdown", loadChatwoot);
-      window.removeEventListener("scroll", loadChatwoot);
-    };
+    loadChatwoot();
   }, [baseUrl, websiteToken]);
 
   return null;

@@ -1,7 +1,9 @@
 import Script from "next/script";
 
+const DEFAULT_SKYBRIC_GTM_ID = "GTM-NBVKXG6N";
+
 function gtmId(): string | null {
-  const raw = process.env.NEXT_PUBLIC_GTM_ID?.trim();
+  const raw = (process.env.NEXT_PUBLIC_GTM_ID ?? DEFAULT_SKYBRIC_GTM_ID).trim();
   return raw && /^GTM-[A-Z0-9]+$/i.test(raw) ? raw : null;
 }
 

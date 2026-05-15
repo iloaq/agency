@@ -29,12 +29,6 @@ export const metadata: Metadata = {
   },
 };
 
-function clipText(text: string, maxLength = 230) {
-  const normalized = text.replace(/\s+/g, " ").trim();
-  if (normalized.length <= maxLength) return normalized;
-  return `${normalized.slice(0, maxLength).trim()}...`;
-}
-
 function JsonLd({
   cases,
 }: {

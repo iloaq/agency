@@ -8,6 +8,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { GoogleTagManager } from "@/components/analytics/google-tag-manager";
 import { YandexMetrika } from "@/components/analytics/yandex-metrika";
 import { ChatwootWidget } from "@/components/analytics/chatwoot-widget";
+import { CookieNotice } from "@/components/analytics/cookie-notice";
 import { resolveSiteContacts } from "@/lib/site/site-contacts";
 import { resolveServiceList } from "@/lib/services/resolve-services";
 import { siteUrl } from "@/lib/site-url";
@@ -89,6 +90,7 @@ export default async function RootLayout({
         </AppRouterCacheProvider>
         <YandexMetrika />
         <ChatwootWidget />
+        <CookieNotice />
       </body>
     </html>
   );

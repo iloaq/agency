@@ -40,5 +40,14 @@ export function buildOverlayColumns(
         { href: `mailto:${contacts.email}`, label: contacts.email },
       ],
     },
+    {
+      title: "Документы",
+      links: [
+        { href: "/privacy", label: "Политика конфиденциальности" },
+        { href: "/personal-data-consent", label: "Согласие на обработку данных" },
+        { href: "/cookies", label: "Политика cookies" },
+        { href: "/terms", label: "Условия использования" },
+      ],
+    },
   ];
 }

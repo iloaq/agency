@@ -1,7 +1,6 @@
 "use client";
 
-import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 // Source: https://www.chatwoot.com/docs/product/channels/live-chat/sdk-setup
 
@@ -31,10 +30,12 @@ export function ChatwootWidget() {
   const config = chatwootConfig();
   const baseUrl = config?.baseUrl;
   const websiteToken = config?.websiteToken;
-  const [showFallback, setShowFallback] = useState(!baseUrl || !websiteToken);
 
   useEffect(() => {
-    if (!baseUrl || !websiteToken) return;
+    if (!baseUrl || !websiteToken) {
+      console.warn("[Skybric] Chatwoot is not initialized: public env is missing.");
+      return;
+    }
 
     const sdkSrc = `${baseUrl}/packs/js/sdk.js`;
     let loaded = false;
@@ -60,9 +61,12 @@ export function ChatwootWidget() {
           websiteToken,
           baseUrl,
         });
+        console.info("[Skybric] Chatwoot initialized.");
         window.dataLayer?.push({ event: "chatwoot_loaded" });
       };
-      script.onerror = () => setShowFallback(true);
+      script.onerror = () => {
+        console.warn("[Skybric] Chatwoot SDK failed to load.");
+      };
 
       document.head.appendChild(script);
     };
@@ -80,16 +84,5 @@ export function ChatwootWidget() {
     };
   }, [baseUrl, websiteToken]);
 
-  if (!showFallback) return null;
-
-  return (
-    <Link
-      href="/contact"
-      aria-label="Оставить заявку"
-      onClick={() => window.dataLayer?.push({ event: "chat_fallback_click" })}
-      className="fixed bottom-5 right-5 z-[80] inline-flex min-h-12 items-center justify-center rounded-full bg-[#18181B] px-5 text-sm font-bold text-white shadow-[0_18px_45px_rgba(24,24,27,0.22)] transition hover:bg-[#2B2B31] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#6D4AFF]"
-    >
-      Обсудить проект ↗
-    </Link>
-  );
+  return null;
 }

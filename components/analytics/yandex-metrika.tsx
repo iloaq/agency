@@ -29,6 +29,7 @@ export function YandexMetrika() {
 })(window, document, "script", ${JSON.stringify(tagSrc)}, "ym");
 
 ym(${id}, "init", { webvisor: true, clickmap: true, ecommerce: "dataLayer", accurateTrackBounce: true, trackLinks: true });
+console.info("[Skybric] Yandex Metrika initialized:", ${JSON.stringify(id)});
 `;
 
   return (

@@ -93,7 +93,7 @@ export default function SiteHeaderMenuOverlay({
               </ul>
               </nav>
 
-              <div className="grid gap-8 md:grid-cols-3 lg:pt-2">
+              <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4 lg:pt-2">
               {overlayColumns.map((col) => (
                   <div key={col.title}>
                   <p className="mb-4 text-xs font-semibold uppercase tracking-[0.12em] text-[#6B6B6B]">

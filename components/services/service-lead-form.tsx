@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import Link from "next/link";
 import { getClientId } from "@/lib/leads/analytics-client";
 import { submitLead } from "@/lib/leads/submit-lead";
 import { normalizeServiceLead, validateServiceLead } from "@/lib/leads/validate-service-lead";
@@ -304,6 +305,24 @@ export function ServiceLeadForm({
             ? "Отправлено"
             : "Отправить заявку"}
       </button>
+      <p className="text-xs leading-5 text-white/48">
+        Отправляя форму, вы соглашаетесь с{" "}
+        <Link href="/privacy" className="text-white underline-offset-4 hover:underline">
+          политикой конфиденциальности
+        </Link>{" "}
+        и даёте{" "}
+        <Link
+          href="/personal-data-consent"
+          className="text-white underline-offset-4 hover:underline"
+        >
+          согласие на обработку персональных данных
+        </Link>
+        . Cookies и аналитика описаны в{" "}
+        <Link href="/cookies" className="text-white underline-offset-4 hover:underline">
+          политике cookies
+        </Link>
+        .
+      </p>
     </form>
   );
 }
